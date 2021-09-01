@@ -28,7 +28,7 @@
     "react-dom": "^16.8.0",
     "styled-components": "^5.3.1"
   },
-  "name": "buttons",
+  "name": "epns-frontend-sdk",
   "description": "a sample package to test buttons",
   "version": "1.0.0",
   "dependencies": {
