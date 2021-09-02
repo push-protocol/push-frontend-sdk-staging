@@ -55,5 +55,6 @@ import { NotificationItem, ParseText } from  "epns-frontend-sdk";
 <NotificationItem
 	notificationTitle="ETH Tracker - ETH at $3,235.16"
 	notificationBody="\[d:Summary & Latest Balance]\n---------\n\n[➕] [d:ETH: ] [b:2.961] [t:ETH] [[dg:+-0.000 ETH]][timestamp: 1630069200]"
+	cta="www.google.com"
 />
   
