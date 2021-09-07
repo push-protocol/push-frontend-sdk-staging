@@ -98,7 +98,7 @@ const Container = styled.div<ContainerDataType>`
 
   margin: 15px 0px;
   justify-content: center;
-  padding: 30px 20px;
+  padding: 20px;
 
   justify-content: space-between;
 
@@ -131,7 +131,7 @@ const ChannelDesc = styled.div`
 const ChannelDescLabel = styled.label`
   flex: 1;
   margin: 0px 5px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: left;
 `
 
