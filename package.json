@@ -28,7 +28,7 @@
     "react-dom": "^17.0.2",
     "styled-components": "^5.3.1"
   },
-  "name": "alex-frontend-sdk",
+  "name": "epns-frontend-sdk",
   "description": "a sample package to test buttons",
   "version": "1.3.0",
   "dependencies": {
