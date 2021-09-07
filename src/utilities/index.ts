@@ -3,6 +3,7 @@
  * @version 1.0
 */
 import FormatBody from "./parseMessage";
+import { ApiNotificationType, ParsedResponseType } from "../types/notification";
 
 /**
  * @description parse and extract the timestamp from the body of the notification and remove the text from the body
@@ -23,7 +24,41 @@ export function extractTimeStamp(notificationBody:string):{ notificationBody: st
     return parsedBody;
 };
 
+/**
+ * @description parse the response gotten from the API
+ * @param {ApiNotificationType[]} response 
+ * @returns {ParsedResponseType[]}
+ */
+export function parseApiResponse(response: ApiNotificationType[]):ParsedResponseType[]{
+    return response.map((apiNotification: ApiNotificationType) => {
+        const {
+            payload: {
+                data : {
+                    acta: cta,
+                    amsg: bigMessage,
+                    icon,
+                    url,
+                    sid
+                },
+                notification: {
+                    body, title
+                }
+            }
+        } = apiNotification;
+
+        return {
+            cta,
+            title,
+            message: bigMessage || body,
+            icon,
+            url,
+            sid
+        };
+    });
+}
+
 
 export default {
-    extractTimeStamp
+    extractTimeStamp,
+    parseApiResponse
 }

@@ -86,6 +86,7 @@ const ChannelDetailsWrapper = styled.div`
 
 const Container = styled.div<ContainerDataType>`
   position: relative;
+  font-family: "Source Sans Pro",Arial,sans-serif;
   flex: 1;
   display: flex;
   flex-wrap: wrap;
@@ -130,6 +131,7 @@ const ChannelDesc = styled.div`
 const ChannelDescLabel = styled.label`
   flex: 1;
   margin: 0px 5px;
+  font-weight: 500;
   text-align: left;
 `
 
