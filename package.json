@@ -30,7 +30,7 @@
   },
   "name": "epns-frontend-sdk-staging",
   "description": "a frontend SDK Package for EPNS",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "ansi-regex": "^2.1.1",
