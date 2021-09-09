@@ -51,7 +51,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
             <>
               <Pool>
                 <br></br>
-                {cta}
                 <PoolShare>
                 { timeStamp? moment
                     .utc(parseInt(timeStamp) * 1000)
@@ -120,6 +119,7 @@ const ChannelTitleLink = styled.a`
 `
 
 const ChannelDesc = styled.div`
+  line-height: 20px;
   flex: 1;
   display: flex;
   font-size: 14px;
@@ -142,12 +142,12 @@ const ChannelMeta = styled.div`
 `
 
 const ChannelMetaBox = styled.label`
-  margin: 0px 5px;
+  // margin: 0px 5px;
   color: #fff;
   font-weight: 600;
   padding: 10px;
   border-radius: 10px;
-  font-size: 11px;
+  font-size: 12px;
   align-self: flex-end;
 `
 
