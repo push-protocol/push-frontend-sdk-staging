@@ -18,8 +18,8 @@ const NOTIFICATIONS_URL = "https://backend-staging.epns.io/apis/feeds/get_feeds"
  */
 const fetchNotifications = async (
     userAccount: string,
-    page = DEFAULT_INITIAL_PAGE,
-    itemsPerPage = DEFAULT_PAGE_SIZE
+    itemsPerPage = DEFAULT_PAGE_SIZE,
+    page = DEFAULT_INITIAL_PAGE
 ) => {
     const body = {
         "user": userAccount,
