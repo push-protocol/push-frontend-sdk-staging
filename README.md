@@ -71,7 +71,7 @@ console.log(parsedResponse);
 
 ```
 
-
+#### Rendering already parsed notifications
 ```javascript
 
 import { NotificationItem } from  "epns-frontend-sdk";
