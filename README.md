@@ -1,4 +1,4 @@
-# Frontend SDK
+# Backend SDK
 
   
   
@@ -85,11 +85,15 @@ import { NotificationItem } from  "epns-frontend-sdk";
 />
  ```
  
- ![DEMO image](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)
+ ![enter image description here](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)
  
  
 ## Markdown Reference
-### This section contains the several markdown formats available and how to use them. They can be viewed live by running the react application in `src/sample_codes/parseNotificationMarkdown`.
+
+#### This section contains the several markdown formats available and how to use them. They can be viewed live by running the react application in `src/sample_codes/parseNotificationMarkdown`.
+
+![Interactive markdown parser](https://res.cloudinary.com/xand6r/image/upload/v1632236024/Screenshot_2021-09-21_at_15.53.29_p0lptf.png)
+
 
 | Markdown  | Styling Effect | Use case
 |---|--|--|
