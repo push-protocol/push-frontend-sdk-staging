@@ -13,7 +13,7 @@ root: false
 ---
 # Integrating EPNS in Frontend
 **Level**: Beginner  
-**Estimated Time**: 30 minuntes
+**Estimated Time**: 10 minuntes
 
 ## Learning Objectives
 

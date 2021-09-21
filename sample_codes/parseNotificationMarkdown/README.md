@@ -1,74 +1,75 @@
-# Introduction
 
-This sample code shows an interactive process of how to use EPNS custom parser to parse markdown of our notifications
+  
 
-# Getting Started with Create React App
+---
 
+**Title**: Integrating EPNS in Smart Contracts
+
+**Description**: Integrate EPNS into your own smart contracts
+
+**Parent**: Showrunner-Channels
+
+**Tags**:
+- EPNS
+- Frontend
+- Notification
+- parsing
+
+**slug**: EPNS-fontend-sdk
+**contentType**: Guides
+**root**: False
+
+---
+
+# Integrating EPNS in Frontend
+
+**Level**: Beginner
+**Estimated Time**: 5 minuntes
+
+## Learning Objectives
+
+- Understanding how to parse notifications from EPNS.
+
+
+## Pre-requisites
+- Basic knowledge of React.  
+
+## Setup
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### `yarn install`
 
-In the project directory, you can run:
+#### For a new react project run: `npm install epns-frontend-sdk-staging`
 
 ### `yarn start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
+The page will reload if you make edits.
 You will also see any lint errors in the console.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Using the application
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### This section contains the several markdown formats available and how to use them. They can be viewed live by running the react application in `
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![Interactive markdown parser](https://res.cloudinary.com/xand6r/image/upload/v1632236024/Screenshot_2021-09-21_at_15.53.29_p0lptf.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Markdown Reference
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Markdown  | Styling Effect | Use case
+|---|--|--|
+| \n | New line | For Segregation
+| [u: textcontent] | Underlined, Red Colored Text | For URLs
+| [d: textcontent] | EPNS Primary colored Text | For colored text
+| [s: textcontent] | EPNS Secondary colored Text | For colored text
+| [t: textcontent] | EPNS Tetiary colored Text | For colored text
+| [e: textcontent] | EPNS Secondary colored Text | For colored text
+| [w: textcontent] | White colored Text | For colored text
+| [mg: textcontent] | Medium grey colored Text | For colored text
+| [dg: textcontent] | Dark grey colored Text | For colored text
+| [b: textcontent] | Bold Text | For Emphasis
+| [i: textcontent] | Italics Text | For Emphasis
+| [bi: textcontent] | Bold and Italics Text | For Emphasis
