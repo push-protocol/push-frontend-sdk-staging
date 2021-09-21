@@ -1,4 +1,4 @@
-# Backend SDK
+# Frontend SDK
 
   
   
@@ -48,7 +48,8 @@ More information on the local testing of NPM packages can be found [here]('https
 
 It is done this way in order to seperate the different layers from each other.
 
-#### Fetching and parsing notifications from the api
+### Fetching and parsing notifications from the api
+#### A more comprehensive demo can be located at  `src/sample_codes/loadNotifications`.
 ```javascript
 import { api, utils } from "epns-frontend-sdk-staging-local";
 
@@ -71,7 +72,7 @@ console.log(parsedResponse);
 
 ```
 
-#### Rendering already parsed notifications
+
 ```javascript
 
 import { NotificationItem } from  "epns-frontend-sdk";
@@ -82,4 +83,25 @@ import { NotificationItem } from  "epns-frontend-sdk";
 	notificationTitle="ETH Tracker - ETH at $3,235.16"
 	notificationBody="\[d:Summary & Latest Balance]\n---------\n\n[➕] [d:ETH: ] [b:2.961] [t:ETH] [[dg:+-0.000 ETH]][timestamp: 1630069200]"
 />
-  
+ ```
+ 
+ ![DEMO image](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)
+ 
+ 
+## Markdown Reference
+### This section contains the several markdown formats available and how to use them. They can be viewed live by running the react application in `src/sample_codes/parseNotificationMarkdown`.
+
+| Markdown  | Styling Effect | Use case
+|---|--|--|
+| \n | New line | For Segregation
+| [u: textcontent] | Underlined, Red Colored Text | For URLs
+| [d: textcontent] | EPNS Primary colored Text | For colored text
+| [s: textcontent] | EPNS Secondary colored Text | For colored text
+| [t: textcontent] | EPNS Tetiary colored Text | For colored text
+| [e: textcontent] | EPNS Secondary colored Text | For colored text
+| [w: textcontent] | White colored Text | For colored text
+| [mg: textcontent] | Medium grey colored Text | For colored text
+| [dg: textcontent] | Dark grey colored Text | For colored text
+| [b: textcontent] | Bold Text | For Emphasis
+| [i: textcontent] | Italics Text | For Emphasis
+| [bi: textcontent] | Bold and Italics Text | For Emphasis

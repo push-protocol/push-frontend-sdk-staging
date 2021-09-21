@@ -99,6 +99,9 @@ const styles = {
       },
       italics: {
         fontStyle: 'italic'
+      },
+      pointer: {
+        cursor: 'pointer'
       }
     }
 
@@ -110,7 +113,8 @@ const DEFAULT_PATTERNS:CustomParseShape[] = [
             ...styles.primary,
             ...styles.bold,
             ...styles.italics, 
-            ...styles.underline
+            ...styles.underline,
+            ...styles.pointer
         },
         renderText: renderStyles
       },
@@ -120,7 +124,8 @@ const DEFAULT_PATTERNS:CustomParseShape[] = [
             ...styles.secondary,
             ...styles.bold,
             ...styles.italics,
-            ...styles.underline
+            ...styles.underline,
+            ...styles.pointer
         },
         renderText: renderStyles
       },
@@ -130,7 +135,8 @@ const DEFAULT_PATTERNS:CustomParseShape[] = [
             ...styles.third,
             ...styles.bold,
             ...styles.italics,
-            ...styles.underline
+            ...styles.underline,
+            ...styles.pointer
         },
         renderText: renderStyles
       },
@@ -139,7 +145,8 @@ const DEFAULT_PATTERNS:CustomParseShape[] = [
         style: {
             ...styles.primary,
             ...styles.italics,
-            ...styles.underline
+            ...styles.underline,
+            ...styles.pointer
         },
         renderText: renderStyles
       },
