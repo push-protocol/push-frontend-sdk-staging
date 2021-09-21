@@ -1,0 +1,30 @@
+.App {
+  padding: 10px 10vw;
+}
+
+.App__header{
+  color: #DB1081;
+}
+
+.App_textarea{
+  width: 100%;
+  min-height: 150px;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 16px;
+};
+
+img{
+  height: 15px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.App_textarea:focus{
+  outline: none;
+};
+
+.App__textcontent{
+  margin-top: 30px;
+};
+
