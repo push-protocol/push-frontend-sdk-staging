@@ -1,4 +1,4 @@
 declare const _default: {
-    fetchNotifications: (userAccount: string, page?: number, itemsPerPage?: number) => Promise<any>;
+    fetchNotifications: (userAccount: string, itemsPerPage?: number, page?: number) => Promise<any>;
 };
 export default _default;

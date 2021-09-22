@@ -5,6 +5,7 @@ var PropTypes = require('prop-types');
 var styled = require('styled-components');
 var moment = require('moment');
 var HTMLReactParser = require('html-react-parser');
+var axios = require('axios');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -33,6 +34,7 @@ var PropTypes__namespace = /*#__PURE__*/_interopNamespace(PropTypes);
 var styled__default = /*#__PURE__*/_interopDefaultLegacy(styled);
 var moment__namespace = /*#__PURE__*/_interopNamespace(moment);
 var HTMLReactParser__default = /*#__PURE__*/_interopDefaultLegacy(HTMLReactParser);
+var axios__default = /*#__PURE__*/_interopDefaultLegacy(axios);
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -363,28 +365,31 @@ var styles = {
     },
     italics: {
         fontStyle: 'italic'
+    },
+    pointer: {
+        cursor: 'pointer'
     }
 };
 // -------- Define the default patterns for the framework
 var DEFAULT_PATTERNS = [
     {
         pattern: /\[(u):([^\]]+)\]/i,
-        style: __assign(__assign(__assign(__assign({}, styles.primary), styles.bold), styles.italics), styles.underline),
+        style: __assign(__assign(__assign(__assign(__assign({}, styles.primary), styles.bold), styles.italics), styles.underline), styles.pointer),
         renderText: renderStyles
     },
     {
         pattern: /\[(ub):([^\]]+)\]/i,
-        style: __assign(__assign(__assign(__assign({}, styles.secondary), styles.bold), styles.italics), styles.underline),
+        style: __assign(__assign(__assign(__assign(__assign({}, styles.secondary), styles.bold), styles.italics), styles.underline), styles.pointer),
         renderText: renderStyles
     },
     {
         pattern: /\[(ut):([^\]]+)\]/i,
-        style: __assign(__assign(__assign(__assign({}, styles.third), styles.bold), styles.italics), styles.underline),
+        style: __assign(__assign(__assign(__assign(__assign({}, styles.third), styles.bold), styles.italics), styles.underline), styles.pointer),
         renderText: renderStyles
     },
     {
         pattern: /\[(up):([^\]]+)\]/i,
-        style: __assign(__assign(__assign({}, styles.primary), styles.italics), styles.underline),
+        style: __assign(__assign(__assign(__assign({}, styles.primary), styles.italics), styles.underline), styles.pointer),
         renderText: renderStyles
     },
     {
@@ -532,14 +537,13 @@ var PoolShare = styled__default['default'](ChannelMetaBox)(templateObject_10 || 
 ])), MD_BREAKPOINT);
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 
-/**
- * @description Contains utilities used to fetch data from an API or external source
- * @version 1.0
-*/
-var axios = require('axios');
+var config = {
+    "NOTIFICATIONS_API": "https://backend-staging.epns.io/apis/feeds/get_feeds"
+};
+
 var DEFAULT_INITIAL_PAGE = 1;
 var DEFAULT_PAGE_SIZE = 10;
-var NOTIFICATIONS_URL = "https://backend-staging.epns.io/apis/feeds/get_feeds";
+var NOTIFICATIONS_URL = config.NOTIFICATIONS_API;
 /**
  * Fetch paginated notifications for a user
  * @param {string} userAccount the account of the user in question
@@ -547,9 +551,9 @@ var NOTIFICATIONS_URL = "https://backend-staging.epns.io/apis/feeds/get_feeds";
  * @param {number} itemsPerPage the maximum number of items which should be present on the page
  * @returns
  */
-var fetchNotifications = function (userAccount, page, itemsPerPage) {
-    if (page === void 0) { page = DEFAULT_INITIAL_PAGE; }
+var fetchNotifications = function (userAccount, itemsPerPage, page) {
     if (itemsPerPage === void 0) { itemsPerPage = DEFAULT_PAGE_SIZE; }
+    if (page === void 0) { page = DEFAULT_INITIAL_PAGE; }
     return __awaiter(void 0, void 0, void 0, function () {
         var body;
         return __generator(this, function (_a) {
@@ -559,10 +563,10 @@ var fetchNotifications = function (userAccount, page, itemsPerPage) {
                 "pageSize": itemsPerPage,
                 "op": "read"
             };
-            return [2 /*return*/, axios.post(NOTIFICATIONS_URL, body)
+            return [2 /*return*/, axios__default['default'].post(NOTIFICATIONS_URL, body)
                     .then(function (response) { return response.data; })
                     .catch(function (err) {
-                    console.log("\n        ============== There was an error [epns-sdk -> loadNotifications] ============\n        ", err.message);
+                    console.log("\n        ============== There was an error [epns-sdk -> loadNotifications] ============\n        ", err);
                 })];
         });
     });
