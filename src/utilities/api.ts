@@ -2,12 +2,12 @@
  * @description Contains utilities used to fetch data from an API or external source
  * @version 1.0
 */
-const axios = require('axios')
+import axios from 'axios';
+import config from '../config';
 
 const DEFAULT_INITIAL_PAGE = 1;
 const DEFAULT_PAGE_SIZE  = 10;
-const NOTIFICATIONS_URL = "https://backend-staging.epns.io/apis/feeds/get_feeds";
-
+const NOTIFICATIONS_URL = config.NOTIFICATIONS_API;
 
 /**
  * Fetch paginated notifications for a user
