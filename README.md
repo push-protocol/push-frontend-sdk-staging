@@ -42,7 +42,7 @@ More information on the local testing of NPM packages can be found [here]('https
 ## Usage
 
   The SDK comprises of three modules majorly, which are: 
-  - Fetching the notifications from the backend.
+  - Fetching the notifications from EPNS backend.
   - Parsing the fetched notifications.
   - Rendering the parsed notification.
 
