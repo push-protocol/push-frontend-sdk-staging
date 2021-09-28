@@ -10,8 +10,8 @@ import ParseMarkdownText from '../parsetext';
 
 // ================= Define types
 export type NotificationItemProps = {
-    notificationTitle: string
-    notificationBody: string
+    notificationTitle: string | undefined,
+    notificationBody: string | undefined,
     cta: string | undefined
 };
 
@@ -67,12 +67,14 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
 
 // ================= Define default props
 ViewNotificationItem.propTypes = {
-    notificationTitle: PropTypes.string.isRequired,
-    notificationBody: PropTypes.string.isRequired,
-    cta: PropTypes.string
+    notificationTitle: PropTypes.string,
+    notificationBody: PropTypes.string,
+    cta: PropTypes.string,
 };
 
 ViewNotificationItem.defaultProps = {
+  notificationTitle: "",
+  notificationBody: "",
   cta: ""
 }
 
