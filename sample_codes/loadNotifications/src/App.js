@@ -40,13 +40,15 @@ function App() {
           EPNS Notifications
       </h2>
       {notifications.map((oneNotification) => {
-        const { cta, title, message } = oneNotification;
+        const { cta, title, message, app, icon } = oneNotification;
         // render the notification item
         return (
           <NotificationItem
             notificationTitle={title}
             notificationBody={message}
             cta={cta}
+            app={app}
+            icon={icon}
           />
         );
       })}
