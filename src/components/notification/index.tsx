@@ -10,11 +10,11 @@ import ParseMarkdownText from '../parsetext';
 
 // ================= Define types
 export type NotificationItemProps = {
-    notificationTitle: string,
-    notificationBody: string,
+    notificationTitle: string | undefined,
+    notificationBody: string | undefined,
     cta: string | undefined,
     app: string | undefined,
-    icon: string
+    icon: string | undefined
 };
 
 type ContainerDataType = {
@@ -23,14 +23,17 @@ type ContainerDataType = {
 
 // ================= Define base component
 const ViewNotificationItem: React.FC<NotificationItemProps> = ({
-    notificationTitle, notificationBody, cta, app,
+    notificationTitle,
+    notificationBody,
+    cta,
+    app,
     icon
 }) => {
 
     const {
         notificationBody: parsedBody,
         timeStamp
-    } = extractTimeStamp(notificationBody);
+    } = extractTimeStamp(notificationBody || "");
 
     const gotToCTA = () => {
       if(!cta) return;
@@ -73,10 +76,10 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
 
 // ================= Define default props
 ViewNotificationItem.propTypes = {
-    notificationTitle: PropTypes.string.isRequired,
-    notificationBody: PropTypes.string.isRequired,
-    cta: PropTypes.string,
-    app: PropTypes.string
+  notificationBody: PropTypes.string,
+  notificationTitle: PropTypes.string,
+  cta: PropTypes.string,
+  app: PropTypes.string
 };
 
 ViewNotificationItem.defaultProps = {
