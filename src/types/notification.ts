@@ -53,5 +53,6 @@ export type ParsedResponseType = {
     message: string,
     icon: string,
     url: string,
-    sid: string
+    sid: string,
+    app: string,
 }

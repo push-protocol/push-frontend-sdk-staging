@@ -10,9 +10,11 @@ import ParseMarkdownText from '../parsetext';
 
 // ================= Define types
 export type NotificationItemProps = {
-    notificationTitle: string | undefined,
-    notificationBody: string | undefined,
-    cta: string | undefined
+    notificationTitle: string,
+    notificationBody: string,
+    cta: string | undefined,
+    app: string | undefined,
+    icon: string
 };
 
 type ContainerDataType = {
@@ -21,7 +23,8 @@ type ContainerDataType = {
 
 // ================= Define base component
 const ViewNotificationItem: React.FC<NotificationItemProps> = ({
-    notificationTitle, notificationBody, cta
+    notificationTitle, notificationBody, cta, app,
+    icon
 }) => {
 
     const {
@@ -37,6 +40,10 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   // render
   return (
     <Container cta={cta} onClick={gotToCTA}>
+      <MobileHeader>
+        <img src={icon} alt="" />
+        {app}
+      </MobileHeader>
       <ChannelDetailsWrapper>
           <ChannelTitle>
               <ChannelTitleLink>{notificationTitle}</ChannelTitleLink>
@@ -50,7 +57,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         <ChannelMeta>
             <>
               <Pool>
-                <br></br>
                 <PoolShare>
                 { timeStamp? moment
                     .utc(parseInt(timeStamp) * 1000)
@@ -67,15 +73,17 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
 
 // ================= Define default props
 ViewNotificationItem.propTypes = {
-    notificationTitle: PropTypes.string,
-    notificationBody: PropTypes.string,
+    notificationTitle: PropTypes.string.isRequired,
+    notificationBody: PropTypes.string.isRequired,
     cta: PropTypes.string,
+    app: PropTypes.string
 };
 
 ViewNotificationItem.defaultProps = {
   notificationTitle: "",
   notificationBody: "",
-  cta: ""
+  cta: "",
+  app: ""
 }
 
 // ================= Define styled components
@@ -105,7 +113,28 @@ const Container = styled.div<ContainerDataType>`
 
   @media (max-width: ${MD_BREAKPOINT}){
     flex-direction: column;
+    padding-top: 40px;
   }
+`;
+
+const MobileHeader = styled.div`
+  display: none;
+  @media (max-width: ${MD_BREAKPOINT}){
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 5px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid rgb(237,237,237);
+    color: grey;
+    background: rgb(241 241 241);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: left;
+  }
+
 `;
 
 const ChannelTitle = styled.div`
@@ -118,6 +147,10 @@ const ChannelTitleLink = styled.a`
   font-weight: 550;
   color: #e20880;
   font-size: 18px;
+
+  @media (max-width: ${MD_BREAKPOINT}){
+    color: grey;
+  }
 `
 
 const ChannelDesc = styled.div`
@@ -144,7 +177,6 @@ const ChannelMeta = styled.div`
 `
 
 const ChannelMetaBox = styled.label`
-  // margin: 0px 5px;
   color: #fff;
   font-weight: 600;
   padding: 10px;
@@ -167,6 +199,10 @@ const PoolShare = styled(ChannelMetaBox)`
     bottom: 0;
     right: 0;
     border-radius: 0;
+    border-radius: 8px 0;
+    color: grey;
+    background: rgb(241 241 241);
+    padding: 5px 10px;
   }
 `
 

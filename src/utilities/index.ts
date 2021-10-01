@@ -36,9 +36,11 @@ export function parseApiResponse(response: ApiNotificationType[]):ParsedResponse
                 data : {
                     acta: cta,
                     amsg: bigMessage,
+                    asub,
                     icon,
                     url,
-                    sid
+                    sid,
+                    app,
                 },
                 notification: {
                     body, title
@@ -48,11 +50,12 @@ export function parseApiResponse(response: ApiNotificationType[]):ParsedResponse
 
         return {
             cta,
-            title,
+            title: asub || title,
             message: bigMessage || body,
             icon,
             url,
-            sid
+            sid,
+            app,
         };
     });
 }
