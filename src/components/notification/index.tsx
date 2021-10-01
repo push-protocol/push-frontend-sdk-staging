@@ -166,7 +166,7 @@ const ChannelDesc = styled.div`
 const ChannelDescLabel = styled.label`
   flex: 1;
   margin: 0px 5px;
-  font-weight: 600;
+  // font-weight: 600;
   text-align: left;
 `
 
@@ -178,7 +178,7 @@ const ChannelMeta = styled.div`
 
 const ChannelMetaBox = styled.label`
   color: #fff;
-  font-weight: 600;
+  // font-weight: 600;
   padding: 10px;
   border-radius: 10px;
   font-size: 12px;
