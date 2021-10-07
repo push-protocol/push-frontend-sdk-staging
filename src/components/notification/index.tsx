@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import * as moment from 'moment';
 
 // import ParseMD from '../parsetext';
-
+import MediaHelper from '../../utilities/downloadHelper'; 
 import { extractTimeStamp } from '../../utilities/index';
 import ParseMarkdownText from '../parsetext';
 
@@ -55,9 +55,30 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         </ImageContainer>
         {app}
       </MobileHeader>
-      <MobileImage>
-        <img src={image} alt="" />
-      </MobileImage>
+      {image && (
+        !MediaHelper.isMediaSupportedVideo(image) ? (
+          <MobileImage>
+            <img src={image} alt="" />
+          </MobileImage>
+        ):(
+          MediaHelper.isMediaYoutube(image) ? (
+            <MobileImage>
+              <iframe
+                id="ytplayer" width="640"
+                height="360" src={MediaHelper.isMediaExternalEmbed(image)}
+              >
+              </iframe>
+            </MobileImage>
+          ):(
+            <MobileImage>
+              <video width="360" height="100%" controls>
+                <source src={image} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </MobileImage>
+          )
+        )
+      )}
       <ChannelDetailsWrapper>
           <ChannelTitle>
               <ChannelTitleLink>{notificationTitle}</ChannelTitleLink>
@@ -98,19 +119,26 @@ ViewNotificationItem.defaultProps = {
   notificationTitle: "",
   notificationBody: "",
   cta: "",
-  app: ""
+  app: "",
+  image: ""
 }
 
 // ================= Define styled components
-const MD_BREAKPOINT = "856px";
+const MD_BREAKPOINT = "1000px";
 
 const MobileImage = styled.div`
-  img{
-    width: calc(100% + 40px);
-    margin-left: -40px;
-    margin-right: -40px;
-    margin-top: -10px;
-    margin-bottom: 10px;
+  display: none;
+  width: 100%;
+  @media (max-width: ${MD_BREAKPOINT}){
+    display: block;
+    img, iframe, video{
+      border:0;
+      width: calc(100% + 42px) !important;
+      margin-left: -40px;
+      margin-right: -40px;
+      margin-top: -12px;
+      margin-bottom: 10px;
+    }
   }
 `;
 const ImageContainer = styled.span`
