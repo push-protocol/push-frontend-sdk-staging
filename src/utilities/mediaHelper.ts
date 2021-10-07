@@ -1,6 +1,19 @@
 ​​// Download Helper Function
-const DownloadHelper = {
-
+const MediaHelper = {
+  // validate a CTA
+  validURL: function(str : string | undefined){
+    if(!str) return false;
+    var pattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    return !!pattern.test(str);
+  },
   // To get Save File Name
   getSaveFileName: function(fileURL: string, useTempLocation: string) {
     // Remove all http, https protocols first
@@ -26,7 +39,7 @@ const DownloadHelper = {
   isMediaSupportedVideo: function(fileURL:string | undefined) {
     if(!fileURL) return;
     // check if media external embed first
-    const mediaURL = DownloadHelper.isMediaExternalEmbed(fileURL);
+    const mediaURL = MediaHelper.isMediaExternalEmbed(fileURL);
     if (mediaURL) {
       return mediaURL;
     }
@@ -42,7 +55,7 @@ const DownloadHelper = {
   },
   // check if media is external embed, like youtube, soundcloud, etc
   isMediaExternalEmbed: function(fileURL: string) {
-    return (DownloadHelper.isMediaYoutube(fileURL));
+    return (MediaHelper.isMediaYoutube(fileURL));
   },
   // Determine if youtube
   isMediaYoutube: function(fileURL : string) {
@@ -71,5 +84,5 @@ const DownloadHelper = {
   }
 }
 ​
-export default DownloadHelper;
+export default MediaHelper;
 

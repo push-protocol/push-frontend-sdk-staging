@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import * as moment from 'moment';
 
 // import ParseMD from '../parsetext';
-import MediaHelper from '../../utilities/downloadHelper'; 
+import MediaHelper from '../../utilities/mediaHelper'; 
 import { extractTimeStamp } from '../../utilities/index';
 import ParseMarkdownText from '../parsetext';
 
@@ -19,7 +19,8 @@ export type NotificationItemProps = {
 };
 
 type ContainerDataType = {
-  cta?: string
+  cta?: boolean,
+  timestamp?: string
 }
 
 type MetaDataType = {
@@ -42,19 +43,27 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     } = extractTimeStamp(notificationBody || "");
 
     const gotToCTA = () => {
-      if(!cta) return;
+      if(!MediaHelper.validURL(cta)) return;
       window.open(cta, "_blank");
     };
 
   // render
   return (
-    <Container cta={cta} onClick={gotToCTA}>
+    <Container
+      timestamp={timeStamp}
+      cta={MediaHelper.validURL(cta)}
+      onClick={gotToCTA}
+    >
+      {/* header that only pops up on small devices */}
       <MobileHeader>
         <ImageContainer>
           <img src={icon} alt="" />
         </ImageContainer>
         {app}
       </MobileHeader>
+      {/* header that only pops up on small devices */}
+
+      {/* section for media content */}
       {image && (
         !MediaHelper.isMediaSupportedVideo(image) ? (
           <MobileImage>
@@ -79,6 +88,8 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           )
         )
       )}
+      {/* section for media content */}
+
       <ChannelDetailsWrapper>
           <ChannelTitle>
               <ChannelTitleLink>{notificationTitle}</ChannelTitleLink>
@@ -175,7 +186,7 @@ const Container = styled.div<ContainerDataType>`
   @media (max-width: ${MD_BREAKPOINT}){
     flex-direction: column;
     padding-top: 45px;
-    padding-bottom: 40px;
+    padding-bottom: ${(props) => props.timestamp ? "25px" : "30px" };
   }
 `;
 
@@ -188,7 +199,7 @@ const MobileHeader = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    padding: 5px 20px;
+    padding: 6px 20px;
     font-size: 14px;
     border-bottom: 1px solid rgba(231.0, 231.0, 231.0, 1);
     color: grey;
@@ -209,8 +220,10 @@ const ChannelTitleLink = styled.a`
   text-decoration: none;
   color: #e20880;
   font-size: 18px;
+  font-weight: 600;
 
   @media (max-width: ${MD_BREAKPOINT}){
+    font-weight: 300;
     color: rgba(0.0, 0.0, 0.0, 0.5);
   }
 `
