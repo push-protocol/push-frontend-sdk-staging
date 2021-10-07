@@ -1,8 +1,4 @@
-import {
-  NotificationItem,
-  utils,
-  api,
-} from "epns-frontend-sdk-staging";
+import { NotificationItem, utils, api } from "epns-frontend-sdk-staging";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -14,7 +10,30 @@ const PAGINATION_PARAMS = {
 
 function App() {
   // create state components to fetch all the notifications.
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([
+    {
+      payload: {
+        data: {
+          app: "App Bot",
+          sid: "22710",
+          url: "https://epns.io/",
+          acta: "",
+          aimg: "https://backend-staging.epns.io/assets/epnsappbellturorial.jpg",
+          amsg: "The [d:Bell] on the [b:top right] keeps track of any incoming messages and will inform you about it.\n\nClicking on the [b:bell] will update your feed [i:(Alternatively, pull feed down to refresh)]",
+          asub: "Ring the Bell",
+          icon: "https://backend-staging.epns.io/cache/bafkreibzn4s6nfa4jwyuswkojxclec5nhvj3e4ac5cvamzc2ajznh7t77a.jpg",
+          type: "1",
+          // epoch: "1625139867",
+          appbot: "1",
+          hidden: "0",
+          secret: "",
+        },
+        notification: {
+          body: "",
+        },
+      },
+    },
+  ]);
 
   useEffect(() => {
     // on page load, fetch all the notifications
@@ -28,7 +47,7 @@ function App() {
         const { count, results } = notificationsData;
         console.log(`${count} notifications loaded:`, results);
         // parse the notifications into the required format
-        const response = utils.parseApiResponse(results);
+        const response = utils.parseApiResponse(notifications);
         console.log("Parsed response to:", response);
         setNotifications(response);
       });
@@ -36,11 +55,12 @@ function App() {
 
   return (
     <div className="App">
-      <h2 className="App__header">
-          EPNS Notifications
-      </h2>
+      <h2 className="App__header">EPNS Notifications</h2>
       {notifications.map((oneNotification) => {
-        const { cta, title, message, app, icon } = oneNotification;
+        const { cta, title, message, app, icon, image } = oneNotification;
+        console.log({
+          image
+        })
         // render the notification item
         return (
           <NotificationItem
@@ -49,6 +69,7 @@ function App() {
             cta={cta}
             app={app}
             icon={icon}
+            image={image}
           />
         );
       })}

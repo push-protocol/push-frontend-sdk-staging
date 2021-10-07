@@ -34,16 +34,18 @@ export function parseApiResponse(response: ApiNotificationType[]):ParsedResponse
         const {
             payload: {
                 data : {
-                    acta: cta,
-                    amsg: bigMessage,
-                    asub,
-                    icon,
-                    url,
-                    sid,
-                    app,
+                    acta: cta = "",
+                    amsg: bigMessage = "",
+                    asub = "",
+                    icon = "",
+                    url = "",
+                    sid = "",
+                    app = "",
+                    aimg = ""
                 },
                 notification: {
-                    body, title
+                    body = "",
+                    title = ""
                 }
             }
         } = apiNotification;
@@ -56,6 +58,7 @@ export function parseApiResponse(response: ApiNotificationType[]):ParsedResponse
             url,
             sid,
             app,
+            image: aimg
         };
     });
 }

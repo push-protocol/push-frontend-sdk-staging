@@ -55,4 +55,5 @@ export type ParsedResponseType = {
     url: string,
     sid: string,
     app: string,
+    image: string
 }
