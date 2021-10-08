@@ -148,7 +148,7 @@ const MobileImage = styled.div`
       margin-left: -40px;
       margin-right: -40px;
       margin-top: -12px;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
   }
 `;
@@ -167,6 +167,7 @@ const ChannelDetailsWrapper = styled.div`
 
 const Container = styled.div<ContainerDataType>`
   position: relative;
+  overflow: hidden;
   font-family: "Source Sans Pro",Arial,sans-serif;
   flex: 1;
   display: flex;
@@ -185,8 +186,8 @@ const Container = styled.div<ContainerDataType>`
 
   @media (max-width: ${MD_BREAKPOINT}){
     flex-direction: column;
-    padding-top: 45px;
-    padding-bottom: ${(props) => props.timestamp ? "25px" : "30px" };
+    padding-top: 48px;
+    padding-bottom: ${(props) => props.timestamp ? "40px" : "22px" };
   }
 `;
 
@@ -240,7 +241,7 @@ const ChannelDesc = styled.div`
 
 const ChannelDescLabel = styled.label`
   flex: 1;
-  margin: 0px 5px;
+  margin: 0px;
   // font-weight: 600;
   text-align: left;
 `
