@@ -63,34 +63,36 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       </MobileHeader>
       {/* header that only pops up on small devices */}
 
-      {/* section for media content */}
-      {image && (
-        !MediaHelper.isMediaSupportedVideo(image) ? (
-          <MobileImage>
-            <img src={image} alt="" />
-          </MobileImage>
-        ):(
-          MediaHelper.isMediaYoutube(image) ? (
+      <ContentSection>
+        {/* section for media content */}
+        {image && (
+          !MediaHelper.isMediaSupportedVideo(image) ? (
             <MobileImage>
-              <iframe
-                id="ytplayer" width="640"
-                height="360" src={MediaHelper.isMediaExternalEmbed(image)}
-              >
-              </iframe>
+              <img src={image} alt="" />
             </MobileImage>
           ):(
-            <MobileImage>
-              <video width="360" height="100%" controls>
-                <source src={image} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </MobileImage>
+            MediaHelper.isMediaYoutube(image) ? (
+              <MobileImage>
+                <iframe
+                  id="ytplayer" width="640"
+                  height="360" src={MediaHelper.isMediaExternalEmbed(image)}
+                >
+                </iframe>
+              </MobileImage>
+            ):(
+              <MobileImage>
+                <video width="360" height="100%" controls>
+                  <source src={image} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </MobileImage>
+            )
           )
-        )
-      )}
-      {/* section for media content */}
+        )}
+        {/* section for media content */}
 
-      <ChannelDetailsWrapper>
+        {/* section for text content */}
+        <ChannelDetailsWrapper>
           <ChannelTitle>
               <ChannelTitleLink>{notificationTitle}</ChannelTitleLink>
           </ChannelTitle>
@@ -100,6 +102,11 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
               </ChannelDescLabel>
           </ChannelDesc>
         </ChannelDetailsWrapper>
+        {/* section for text content */}
+      </ContentSection>
+        
+
+
         <ChannelMeta hidden={!timeStamp}>
             <>
               <Pool>
@@ -135,12 +142,34 @@ ViewNotificationItem.defaultProps = {
 }
 
 // ================= Define styled components
-const MD_BREAKPOINT = "1000px";
+const MD_BREAKPOINT = "1150px";
+const SM_BREAKPOINT = "900px"
+
+const ContentSection = styled.div`
+  display: block;
+  @media (min-width: ${SM_BREAKPOINT}){
+    margin-top: 5px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+`;
 
 const MobileImage = styled.div`
-  display: none;
-  width: 100%;
-  @media (max-width: ${MD_BREAKPOINT}){
+  @media (min-width: ${SM_BREAKPOINT}){
+    width: 220px;
+    height: 200px;
+    img, iframe, video{
+      width: 100% !important;
+      height: 100% !important;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 0;
+    }
+  }
+  @media (max-width: ${SM_BREAKPOINT}){
     display: block;
     img, iframe, video{
       border:0;
