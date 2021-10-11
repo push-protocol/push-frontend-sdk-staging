@@ -19,5 +19,9 @@ export default {
   ],
   globals: { "styled-components": "styled" },
   plugins: [resolve(), commonjs(), typescript(), json()],
-  external: ["react", "react-dom", "styled-components", "moment", "prop-types", 'html-react-parser', 'axios'],
+  external: [
+    "react", "react-dom", "styled-components",
+    "moment", "prop-types", 'html-react-parser',
+    'axios'
+  ],
 };

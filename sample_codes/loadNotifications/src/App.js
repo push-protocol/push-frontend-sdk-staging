@@ -15,9 +15,9 @@ const DEFAULT_NOTIFICATIONS = [
         sid: "22710",
         url: "https://epns.io/",
         acta: "",
-        // aimg: "https://backend-staging.epns.io/assets/epnsappbellturorial.jpg",
+        aimg: "https://backend-staging.epns.io/assets/epnsappbellturorial.jpg",
         // aimg: "https://www.w3schools.com/html/mov_bbb.mp4",
-        aimg: "https://www.youtube.com/watch?v=gUwXCt1qkBU",
+        // aimg: "https://www.youtube.com/watch?v=gUwXCt1qkBU",
         amsg: "The [d:Bell] on the [b:top right] keeps track of any incoming messages and will inform you about it.\n\nClicking on the [b:bell] will update your feed [i:(Alternatively, pull feed down to refresh)]",
         asub: "Ring the Bell",
         icon: "https://backend-staging.epns.io/cache/bafkreibzn4s6nfa4jwyuswkojxclec5nhvj3e4ac5cvamzc2ajznh7t77a.jpg",
@@ -50,7 +50,7 @@ function App() {
         const { count, results } = notificationsData;
         console.log(`${count} notifications loaded:`, results);
         // parse the notifications into the required format
-        const response = utils.parseApiResponse([DEFAULT_NOTIFICATIONS[0],...results]);
+        const response = utils.parseApiResponse([DEFAULT_NOTIFICATIONS[0]])//,...results]);
         console.log("Parsed response to:", response);
         console.log({response});
         setNotifications(response);

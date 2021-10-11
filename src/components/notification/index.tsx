@@ -3,10 +3,10 @@ import * as PropTypes from "prop-types";
 import styled from 'styled-components';
 import * as moment from 'moment';
 
-// import ParseMD from '../parsetext';
+import ImageOverlayComponent from '../overlay';
+import ParseMarkdownText from '../parsetext';
 import MediaHelper from '../../utilities/mediaHelper'; 
 import { extractTimeStamp } from '../../utilities/index';
-import ParseMarkdownText from '../parsetext';
 
 // ================= Define types
 export type NotificationItemProps = {
@@ -37,15 +37,18 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     image
 }) => {
 
-    const {
-        notificationBody: parsedBody,
-        timeStamp
-    } = extractTimeStamp(notificationBody || "");
+  const {
+      notificationBody: parsedBody,
+      timeStamp
+  } = extractTimeStamp(notificationBody || "");
 
-    const gotToCTA = () => {
-      if(!MediaHelper.validURL(cta)) return;
-      window.open(cta, "_blank");
-    };
+  const gotToCTA = () => {
+    if(!MediaHelper.validURL(cta)) return;
+    window.open(cta, "_blank");
+  };
+
+  // store the image to be displayed in this state variable
+  const [ imageOverlay, setImageOverlay ] = React.useState("");
 
   // render
   return (
@@ -63,14 +66,20 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       </MobileHeader>
       {/* header that only pops up on small devices */}
 
+      {/* content of the component */}
       <ContentSection>
         {/* section for media content */}
         {image && (
+          // if its an image then render this
           !MediaHelper.isMediaSupportedVideo(image) ? (
-            <MobileImage>
+            <MobileImage
+              style={{cursor: "pointer"}}
+              onClick={() => setImageOverlay(image || "")}
+            >
               <img src={image} alt="" />
             </MobileImage>
           ):(
+            // if its a youtube url, RENDER THIS
             MediaHelper.isMediaYoutube(image) ? (
               <MobileImage>
                 <iframe
@@ -80,6 +89,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
                 </iframe>
               </MobileImage>
             ):(
+              // if its aN MP4 url, RENDER THIS
               <MobileImage>
                 <video width="360" height="100%" controls>
                   <source src={image} type="video/mp4" />
@@ -104,22 +114,30 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         </ChannelDetailsWrapper>
         {/* section for text content */}
       </ContentSection>
-        
+      {/* content of the component */}
 
+      {/* meta data of the component */}
+      <ChannelMeta hidden={!timeStamp}>
+          <>
+            <Pool>
+              <PoolShare>
+              { timeStamp? moment
+                  .utc(parseInt(timeStamp) * 1000)
+                  .local()
+                  .format("DD MMM YYYY | hh:mm A"): "N/A"
+              }
+              </PoolShare>
+            </Pool>
+          </>
+      </ChannelMeta>
+      {/* meta data of the component */}
 
-        <ChannelMeta hidden={!timeStamp}>
-            <>
-              <Pool>
-                <PoolShare>
-                { timeStamp? moment
-                    .utc(parseInt(timeStamp) * 1000)
-                    .local()
-                    .format("DD MMM YYYY | hh:mm A"): "N/A"
-                }
-                </PoolShare>
-              </Pool>
-            </>
-        </ChannelMeta>
+      {/* add image overlay for full screen images */}
+      <ImageOverlayComponent
+        imageOverlay={imageOverlay}
+        setImageOverlay={setImageOverlay}
+      />
+      {/* add image overlay for full screen images */}
     </Container>
   );
 }
