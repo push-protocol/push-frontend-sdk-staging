@@ -1,13 +1,12 @@
-
 ---
-title: Integrating EPNS in Smart Contracts
-description: Integrate EPNS into your own smart contracts
-parent: Showrunner-Channels
+title: Integrating EPNS Notifications in Front ends
+description: Integrate EPNS into your dApp and Mobile Apps
+parent: N/A
 tags:
   - EPNS
-  - Frontend
+  - FrontEnd SDK
   - Notification
-slug: EPNS-fontend-sdk
+slug: EPNS-in-front-ends
 contentType: guides
 root: false
 ---
