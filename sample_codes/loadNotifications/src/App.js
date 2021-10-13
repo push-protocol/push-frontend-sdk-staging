@@ -47,10 +47,10 @@ function App() {
         PAGINATION_PARAMS.page
       )
       .then((notificationsData) => {
-        const { count, results } = notificationsData;
+        const { count, results } = notificationsData || {};
         console.log(`${count} notifications loaded:`, results);
         // parse the notifications into the required format
-        const response = utils.parseApiResponse([DEFAULT_NOTIFICATIONS[0]])//,...results]);
+        const response = utils.parseApiResponse([DEFAULT_NOTIFICATIONS[0],...results]);
         console.log("Parsed response to:", response);
         console.log({response});
         setNotifications(response);
@@ -62,9 +62,7 @@ function App() {
       <h2 className="App__header">EPNS Notifications</h2>
       {notifications.map((oneNotification) => {
         const { cta, title, message, app, icon, image } = oneNotification;
-        console.log({
-          image
-        })
+
         // render the notification item
         return (
           <NotificationItem
