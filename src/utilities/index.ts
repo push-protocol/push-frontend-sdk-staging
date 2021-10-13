@@ -4,6 +4,17 @@
 */
 import FormatBody from "./parseMessage";
 import { ApiNotificationType, ParsedResponseType } from "../types/notification";
+const IPFS_BASE_URL = "https://ipfs.io/ipfs/"
+/**
+ * @description extract the ipfs HASH from the name of an image i.e www.xyz.com/abc/ipfshash.jpg => ipfshash
+ * @param notificationBody 
+ * @returns the ipfs hash extracted from the image name
+ */
+export function extractIPFSHashFromImageURL(imageURL:string | undefined){
+    if(!imageURL) return "";
+    const match = imageURL.match(/(\w+).jpg/);
+    return match ? `${IPFS_BASE_URL}${match[1]}` : ""
+};
 
 /**
  * @description parse and extract the timestamp from the body of the notification and remove the text from the body

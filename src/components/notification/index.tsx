@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 import styled from 'styled-components';
 import * as moment from 'moment';
 
+import IPFSIcon from '../ipfsicon';
 import ImageOverlayComponent from '../overlay';
 import ParseMarkdownText from '../parsetext';
 import MediaHelper from '../../utilities/mediaHelper'; 
@@ -60,7 +61,8 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       {/* header that only pops up on small devices */}
       <MobileHeader>
         <ImageContainer>
-          <img src={icon} alt="" />
+          {/* <img src={icon} alt="" /> */}
+          <IPFSIcon icon={icon}/>
         </ImageContainer>
         {app}
       </MobileHeader>

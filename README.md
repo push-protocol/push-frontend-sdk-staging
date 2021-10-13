@@ -29,10 +29,10 @@ In order to install and test the SDK locally, the following steps are required t
 - yarn link // in order to test and be made available locally
 // since we intend to test the functionality, we will assume that another react application is running which wants to leverage the components from the framework
 
-- yarn link path_to_sandbox_project/node_modules/react
--  
+- npm link path_to_sandbox_project/node_modules/react
+  
 - cd path_to_sandbox_project
--
+
 - yarn link epns-frontend-sdk
 // then the library can be imported as normally would if installed using npm or yarn
 ```

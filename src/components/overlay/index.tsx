@@ -39,6 +39,7 @@ const ImageWrapper = styled.div<ImageWrapper>`
     justify-content: center;
     align-items: center;
     display: ${(props) => props.visible ? 'flex' : 'none'};
+    z-index: 2;
 
     img{
         width: 80vw;
