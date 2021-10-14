@@ -6,8 +6,8 @@ import * as moment from 'moment';
 import IPFSIcon from '../ipfsicon';
 import ImageOverlayComponent from '../overlay';
 import ParseMarkdownText from '../parsetext';
-import MediaHelper from '../../utilities/mediaHelper'; 
-import { extractTimeStamp } from '../../utilities/index';
+import MediaHelper from '../../../utilities/mediaHelper'; 
+import { extractTimeStamp } from '../../../utilities/index';
 
 // ================= Define types
 export type NotificationItemProps = {

@@ -1,5 +1,6 @@
-import * as React from 'react';
 import axios from 'axios';
+import * as React from 'react';
+import styled from 'styled-components/native';
 import { extractIPFSHashFromImageURL } from '../../../utilities';
 
 type IPFSIconType = {
@@ -28,11 +29,14 @@ const IPFSIcon: React.FC<IPFSIconType> = ({
     }, [icon]);
 
     return (
-        <img
-            style={{width: "100%"}}
-            src={imageInBase64} alt=""
+        <StyledImage
+            source={{uri : imageInBase64}}
         />
     )
 };
+
+const StyledImage = styled.Image`
+    width: "100"
+`;
 
 export default IPFSIcon;
