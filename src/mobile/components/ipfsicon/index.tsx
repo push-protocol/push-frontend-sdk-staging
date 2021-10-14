@@ -20,6 +20,7 @@ const IPFSIcon: React.FC<IPFSIconType> = ({
         // fetch the image directly from ipfs
         axios.get(ipfsHash)
         .then(({data: res}) => {
+            alert(res.icon);
             setImageInBase64(res.icon);
         })
         .catch((err) => {
@@ -27,6 +28,10 @@ const IPFSIcon: React.FC<IPFSIconType> = ({
         });
     
     }, [icon]);
+
+    if(!imageInBase64){
+        return <></>
+    }
 
     return (
         <StyledImage
