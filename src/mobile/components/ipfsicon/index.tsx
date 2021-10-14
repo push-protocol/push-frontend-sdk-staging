@@ -41,7 +41,9 @@ const IPFSIcon: React.FC<IPFSIconType> = ({
 };
 
 const StyledImage = styled.Image`
-    width: "100"
+    height: 24px;
+    width: 24px;
+    border-radius: 5px;
 `;
 
 export default IPFSIcon;
