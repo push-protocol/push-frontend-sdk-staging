@@ -29,8 +29,8 @@
     "react-dom": ">16.0.0",
     "styled-components": "^5.3.1"
   },
-  "name": "epns-frontend-sdk-staging",
-  "description": "a frontend SDK Package for EPNS",
+  "name": "alex-frontend-sdk-staging",
+  "description": "a frontend SDK Package for alex",
   "version": "2.2.0",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
