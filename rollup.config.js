@@ -19,6 +19,7 @@ export default [
         strict: false,
       },
     ],
+    preferBuiltins: false,
     globals: { "styled-components": "styled" },
     plugins: [resolve(), commonjs(), typescript(), json()],
     external: [
@@ -40,10 +41,11 @@ export default [
         strict: false,
       },
     ],
+    preferBuiltins: false,
     globals: { "styled-components": "styled" },
     plugins: [resolve(), commonjs(), typescript(), json()],
     external: [
-      "react", "styled-components",
+      "react", "styled-components/native",
       "moment", "prop-types", 'html-react-parser',
       'axios'
     ],

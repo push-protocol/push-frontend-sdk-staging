@@ -2,7 +2,7 @@
  * Import all of the packages we wish to export
  */
 //  import NotificationItem, { NotificationItemProps } from './components/notification/index';
-//  import ParseText from './components/parsetext';
+ import IPFSIcon from './components/ipfsicon';
  import utils from '../utilities';
  import api from '../utilities/api';
  import { ApiNotificationType as apiNotificationType, ParsedResponseType as parsedResponseType } from '../types/notification';
@@ -17,7 +17,7 @@
  export {
 //    NotificationItem,
 //    NotificationItemProps,
-//    ParseText,
+   IPFSIcon,
    utils,
    api
  };
