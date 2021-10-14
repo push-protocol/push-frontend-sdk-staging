@@ -31,7 +31,7 @@
   },
   "name": "alex-frontend-sdk-staging",
   "description": "a frontend SDK Package for alex",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "ansi-regex": "^2.1.1",
