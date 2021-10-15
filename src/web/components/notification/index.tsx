@@ -258,7 +258,7 @@ const MobileHeader = styled.div`
     border-top-right-radius: 10px;
     text-align: left;
   }
-
+  
 `;
 
 const ChannelTitle = styled.div`

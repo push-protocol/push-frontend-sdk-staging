@@ -80,7 +80,7 @@ const MediaHelper = {
         }
     }
 ​
-    return false;
+    return "";
   }
 }
 ​

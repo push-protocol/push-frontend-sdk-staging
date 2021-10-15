@@ -16,7 +16,7 @@
       "strictNullChecks": true,
       "suppressImplicitAnyIndexErrors": true,
       "noUnusedLocals": true,
-      "noUnusedParameters": true
+      "noUnusedParameters": false
     },
     "include": ["src", "sample_codes"],
     "exclude": ["node_modules", "dist", "example", "rollup.config.js"]
