@@ -171,7 +171,11 @@ const ViewNotificationItem = ({
               <View style={styles.msg}>
                 {/* The entire content of the main component */}
                 <ParseText
-                  title={parsedBody}
+                  title={
+                    parsedBody
+                    .replaceAll('\\n', '\n')
+                    .replaceAll('/', '')
+                  }
                   fontSize={13}
                 />
                 {/* The entire content of the main component */}
