@@ -15,6 +15,7 @@ import ParseText from '../parseText';
 import { extractTimeStamp } from '../../../utilities/index';
 import GLOBALS from '../../../utilities/globals';
 import DownloadHelper from '../../../utilities/mediaHelper';
+import config from '../../../config';
 
 const ViewNotificationItem = ({
   notificationTitle = '',
@@ -143,7 +144,7 @@ const ViewNotificationItem = ({
               DownloadHelper.isMediaYoutube(image) ? (
                 <YouTube
                     videoId={DownloadHelper.getYoutubeID(image)}
-                    apiKey="AIzaSyBrzkFPyNmVDFzGY7dKz2HocUO4m-ni-Fc"
+                    apiKey={config.YOUTUBE_API_KEY}
                     play={false}
                     fullscreen={false}
                     loop={false}
@@ -170,9 +171,7 @@ const ViewNotificationItem = ({
               <View style={styles.msg}>
                 {/* The entire content of the main component */}
                 <ParseText
-                  title={parsedBody
-                    .replaceAll('\\n', '\n') //hack for when new lines arre escpaed in testing
-                    .replaceAll('/', '')}
+                  title={parsedBody}
                   fontSize={13}
                 />
                 {/* The entire content of the main component */}
