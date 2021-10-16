@@ -190,15 +190,14 @@ const ViewNotificationItem = ({
             </View>
           </View>
         </View>
-
-                {/* when an image is clicked on make it fulll screen */}
-                <Modal isVisible={isVisible}>
-            <TouchableWithoutFeedback onPress={()=> setIsVisible(false)}>
-                <Image
-                style={styles.overlayImage}
-                source={{uri: image}}
-                />
-            </TouchableWithoutFeedback>
+        {/* when an image is clicked on make it fulll screen */}
+        <Modal animationIn="fadeIn"  animationOut="fadeOut" isVisible={isVisible}>
+          <TouchableWithoutFeedback onPress={()=> setIsVisible(false)}>
+              <Image
+              style={styles.overlayImage}
+              source={{uri: image}}
+              />
+          </TouchableWithoutFeedback>
         </Modal>
         {/* when an image is clicked on make it fulll screen */}
       </View>
