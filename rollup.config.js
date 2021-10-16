@@ -50,6 +50,7 @@ export default [
     external: [
       "react",
       "styled-components/native",
+      "react-native-modal",
       "react-native",
       "react-native-youtube",
       "react-native-video",

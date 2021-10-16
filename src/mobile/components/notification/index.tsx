@@ -1,15 +1,17 @@
 import * as moment from 'moment';
 import * as React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Linking, Image} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Linking, Image, TouchableWithoutFeedback} from 'react-native';
 import YouTube from 'react-native-youtube';
 import Video from 'react-native-video';
+import Modal from 'react-native-modal';
+
 
 
 import device from 'react-native-device-detection';
 
 import IPFSIcon from '../ipfsicon';
 import ParseText from '../parseText';
-
+import { extractTimeStamp } from '../../../utilities/index';
 import GLOBALS from '../../../utilities/globals';
 import DownloadHelper from '../../../utilities/mediaHelper';
 
@@ -19,11 +21,18 @@ const ViewNotificationItem = ({
   cta = '',
   app = '',
   icon = '',
-  timestamp = '',
   image = "",
 }) => {
   const videoPlayerRef = React.useRef(null);
   const ctaEnabled = Boolean(cta);
+
+  const {
+    notificationBody: parsedBody,
+    timeStamp
+} = extractTimeStamp(notificationBody || "");
+
+  // store the image to be displayed in this state variable
+  const [ isVisible, setIsVisible ] = React.useState(false);
 
   // Finally mark if the device is a tablet or a phone
   let contentInnerStyle = {};
@@ -114,16 +123,21 @@ const ViewNotificationItem = ({
 
         <View style={styles.content}>
           <View style={[ contentInnerStyle]}>
-            {image &&
+            {image ?
               // if its an image then render this
               (!DownloadHelper.isMediaSupportedVideo(image) ? (
-                <View style={[styles.contentImg, contentImgStyle]}>
-                    <Image
-                      style = {styles.image}
-                      source = {{uri: image}}
-                      resizeMode = {containMode}
-                    />
-                </View>
+                <TouchableOpacity
+                  onPress={e => {
+                    e.stopPropagation();
+                    setIsVisible(true);
+                  }}
+                  style={[styles.contentImg, contentImgStyle]}>
+                  <Image
+                    style={styles.image}
+                    source={{uri: image}}
+                    resizeMode={containMode}
+                  />
+                </TouchableOpacity>
               ) : // if its a youtube url, RENDER THIS
               DownloadHelper.isMediaYoutube(image) ? (
                 <YouTube
@@ -147,7 +161,7 @@ const ViewNotificationItem = ({
                     />
                   </View>
                 </View>
-              ))}
+              )) : <Text></Text>}
             <View style={[styles.contentBody, contentBodyStyle]}>
               {!notificationTitle ? null : (
                 <Text style={[styles.msgSub]}>{notificationTitle}</Text>
@@ -155,19 +169,19 @@ const ViewNotificationItem = ({
               <View style={styles.msg}>
                 {/* The entire content of the main component */}
                 <ParseText
-                  title={notificationBody
-                    .replaceAll('\\n', '\n')
+                  title={parsedBody
+                    .replaceAll('\\n', '\n') //hack for when new lines arre escpaed in testing
                     .replaceAll('/', '')}
                   fontSize={13}
                 />
                 {/* The entire content of the main component */}
               </View>
 
-              {!timestamp ? null : (
+              {!timeStamp ? null : (
                 <View style={styles.timestampOuter}>
                   <Text style={styles.timestamp}>
                     {moment
-                      .utc(parseInt(timestamp) * 1000)
+                      .utc(parseInt(timeStamp) * 1000)
                       .local()
                       .format('DD MMM YYYY | hh:mm A')}
                   </Text>
@@ -176,8 +190,17 @@ const ViewNotificationItem = ({
             </View>
           </View>
         </View>
-        {/* header that only pops up on small devices */}
-        {/* header that only pops up on small devices */}
+
+                {/* when an image is clicked on make it fulll screen */}
+                <Modal isVisible={isVisible}>
+            <TouchableWithoutFeedback onPress={()=> setIsVisible(false)}>
+                <Image
+                style={styles.overlayImage}
+                source={{uri: image}}
+                />
+            </TouchableWithoutFeedback>
+        </Modal>
+        {/* when an image is clicked on make it fulll screen */}
       </View>
     </TouchableOpacity>
   );
@@ -312,6 +335,12 @@ const styles = StyleSheet.create({
     height: '100%',
     overflow: 'hidden',
   },
+  overlayImage: {
+    flex: 1,
+    resizeMode: 'contain',
+    borderRadius: 20,
+    overflow: 'hidden',
+  }
 });
 
 export default ViewNotificationItem;
