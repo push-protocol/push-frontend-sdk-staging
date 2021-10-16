@@ -32,7 +32,7 @@ export function extractTimeStamp(notificationBody:string):{ notificationBody: st
         parsedBody.timeStamp = matches[1];
         const textWithoutTimeStamp = notificationBody.replace(/ *\[timestamp:[^)]*\] */g, "");
         parsedBody.notificationBody = FormatBody(textWithoutTimeStamp);
-        parsedBody.originalBody = notificationBody;
+        parsedBody.originalBody = textWithoutTimeStamp;
     }
     return parsedBody;
 };
