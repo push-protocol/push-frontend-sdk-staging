@@ -1,12 +1,13 @@
 import * as moment from 'moment';
 import * as React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Linking, Image, TouchableWithoutFeedback} from 'react-native';
+import {
+  View, Text, TouchableOpacity, StyleSheet,
+  Linking, Image, TouchableWithoutFeedback
+} from 'react-native';
+
 import YouTube from 'react-native-youtube';
 import Video from 'react-native-video';
 import Modal from 'react-native-modal';
-
-
-
 import device from 'react-native-device-detection';
 
 import IPFSIcon from '../ipfsicon';
@@ -21,7 +22,7 @@ const ViewNotificationItem = ({
   cta = '',
   app = '',
   icon = '',
-  image = "",
+  image = '',
 }) => {
   const videoPlayerRef = React.useRef(null);
   const ctaEnabled = Boolean(cta);
