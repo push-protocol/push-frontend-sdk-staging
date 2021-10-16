@@ -21,16 +21,18 @@ export function extractIPFSHashFromImageURL(imageURL:string | undefined){
  * @param notificationBody the text which would represent the body of the notification
  * @returns 
  */
-export function extractTimeStamp(notificationBody:string):{ notificationBody: string, timeStamp: string} {
+export function extractTimeStamp(notificationBody:string):{ notificationBody: string, timeStamp: string, originalBody:string} {
     let parsedBody = {
         notificationBody: FormatBody(notificationBody),
         timeStamp: "",
+        originalBody: notificationBody
     };
     const matches = notificationBody.match(/\[timestamp:(.*?)\]/);
     if (matches) {
         parsedBody.timeStamp = matches[1];
         const textWithoutTimeStamp = notificationBody.replace(/ *\[timestamp:[^)]*\] */g, "");
         parsedBody.notificationBody = FormatBody(textWithoutTimeStamp);
+        parsedBody.originalBody = notificationBody;
     }
     return parsedBody;
 };
