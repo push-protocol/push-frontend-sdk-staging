@@ -174,7 +174,6 @@ const ViewNotificationItem = ({
                   title={
                     parsedBody
                     .replaceAll('\\n', '\n')
-                    .replaceAll('/', '')
                   }
                   fontSize={13}
                 />
