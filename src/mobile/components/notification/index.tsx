@@ -32,10 +32,7 @@ const ViewNotificationItem = ({
     originalBody: parsedBody,
     timeStamp
 } = extractTimeStamp(notificationBody);
-console.log({
-  parsedBody,
-  timeStamp
-})
+
 
   // store the image to be displayed in this state variable
   const [ isVisible, setIsVisible ] = React.useState(false);
