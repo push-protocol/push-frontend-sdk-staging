@@ -31,7 +31,11 @@ const ViewNotificationItem = ({
   const {
     notificationBody: parsedBody,
     timeStamp
-} = extractTimeStamp(notificationBody || "");
+} = extractTimeStamp(
+  notificationBody
+  .replaceAll('\\n', '\n')
+  .replaceAll('/', '') || ""
+  );
 
   // store the image to be displayed in this state variable
   const [ isVisible, setIsVisible ] = React.useState(false);
@@ -173,7 +177,6 @@ const ViewNotificationItem = ({
                 <ParseText
                   title={
                     parsedBody
-                    .replaceAll('\\n', '\n')
                   }
                   fontSize={13}
                 />
