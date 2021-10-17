@@ -97,12 +97,12 @@ import { NotificationItem } from  "epns-frontend-sdk";
  import { NotificationItem} from  'epns-frontend-sdk-staging/dist/native';
  
 	<NotificationItem
-		notificationTitle={parsedResponse.title}
-		notificationBody={parsedResponse.message}
-		cta={parsedResponse.cta}
-		app={parsedResponse.app}
-		icon={parsedResponse.icon}
-		image={parsedResponse.image}
+			notificationTitle={parsedResponse.title}
+			notificationBody={parsedResponse.message}
+			cta={parsedResponse.cta}
+			app={parsedResponse.app}
+			icon={parsedResponse.icon}
+			image={parsedResponse.image}
 	/>
  ```
 
