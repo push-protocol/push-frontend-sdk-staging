@@ -1,3 +1,4 @@
+
 # Frontend SDK
 
   
@@ -12,28 +13,29 @@ This module is used to parse notifications from [EPNS](http://www.epns.io/). It 
 
 It is written in typescript and requires node v10.0.0 or higher.
 
-Most features will work with nodejs v6.0.0 and higher but using older versions than v10.0.0 is anot recommended.
+Most features will work with nodejs v6.0.0 and higher but using older versions than v10.0.0 is not recommended.
 
   
 ## Installation
-In order to install and test the SDK locally, the following steps are required to set it up. 
+In order to install and test the SDK *locally*, the following steps are required to set it up for testing with a react application you have previously set up. 
 ```javascript
 - git clone https://github.com/ethereum-push-notification-service/epns-frontend-sdk-staging.git
 
 - cd epns-frontend-sdk-staging // navigate to the project's directory
 
-- npm install // to install all the packages
-
-- npm link path_to_sandbox_project/node_modules/react // in order to test and be made available locally
-// since we intend to test the functionality, we will assume that another react application is running which wants to leverage the components from the framework
+- yarn install // to install all the packages
 
 - yarn start //to build the project and watch out for changes
+
+- yarn link // in order to test and be made available locally
+// since we intend to test the functionality, we will assume that another react application is running which wants to leverage the components from the framework
+
+- npm `link relative_path_to_react_application`/node_modules/react
   
-- cd path_to_sandbox_project
+- cd `relative_path_to_react_application`
 
 - yarn link epns-frontend-sdk
 // then the library can be imported as normally would if installed using npm or yarn
-
 ```
 More information on the local testing of NPM packages can be found [here]('https://blog.logrocket.com/the-complete-guide-to-publishing-a-react-package-to-npm/")
 
@@ -43,7 +45,7 @@ More information on the local testing of NPM packages can be found [here]('https
   The SDK comprises of three modules majorly, which are: 
   - Fetching the notifications from EPNS backend.
   - Parsing the fetched notifications.
-  - Rendering the parsed notification.
+  - Rendering the parsed notification on mobile and on web.
 
 It is done this way in order to seperate the different layers from each other.
 
@@ -71,22 +73,40 @@ console.log(parsedResponse);
 
 ```
 
-
+### Rendering the parsed notification on the web
 ```javascript
 
 import { NotificationItem } from  "epns-frontend-sdk";
 
 // This is used to render the text present in a notification body as a JSX element
 
-<NotificationItem
-	notificationTitle="ETH Tracker - ETH at $3,235.16"
-	notificationBody="\[d:Summary & Latest Balance]\n---------\n\n[➕] [d:ETH: ] [b:2.961] [t:ETH] [[dg:+-0.000 ETH]][timestamp: 1630069200]"
-/>
+	<NotificationItem
+		notificationTitle={parsedResponse.title}
+		notificationBody={parsedResponse.message}
+		cta={parsedResponse.cta}
+		app={parsedResponse.app}
+		icon={parsedResponse.icon}
+		image={parsedResponse.image}
+	/>
  ```
  
- ![enter image description here](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)
+ ![Web app render](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)
  
+ ### Rendering the parsed notification on a react native mobile application.
+ ```javascript
+ import { NotificationItem} from  'epns-frontend-sdk-staging/dist/native';
  
+	<NotificationItem
+		notificationTitle={parsedResponse.title}
+		notificationBody={parsedResponse.message}
+		cta={parsedResponse.cta}
+		app={parsedResponse.app}
+		icon={parsedResponse.icon}
+		image={parsedResponse.image}
+	/>
+ ```
+
+ ![Mobile app render](https://res.cloudinary.com/xand6r/image/upload/v1634472404/Screenshot_2021-10-17_at_13.06.29_w01br2.png)
 ## Markdown Reference
 
 #### This section contains the several markdown formats available and how to use them. They can be viewed live by running the react application in `src/sample_codes/parseNotificationMarkdown`.
