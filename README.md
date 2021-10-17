@@ -106,7 +106,7 @@ import { NotificationItem } from  "epns-frontend-sdk";
 	/>
  ```
 
- ![Mobile app render](https://res.cloudinary.com/xand6r/image/upload/v1634472404/Screenshot_2021-10-17_at_13.06.29_w01br2.png)
+ ![Mobile app render]([https://res.cloudinary.com/xand6r/image/upload/v1634473272/Screenshot_2021-10-17_at_13.20.49_ig1j3y.png](https://res.cloudinary.com/xand6r/image/upload/v1634473272/Screenshot_2021-10-17_at_13.20.49_ig1j3y.png))
 ## Markdown Reference
 
 #### This section contains the several markdown formats available and how to use them. They can be viewed live by running the react application in `src/sample_codes/parseNotificationMarkdown`.
