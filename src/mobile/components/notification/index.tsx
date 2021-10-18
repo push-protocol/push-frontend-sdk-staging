@@ -40,9 +40,13 @@ const ViewNotificationItem = ({
   // Finally mark if the device is a tablet or a phone
   let contentInnerStyle = {};
   let contentImgStyle = {};
+  let contentMsgImgStyle = {};
+
   let contentVidStyle = {};
   let contentMsgVidStyle = {};
 
+  let bgVidStyle = {};
+  let contentYoutubeStyle = {}
   let contentBodyStyle = {};
   let containMode:any = 'contain';
 
@@ -57,11 +61,44 @@ const ViewNotificationItem = ({
     contentImgStyle = {
       width: '25%',
       aspectRatio: 1,
+      borderRadius: 10,
+      paddingRight: 20,
     };
+
+    contentMsgImgStyle = {
+      margin: 20,
+      marginRight: 5,
+      borderRadius: 10,
+      borderWidth: 0,
+    };
+
+    contentYoutubeStyle = {
+      width: '25%',
+      aspectRatio: 1,
+      borderRadius: 10,
+      paddingRight: 20,
+      margin: 20,
+      marginRight: 10
+    }
+
+    contentVidStyle = {
+      width: '25%',
+      aspectRatio: 1,
+      margin: 20,
+      marginRight: 10
+    }
 
     contentBodyStyle = {
       flex: 1,
     };
+
+    contentMsgVidStyle = {
+      width: '100%',
+    }
+    
+    bgVidStyle = {
+      borderRadius: 10,
+    }
 
     containMode = 'cover';
   }
@@ -136,7 +173,7 @@ const ViewNotificationItem = ({
                   }}
                   style={[styles.contentImg, contentImgStyle]}>
                   <Image
-                    style={styles.image}
+                    style={[styles.image, contentMsgImgStyle]}
                     source={{uri: image}}
                     resizeMode={containMode}
                   />
@@ -150,7 +187,7 @@ const ViewNotificationItem = ({
                     fullscreen={false}
                     loop={false}
                     controls={1}
-                    style={styles.backgroundVideo}
+                    style={[styles.backgroundVideo, contentYoutubeStyle]}
                     />
               ) : (
                 <View style={[styles.contentVid, contentVidStyle]}>
@@ -159,7 +196,7 @@ const ViewNotificationItem = ({
                       resizeMode={containMode}
                       source={{uri: image}} // Can be a URL or a local file.
                       ref={videoPlayerRef} // Store reference
-                      style={styles.backgroundVideo}
+                      style={[styles.backgroundVideo, bgVidStyle]}
                       controls
                     />
                   </View>
