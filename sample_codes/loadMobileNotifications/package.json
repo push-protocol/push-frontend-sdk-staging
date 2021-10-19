@@ -1,0 +1,42 @@
+{
+  "name": "awesomeproject",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "epns-frontend-sdk-staging": "^3.7.0",
+    "axios": "^0.21.4",
+    "expo-device": "^3.3.0",
+    "expo-linear-gradient": "^9.2.0",
+    "moment": "^2.29.1",
+    "react": "17.0.2",
+    "react-native": "0.66.0",
+    "react-native-device-detection": "^0.2.1",
+    "react-native-device-info": "^8.4.1",
+    "react-native-image-view": "^2.1.9",
+    "react-native-modal": "^13.0.0",
+    "react-native-parsed-text": "^0.0.22",
+    "react-native-video": "^5.2.0-alpha1",
+    "react-native-youtube": "^2.0.2",
+    "styled-components": "^5.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "react-test-renderer": "17.0.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

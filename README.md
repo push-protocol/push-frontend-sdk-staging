@@ -15,9 +15,19 @@ It is written in typescript and requires node v10.0.0 or higher.
 
 Most features will work with nodejs v6.0.0 and higher but using older versions than v10.0.0 is not recommended.
 
+## There are two ways which the SDK can be installed
+
+### Installation for General usage
+In order to install this SDK on your existing web application or mobile application. If you want to use the SDK in your dapp or mobile application, this is the installation method to use.
+
+It can be installed as an npm package via the following command.
+
+`npm install epns-frontend-sdk-staging`
   
-## Installation
-In order to install and test the SDK *locally*, the following steps are required to set it up for testing with a react application you have previously set up. 
+  
+### Installation for SDK Development
+If as a developer, you feel the need to add more features to the frontend SDK, and wish to see your changes to the SDK's code immediately reflected, the following steps are for you.
+In order to install, test and develop the SDK *locally*, the following steps are required to set it up for testing with a react application you have previously set up. 
 ```javascript
 - git clone https://github.com/ethereum-push-notification-service/epns-frontend-sdk-staging.git
 
@@ -37,7 +47,7 @@ In order to install and test the SDK *locally*, the following steps are required
 - yarn link epns-frontend-sdk
 // then the library can be imported as normally would if installed using npm or yarn
 ```
-More information on the local testing of NPM packages can be found [here]('https://blog.logrocket.com/the-complete-guide-to-publishing-a-react-package-to-npm/")
+More information on the local testing and development of NPM packages can be found [here]('https://blog.logrocket.com/the-complete-guide-to-publishing-a-react-package-to-npm/")
 
  
 ## Usage
