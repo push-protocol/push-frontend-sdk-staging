@@ -33,18 +33,18 @@ In order to install, test and develop the SDK *locally*, the following steps are
 
 - cd epns-frontend-sdk-staging // navigate to the project's directory
 
-- yarn install // to install all the packages
+- npm install // to install all the packages
 
-- yarn start //to build the project and watch out for changes
+- npm start //to build the project and watch out for changes
 
-- yarn link // in order to test and be made available locally
+- npm link // in order to test and be made available locally
 // since we intend to test the functionality, we will assume that another react application is running which wants to leverage the components from the framework
 
 - npm `link relative_path_to_react_application`/node_modules/react
   
 - cd `relative_path_to_react_application`
 
-- yarn link epns-frontend-sdk
+- npm link epns-frontend-sdk
 // then the library can be imported as normally would if installed using npm or yarn
 ```
 More information on the local testing and development of NPM packages can be found [here]('https://blog.logrocket.com/the-complete-guide-to-publishing-a-react-package-to-npm/")
@@ -116,7 +116,9 @@ import { NotificationItem } from  "epns-frontend-sdk";
 	/>
  ```
 
- ![Mobile app render]([https://res.cloudinary.com/xand6r/image/upload/v1634473272/Screenshot_2021-10-17_at_13.20.49_ig1j3y.png](https://res.cloudinary.com/xand6r/image/upload/v1634473272/Screenshot_2021-10-17_at_13.20.49_ig1j3y.png))
+ ![Mobile app render](https://res.cloudinary.com/xand6r/image/upload/v1634473272/Screenshot_2021-10-17_at_13.20.49_ig1j3y.png)
+
+
 ## Markdown Reference
 
 #### This section contains the several markdown formats available and how to use them. They can be viewed live by running the react application in `src/sample_codes/parseNotificationMarkdown`.
