@@ -33,9 +33,9 @@
     "react-native": ">=0.61.5",
     "styled-components": "^5.3.1"
   },
-  "name": "alex-frontend-sdk-staging",
-  "description": "a frontend SDK Package for alex notifications",
-  "version": "3.7.0",
+  "name": "epns-frontend-sdk-staging",
+  "description": "a frontend SDK Package for EPNS notifications",
+  "version": "3.6.0",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "ansi-regex": "^2.1.1",

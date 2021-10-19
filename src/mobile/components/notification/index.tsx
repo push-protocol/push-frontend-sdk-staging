@@ -8,7 +8,7 @@ import {
 import YouTube from 'react-native-youtube';
 import Video from 'react-native-video';
 import Modal from 'react-native-modal';
-// import device from 'react-native-device-detection';
+import device from 'react-native-device-detection';
 
 import IPFSIcon from '../ipfsicon';
 import ParseText from '../parseText';
@@ -50,8 +50,7 @@ const ViewNotificationItem = ({
   let contentBodyStyle = {};
   let containMode:any = 'contain';
 
-  // if (device.isTablet) {
-  if (true) {
+  if (device.isTablet) {
     // Change the style to better suit tablet
 
     contentInnerStyle = {
