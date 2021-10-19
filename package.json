@@ -33,8 +33,8 @@
     "react-native": ">=0.61.5",
     "styled-components": "^5.3.1"
   },
-  "name": "epns-frontend-sdk-staging",
-  "description": "a frontend SDK Package for EPNS notifications",
+  "name": "alex-frontend-sdk-staging",
+  "description": "a frontend SDK Package for alex notifications",
   "version": "3.6.0",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
@@ -67,7 +67,6 @@
     "escape-string-regexp": "^1.0.5",
     "estree-walker": "^1.0.1",
     "esutils": "^2.0.3",
-    "expo-device": "^3.3.0",
     "fill-range": "^7.0.1",
     "find-cache-dir": "^3.3.1",
     "find-up": "^4.1.0",
