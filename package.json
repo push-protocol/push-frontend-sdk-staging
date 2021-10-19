@@ -32,7 +32,7 @@
     "react-dom": ">16.0.0",
     "react-native": ">=0.61.5",
     "styled-components": ">=5.2.1",
-    "react-native-video": ">=5.0",
+    "react-native-video": ">=5.0.0",
     "react-native-youtube": ">=2.0.1"
   },
   "name": "alex-frontend-sdk-staging",
