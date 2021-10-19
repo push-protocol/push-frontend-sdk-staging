@@ -152,7 +152,7 @@ const ViewNotificationItem = ({
           <TouchableOpacity
             style={[styles.appLink]}
             disabled={!url}
-            onPress={() => console.log(cta)}
+            onPress={() => {console.log(url);onPress(url)}}
           >
             <View style={[styles.appicon]}>
               <IPFSIcon icon={icon} />
