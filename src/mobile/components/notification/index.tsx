@@ -152,7 +152,7 @@ const ViewNotificationItem = ({
           <TouchableOpacity
             style={[styles.appLink]}
             disabled={!url}
-            onPress={() => onPress(url)}
+            onPress={() => console.log(cta)}
           >
             <View style={[styles.appicon]}>
               <IPFSIcon icon={icon} />
@@ -263,7 +263,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginVertical: 15,
-    marginHorizontal: 20
   },
   inner: {
     margin: 1,
