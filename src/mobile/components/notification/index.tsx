@@ -24,6 +24,7 @@ const ViewNotificationItem = ({
   app = '',
   icon = '',
   image = '',
+  url = ''
 }) => {
   const videoPlayerRef = React.useRef(null);
   const ctaEnabled = Boolean(cta);
@@ -31,7 +32,7 @@ const ViewNotificationItem = ({
   const {
     originalBody: parsedBody,
     timeStamp
-} = extractTimeStamp(notificationBody);
+} = extractTimeStamp(notificationBody || '');
 
 
   // store the image to be displayed in this state variable
@@ -150,7 +151,8 @@ const ViewNotificationItem = ({
         <View style={styles.header}>
           <TouchableOpacity
             style={[styles.appLink]}
-            // disabled={!item.url || item.url === '' ? true : false}>
+            disabled={!url}
+            onPress={() => onPress(url)}
           >
             <View style={[styles.appicon]}>
               <IPFSIcon icon={icon} />
@@ -261,6 +263,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginVertical: 15,
+    marginHorizontal: 20
   },
   inner: {
     margin: 1,

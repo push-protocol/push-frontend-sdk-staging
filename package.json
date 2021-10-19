@@ -31,7 +31,9 @@
     "react": ">16.0.0",
     "react-dom": ">16.0.0",
     "react-native": ">=0.61.5",
-    "styled-components": "^5.3.1"
+    "styled-components": ">=5.2.1",
+    "react-native-video": ">=5.0",
+    "react-native-youtube": ">=2.0.1"
   },
   "name": "alex-frontend-sdk-staging",
   "description": "a frontend SDK Package for alex notifications",
@@ -117,8 +119,6 @@
     "react-native-device-detection": "^0.2.1",
     "react-native-modal": "^13.0.0",
     "react-native-parsed-text": "^0.0.22",
-    "react-native-video": "^5.2.0-alpha1",
-    "react-native-youtube": "^2.0.2",
     "react-use": "^17.3.1",
     "readdirp": "^3.6.0",
     "regenerator-runtime": "^0.11.1",

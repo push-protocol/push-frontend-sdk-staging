@@ -54,7 +54,7 @@ export function parseApiResponse(response: ApiNotificationType[]):ParsedResponse
                     url = "",
                     sid = "",
                     app = "",
-                    aimg = ""
+                    aimg = "",
                 },
                 notification: {
                     body = "",
