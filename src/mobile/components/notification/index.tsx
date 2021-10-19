@@ -203,7 +203,7 @@ const ViewNotificationItem = ({
                     />
                   </View>
                 </View>
-              )) : <Text></Text>}
+              )) : <></>}
             <View style={[styles.contentBody, contentBodyStyle]}>
               {!notificationTitle ? null : (
                 <Text style={[styles.msgSub]}>{notificationTitle}</Text>
@@ -261,8 +261,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   container: {
-    width: '100%',
     marginVertical: 15,
+    marginHorizontal: 20
   },
   inner: {
     margin: 1,
