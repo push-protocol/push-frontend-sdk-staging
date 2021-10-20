@@ -31,12 +31,12 @@
     "react": ">16.0.0",
     "react-dom": ">16.0.0",
     "react-native": ">=0.61.5",
-    "styled-components": ">=5.2.1",
     "react-native-video": "*",
-    "react-native-youtube": "*"
+    "react-native-youtube": "*",
+    "styled-components": ">=5.2.1"
   },
-  "name": "alex-frontend-sdk-staging",
-  "description": "a frontend SDK Package for alex notifications",
+  "name": "epns-frontend-sdk-staging",
+  "description": "a frontend SDK Package for epns notifications",
   "version": "4.5.0",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
@@ -66,6 +66,7 @@
     "csstype": "^3.0.8",
     "debug": "^2.6.9",
     "detect-indent": "^4.0.0",
+    "epns-frontend-sdk-staging": "^2.1.0",
     "escape-string-regexp": "^1.0.5",
     "estree-walker": "^1.0.1",
     "esutils": "^2.0.3",
