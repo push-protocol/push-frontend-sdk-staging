@@ -17,6 +17,7 @@ export type NotificationItemProps = {
     app: string | undefined,
     icon: string | undefined,
     image: string | undefined
+    url: string | undefined
 };
 
 type ContainerDataType = {
@@ -35,7 +36,8 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     cta,
     app,
     icon,
-    image
+    image,
+    url
 }) => {
 
   const {
@@ -43,9 +45,15 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       timeStamp
   } = extractTimeStamp(notificationBody || "");
 
-  const gotToCTA = () => {
+  const gotToCTA = (e:any) => {
+    e.stopPropagation();
     if(!MediaHelper.validURL(cta)) return;
     window.open(cta, "_blank");
+  };
+
+  const goToURL = (e:any) => {
+    e.stopPropagation();
+    window.open(url, "_blank");
   };
 
   // store the image to be displayed in this state variable
@@ -59,7 +67,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       onClick={gotToCTA}
     >
       {/* header that only pops up on small devices */}
-      <MobileHeader>
+      <MobileHeader onClick={goToURL}>
         <ImageContainer>
           {/* <img src={icon} alt="" /> */}
           <IPFSIcon icon={icon}/>
@@ -150,7 +158,8 @@ ViewNotificationItem.propTypes = {
   notificationTitle: PropTypes.string,
   cta: PropTypes.string,
   image: PropTypes.string,
-  app: PropTypes.string
+  app: PropTypes.string,
+  url: PropTypes.string
 };
 
 ViewNotificationItem.defaultProps = {
@@ -158,8 +167,9 @@ ViewNotificationItem.defaultProps = {
   notificationBody: "",
   cta: "",
   app: "",
-  image: ""
-}
+  image: "",
+  url: ""
+};
 
 // ================= Define styled components
 const MD_BREAKPOINT = "1150px";

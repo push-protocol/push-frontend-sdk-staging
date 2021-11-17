@@ -38,7 +38,7 @@ function App() {
     <div className="App">
       <h2 className="App__header">EPNS Notifications</h2>
       {notifications.map((oneNotification) => {
-        const { cta, title, message, app, icon, image } = oneNotification;
+        const { cta, title, message, app, icon, image, url } = oneNotification;
 
         // render the notification item
         return (
@@ -49,6 +49,7 @@ function App() {
             app={app}
             icon={icon}
             image={image}
+            url={url}
           />
         );
       })}
