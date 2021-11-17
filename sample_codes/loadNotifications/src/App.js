@@ -25,10 +25,11 @@ function App() {
         const { count, results } = notificationsData || {};
         console.log(`${count} notifications loaded:`, results);
         // parse the notifications into the required format
-        const response = utils.parseApiResponse([...DEFAULT_NOTIFICATIONS]);
-        console.log({response})
+        // const response = utils.parseApiResponse([...DEFAULT_NOTIFICATIONS]);
+        console.log({unparsed: results});
+        const response = utils.parseApiResponse(results);
         console.log("Parsed response to:", response);
-        console.log({response});
+        console.log({parsed: response});
         setNotifications(response);
       });
   }, []);

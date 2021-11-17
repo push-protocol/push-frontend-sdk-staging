@@ -11,9 +11,11 @@ const IPFS_BASE_URL = "https://ipfs.io/ipfs/"
  * @returns the ipfs hash extracted from the image name
  */
 export function extractIPFSHashFromImageURL(imageURL:string | undefined){
-    if(!imageURL) return "";
+    if(!imageURL) return {type:"http", url:""};
+    if(imageURL.includes("ipfs")) return {type: "ipfs" , url: imageURL};
     const match = imageURL.match(/(\w+).jpg/);
-    return match ? `${IPFS_BASE_URL}${match[1]}` : ""
+    const output =  match ? `${IPFS_BASE_URL}${match[1]}` : "";
+    return {type: "http", url: output}
 };
 
 /**
