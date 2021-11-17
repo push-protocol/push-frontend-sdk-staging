@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "epns-frontend-sdk-staging": "^3.7.0",
+    "@epnsproject/frontend-sdk-staging": "*",
     "axios": "^0.21.4",
     "expo-device": "^3.3.0",
     "expo-linear-gradient": "^9.2.0",

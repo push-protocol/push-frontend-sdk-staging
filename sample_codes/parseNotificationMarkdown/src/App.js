@@ -1,15 +1,10 @@
 import {
   ParseText
-} from "epns-frontend-sdk-staging";
+} from "@epnsproject/frontend-sdk-staging";
 import RedirectImage from './images/resize.svg'
 import {  useState } from "react";
 import "./App.css";
 
-const WALLET_ADDRESS = "0x57c1D4dbFBc9F8cB77709493cc43eaA3CD505432";
-const PAGINATION_PARAMS = {
-  page: 1,
-  itemsPerPage: 20,
-};
 
 function App() {
   // create state components to fetch all the notifications.

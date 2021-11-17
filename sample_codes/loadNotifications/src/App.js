@@ -1,5 +1,5 @@
 import { DEFAULT_NOTIFICATIONS } from './data';
-import { NotificationItem, utils, api } from "epns-frontend-sdk-staging";
+import { NotificationItem, utils, api } from "@epnsproject/frontend-sdk-staging";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -25,9 +25,9 @@ function App() {
         const { count, results } = notificationsData || {};
         console.log(`${count} notifications loaded:`, results);
         // parse the notifications into the required format
-        // const response = utils.parseApiResponse([...DEFAULT_NOTIFICATIONS]);
+        const response = utils.parseApiResponse([...DEFAULT_NOTIFICATIONS, ...results]);
         console.log({unparsed: results});
-        const response = utils.parseApiResponse(results);
+        // const response = utils.parseApiResponse(results);
         console.log("Parsed response to:", response);
         console.log({parsed: response});
         setNotifications(response);

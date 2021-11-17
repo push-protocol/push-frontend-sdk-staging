@@ -35,9 +35,9 @@
     "react-native-youtube": "*",
     "styled-components": ">=5.2.1"
   },
-  "name": "epns-frontend-sdk-staging",
+  "name": "@epnsproject/frontend-sdk-staging",
   "description": "a frontend SDK Package for epns notifications",
-  "version": "4.5.0",
+  "version": "1.0.0",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "ansi-regex": "^2.1.1",

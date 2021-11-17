@@ -22,7 +22,7 @@ import {
   NotificationItem,
   utils,
   api,
-} from 'alex-frontend-sdk-staging/dist/native';
+} from '@epnsproject/backend-sdk-staging/dist/native';
 const WALLET_ADDRESS = '0x57c1D4dbFBc9F8cB77709493cc43eaA3CD505432';
 const PAGINATION_PARAMS = {
   page: 1,

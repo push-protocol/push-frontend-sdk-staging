@@ -62,7 +62,7 @@ It is done this way in order to seperate the different layers from each other.
 ### Fetching and parsing notifications from the api
 #### A more comprehensive demo can be located at  `src/sample_codes/loadNotifications`.
 ```javascript
-import { api, utils } from "epns-frontend-sdk-staging-local";
+import { api, utils } from "@epnsproject/frontend-sdk-staging";
 
 // define the variables required to make a request
 const walletAddress = "0x1234567890abcdcdefghijklmnopqrstuvwxyz123";
@@ -86,7 +86,7 @@ console.log(parsedResponse);
 ### Rendering the parsed notification on the web
 ```javascript
 
-import { NotificationItem } from  "epns-frontend-sdk";
+import { NotificationItem } from  "@epnsproject/frontend-sdk-staging";
 
 // This is used to render the text present in a notification body as a JSX element
 
@@ -103,8 +103,9 @@ import { NotificationItem } from  "epns-frontend-sdk";
  ![Web app render](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)
  
  ### Rendering the parsed notification on a react native mobile application.
+ ### All parameters are optional
  ```javascript
- import { NotificationItem} from  'epns-frontend-sdk-staging/dist/native';
+ import { NotificationItem} from  '@epnsproject/frontend-sdk-staging/dist/native';
  
 	<NotificationItem
 			notificationTitle={parsedResponse.title}
@@ -113,6 +114,7 @@ import { NotificationItem } from  "epns-frontend-sdk";
 			app={parsedResponse.app}
 			icon={parsedResponse.icon}
 			image={parsedResponse.image}
+			url={parsedResponse.url}
 	/>
  ```
 

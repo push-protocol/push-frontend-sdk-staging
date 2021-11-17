@@ -15,16 +15,20 @@ const IPFSIcon: React.FC<IPFSIconType> = ({
     // fetch and pin the icons using ipfs hash
     React.useEffect(() =>{
         // extract the IPFS image url from the url of the icon
-        const ipfsHash = extractIPFSHashFromImageURL(icon);
+        const {type, url: ipfsHash} = extractIPFSHashFromImageURL(icon);
         if(!ipfsHash) return;
         // fetch the image directly from ipfs
-        axios.get(ipfsHash)
-        .then(({data: res}) => {
-            setImageInBase64(res.icon);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+        if(type === "https"){
+            axios.get(ipfsHash)
+            .then(({data: res}) => {
+                setImageInBase64(res.icon);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        }else{
+            setImageInBase64(ipfsHash)
+        }
     
     }, [icon]);
 
