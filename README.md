@@ -23,6 +23,9 @@ In order to install this SDK on your existing web application or mobile applicat
 It can be installed as an npm package via the following command.
 
 `npm install @epnsproject/frontend-sdk-staging`
+
+for react version < 17.0.0
+`npm install @epnsproject/frontend-sdk-staging --legacy-peer-deps`
   
   
 ### Installation for SDK Development
