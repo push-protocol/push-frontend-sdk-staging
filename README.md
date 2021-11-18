@@ -22,7 +22,7 @@ In order to install this SDK on your existing web application or mobile applicat
 
 It can be installed as an npm package via the following command.
 
-`npm install epns-frontend-sdk-staging`
+`npm install @epnsproject/frontend-sdk-staging`
   
   
 ### Installation for SDK Development
@@ -71,13 +71,13 @@ const itemsPerPage = 20;
 // define the variables required to make a request
 
 //fetch the notifications
-const fetchedNotifications = await api.fetchNotifications(walletAddress, itemsPerPage, pageNumber)
-console.log({fetchedNotifications]);
+const {count, results} = await api.fetchNotifications(walletAddress, itemsPerPage, pageNumber)
+console.log({results});
 //fetch the notifications
 
 
 //parse the notification fetched
-const parsedResponse = utils.parseApiResponse(fetchedNotifications);
+const parsedResponse = utils.parseApiResponse(results);
 console.log(parsedResponse);
 //parse the notification fetched
 
@@ -89,15 +89,19 @@ console.log(parsedResponse);
 import { NotificationItem } from  "@epnsproject/frontend-sdk-staging";
 
 // This is used to render the text present in a notification body as a JSX element
-
-	<NotificationItem
-		notificationTitle={parsedResponse.title}
-		notificationBody={parsedResponse.message}
-		cta={parsedResponse.cta}
-		app={parsedResponse.app}
-		icon={parsedResponse.icon}
-		image={parsedResponse.image}
-	/>
+	{
+		NotificationItem.map(oneNotification => (
+			<NotificationItem
+				notificationTitle={oneNotification.title}
+				notificationBody={oneNotification.message}
+				cta={oneNotification.cta}
+				app={oneNotification.app}
+				icon={oneNotification.icon}
+				image={oneNotification.image}
+				url={oneNotification.url}
+			/>
+		))
+	}
  ```
  
  ![Web app render](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)

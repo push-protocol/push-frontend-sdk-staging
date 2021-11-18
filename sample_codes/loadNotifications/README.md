@@ -35,7 +35,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### `yarn install` 
 
-#### For a new react project run:    `npm install epns-frontend-sdk-staging` 
+#### For a new react project run:    `npm install @epnsproject/frontend-sdk-staging` 
 
 ### `yarn start`
 
@@ -49,7 +49,7 @@ You will also see any lint errors in the console.
 ## Fetching-The-Notifications
 The first step is to import the just installed package.
 ```javascript
-import { api, utils, NotificationItem } from "epns-frontend-sdk-staging-local";
+import { api, utils, NotificationItem } from "@epnsproject/frontend-sdk-staging";
 ```
 
 Then the next step is to define the required variables to make a request to fetch some notifications!
@@ -125,7 +125,7 @@ console.log(fetchedNotifications);
 The next step is to parse the just fetched notifications, essentially convert the massive object we have you above into a more readable format.
 ```
 //parse the notification fetched
-const parsedResponse = utils.parseApiResponse(fetchedNotifications);
+const parsedResponse = utils.parseApiResponse(fetchedNotifications.results);
 console.log(parsedResponse);
 //parse the notification fetched
 ```

@@ -29,7 +29,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### `yarn install`
 
-#### For a new react project run: `npm install epns-frontend-sdk-staging`
+#### For a new react project run: `npm install @epnsproject/frontend-sdk-staging`
 
 ### `yarn start`
 

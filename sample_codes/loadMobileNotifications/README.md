@@ -26,17 +26,22 @@ root: false
 - Basic knowledge of React.
 
 ## Sections
-- [Setting up the environment](#setup)
-- [Fetching the notifications](#fetching-the-notifications)
-- [Parsing the notifications](#parsing-the-notifications)
-- [Rendering the notifications](#rendering-the-notifications)
+- [Integrating EPNS in Frontend](#integrating-epns-in-frontend)
+	- [Learning Objectives](#learning-objectives)
+	- [Pre-requisites](#pre-requisites)
+	- [Sections](#sections)
+	- [Setup](#setup)
+	- [Fetching-The-Notifications](#fetching-the-notifications)
+	- [Parsing-The-Notifications](#parsing-the-notifications)
+	- [Puting it all together](#puting-it-all-together)
+	- [Rendering-The-Notifications](#rendering-the-notifications)
 
 ## Setup
 
 This project was bootstrapped with [react native CLI ](https://reactnative.dev/docs/environment-setup).
  
 To install the frontend SDK package.
--  `npm install epns-frontend-sdk-staging`
+-  `npm install @epnsproject/frontend-sdk-staging`
 
 Runs the app in the development mode.
 The page will reload if you make edits.
@@ -50,7 +55,7 @@ import {
   NotificationItem,
   utils,
   api,
-} from 'epns-frontend-sdk-staging/dist/native';
+} from '@epnsproject/frontend-sdk-staging/dist/native';
 ```
 
 Then the next step is to define the required variables to make a request to fetch some notifications!
@@ -126,7 +131,7 @@ console.log(fetchedNotifications);
 The next step is to parse the just fetched notifications, essentially convert the massive object we have you above into a more readable format.
 ```javascript
 //parse the notification fetched
-const parsedResponse = utils.parseApiResponse(fetchedNotifications);
+const parsedResponse = utils.parseApiResponse(fetchedNotifications.results);
 console.log(parsedResponse);
 //parse the notification fetched
 ```
@@ -174,7 +179,7 @@ Finally we proceed to render the object above as a notification using JSX
 ```javascript
     <View}>
       {notifications.map(oneNotification => {
-        const {cta, title, message, app, icon, image} = oneNotification;
+        const {cta, title, message, app, icon, image, url} = oneNotification;
 
         // render the notification item
         return (
@@ -185,6 +190,7 @@ Finally we proceed to render the object above as a notification using JSX
             app={app}
             icon={icon}
             image={image}
+			url={url}
           />
         );
       })}

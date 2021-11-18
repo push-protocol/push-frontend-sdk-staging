@@ -16,7 +16,7 @@ export type NotificationItemProps = {
     cta: string | undefined,
     app: string | undefined,
     icon: string | undefined,
-    image: string | undefined
+    image: string | undefined,
     url: string | undefined
 };
 
