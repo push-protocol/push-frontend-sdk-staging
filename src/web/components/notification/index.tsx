@@ -172,7 +172,7 @@ ViewNotificationItem.defaultProps = {
 };
 
 // ================= Define styled components
-const MD_BREAKPOINT = "1150px";
+const MD_BREAKPOINT = "50050px"; //set an arbitrarily large number because we no longer use this
 const SM_BREAKPOINT = "900px"
 
 const ContentSection = styled.div`
