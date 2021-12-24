@@ -94,6 +94,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
               <MobileImage>
                 <iframe
                   id="ytplayer" width="640"
+                  allow="fullscreen;"
                   height="360" src={MediaHelper.isMediaExternalEmbed(image)}
                 >
                 </iframe>
@@ -172,7 +173,7 @@ ViewNotificationItem.defaultProps = {
 };
 
 // ================= Define styled components
-const MD_BREAKPOINT = "50050px"; //set an arbitrarily large number because we no longer use this
+const MD_BREAKPOINT = "50050px"; //set an arbitrarily large number because we no longer use this breakpoint
 const SM_BREAKPOINT = "900px"
 
 const ContentSection = styled.div`
@@ -253,6 +254,7 @@ const Container = styled.div<ContainerDataType>`
 const MobileHeader = styled.div`
   display: none;
   @media (max-width: ${MD_BREAKPOINT}){
+    cursor: pointer;
     display: flex;
     align-items: center;
     position: absolute;
