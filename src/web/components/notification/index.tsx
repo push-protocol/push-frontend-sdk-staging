@@ -64,7 +64,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   // store the image to be displayed in this state variable
   const [imageOverlay, setImageOverlay] = React.useState("");
   const [subscribeLoading, setSubscribeLoading] = React.useState(false);
-  const [isSubscribed, setIsSubscribed] = React.useState(false); //use this to confirm if this is s
+  const [isSubscribed, setIsSubscribed] = React.useState(true); //use this to confirm if this is s
 
   /**
    * A function which wraps around the function to subscribe a user to a channel 

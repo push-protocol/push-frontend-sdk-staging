@@ -26,7 +26,7 @@ const fetchSpamNotifications = async (
         "op":"read"
     };
 
-    return axios.post(`${baseApiUrl}feeds/get_spam_feeds`, body)
+    return axios.post(`${baseApiUrl}/feeds/get_spam_feeds`, body)
     .then((response:any) => response.data)
     .catch((err: any) => {
         console.log(`
