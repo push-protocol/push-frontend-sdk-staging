@@ -90,7 +90,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
 
   },[isSubscribedFn, isSpam]);
 
-  if(isSubscribed) return <></>;
+  if(isSubscribed && isSpam) return <></>;
 
   // render
   return (
