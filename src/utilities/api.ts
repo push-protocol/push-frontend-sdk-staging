@@ -7,8 +7,33 @@ import config from '../config';
 
 const DEFAULT_INITIAL_PAGE = 1;
 const DEFAULT_PAGE_SIZE  = 10;
-const NOTIFICATIONS_URL = config.NOTIFICATIONS_API;
+const API_BASE_URL = config.BASE_URL;
 
+
+/**
+ * 
+ */
+const fetchSpamNotifications = async (
+    userAccount: string,
+    itemsPerPage = DEFAULT_PAGE_SIZE,
+    page = DEFAULT_INITIAL_PAGE,
+    baseApiUrl = API_BASE_URL,
+) => {
+    const body = {
+        "user": userAccount,
+        "page": page,
+        "pageSize": itemsPerPage,
+        "op":"read"
+    };
+
+    return axios.post(`${baseApiUrl}feeds/get_spam_feeds`, body)
+    .then((response:any) => response.data)
+    .catch((err: any) => {
+        console.log(`
+        ============== There was an error [epns-sdk -> loadNotifications] ============
+        `, err);
+    })
+}
 /**
  * Fetch paginated notifications for a user
  * @param {string} userAccount the account of the user in question
@@ -19,7 +44,8 @@ const NOTIFICATIONS_URL = config.NOTIFICATIONS_API;
 const fetchNotifications = async (
     userAccount: string,
     itemsPerPage = DEFAULT_PAGE_SIZE,
-    page = DEFAULT_INITIAL_PAGE
+    page = DEFAULT_INITIAL_PAGE,
+    baseApiUrl = API_BASE_URL,
 ) => {
     const body = {
         "user": userAccount,
@@ -28,7 +54,7 @@ const fetchNotifications = async (
         "op":"read"
     };
 
-    return axios.post(NOTIFICATIONS_URL, body)
+    return axios.post(`${baseApiUrl}/feeds/get_feeds`, body)
     .then((response:any) => response.data)
     .catch((err: any) => {
         console.log(`
@@ -39,5 +65,6 @@ const fetchNotifications = async (
 
 
 export default {
-    fetchNotifications
+    fetchNotifications,
+    fetchSpamNotifications
 }

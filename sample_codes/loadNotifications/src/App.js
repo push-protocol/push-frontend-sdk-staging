@@ -8,6 +8,7 @@ const PAGINATION_PARAMS = {
   page: 1,
   itemsPerPage: 20,
 };
+const BASE_URL = "https://backend-kovan.epns.io/apis/"
 
 function App() {
   // create state components to fetch all the notifications.
@@ -19,7 +20,8 @@ function App() {
       .fetchNotifications(
         WALLET_ADDRESS,
         PAGINATION_PARAMS.itemsPerPage,
-        PAGINATION_PARAMS.page
+        PAGINATION_PARAMS.page,
+        BASE_URL
       )
       .then((notificationsData) => {
         const { count, results } = notificationsData || {};
@@ -37,7 +39,7 @@ function App() {
   return (
     <div className="App">
       <h2 className="App__header">EPNS Notifications</h2>
-      {notifications.map((oneNotification) => {
+      {notifications.map((oneNotification,i) => {
         const { cta, title, message, app, icon, image, url } = oneNotification;
 
         // render the notification item
@@ -50,6 +52,9 @@ function App() {
             icon={icon}
             image={image}
             url={url}
+            isSpam={!Boolean(i)}
+            subscribeFn={async () => alert('yayy')}
+            isSubscribedFn={async () => false}
           />
         );
       })}
