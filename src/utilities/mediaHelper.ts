@@ -1,4 +1,4 @@
-​​// Download Helper Function
+// Download Helper Function
 const MediaHelper = {
   // validate a CTA
   validURL: function(str : string | undefined){
@@ -18,16 +18,16 @@ const MediaHelper = {
   getSaveFileName: function(fileURL: string, useTempLocation: string) {
     // Remove all http, https protocols first
     fileURL = fileURL.replace(/(^\w+:|^)\/\//, '');
-​
+
     // /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi
     // Remove all special characters
     fileURL = fileURL.replace(/[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]/gi, '');
-​
+
     // Remove all but 250 characters
     if (fileURL.length > 250) {
       fileURL = fileURL.substr(-250);
     }
-​
+
     if (useTempLocation) {
       return fileURL+ '.temp';
     }
@@ -49,7 +49,7 @@ const MediaHelper = {
         return true;
       }
     }
-​
+
     // if all else fail
     return false;
   },
@@ -64,7 +64,7 @@ const MediaHelper = {
         var match = fileURL.match(regExp);
         if (match && match[2].length == 11) {
           // embed url
-          const embedURL = 'https://www.youtube.com/embed/' + match[2] + '?autoplay=1&enablejsapi=1';
+          const embedURL = 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0&enablejsapi=1';
           return embedURL;
         }
     }
@@ -79,10 +79,10 @@ const MediaHelper = {
           return match[2];
         }
     }
-​
+
     return "";
   }
 }
-​
+
 export default MediaHelper;
 

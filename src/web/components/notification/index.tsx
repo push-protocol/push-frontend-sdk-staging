@@ -256,8 +256,8 @@ const MobileImage = styled.div`
     video {
       border: 0;
       width: calc(100% + 42px) !important;
-      margin-left: -40px;
-      margin-right: -40px;
+      margin-left: -20px;
+      // margin-right: -40px;
       margin-top: -12px;
       margin-bottom: 5px;
     }

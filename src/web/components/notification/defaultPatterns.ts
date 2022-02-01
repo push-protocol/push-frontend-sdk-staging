@@ -5,7 +5,7 @@ function renderStyles(matchingString:string) {
     // matches => ["[@michel:5455345]", "@michel", "5455345"]
     let pattern = /\[([^:]+):([^\]]+)\]/i;
     let match = matchingString.match(pattern);
-​
+
     return `${match?match[2]:""}`;
 }
 
