@@ -1,3 +1,6 @@
+/**
+ * A component which is essentially a button to connect to metamasl
+ */
 import React from "react";
 import { toast } from 'react-toastify';
 import { useEagerConnect, useInactiveListener } from "../../web3/hooks";

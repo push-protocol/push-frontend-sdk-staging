@@ -1,3 +1,6 @@
+/**
+ * Define the right hooks which would help automatically connect and disconnect from metamask
+ */
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 

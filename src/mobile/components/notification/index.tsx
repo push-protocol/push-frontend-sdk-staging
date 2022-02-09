@@ -13,7 +13,7 @@ import device from 'react-native-device-detection';
 import IPFSIcon from '../ipfsicon';
 import ParseText from '../parseText';
 import { extractTimeStamp } from '../../../utilities/index';
-import GLOBALS from '../../../utilities/globals';
+import GLOBALS from '../../../constants/globals';
 import DownloadHelper from '../../../utilities/mediaHelper';
 import config from '../../../config';
 

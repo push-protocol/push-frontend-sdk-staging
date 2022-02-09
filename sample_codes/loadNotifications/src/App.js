@@ -15,27 +15,27 @@ function App() {
   // create state components to fetch all the notifications.
   const [notifications, setNotifications] = useState([]);
 
-  // useEffect(() => {
-  //   // on page load, fetch all the notifications
-  //   api
-  //     .fetchNotifications(
-  //       WALLET_ADDRESS,
-  //       PAGINATION_PARAMS.itemsPerPage,
-  //       PAGINATION_PARAMS.page,
-  //       BASE_URL
-  //     )
-  //     .then((notificationsData) => {
-  //       const { count, results } = notificationsData || {};
-  //       console.log(`${count} notifications loaded:`, results);
-  //       // parse the notifications into the required format
-  //       const response = utils.parseApiResponse([...DEFAULT_NOTIFICATIONS, ...results]);
-  //       console.log({unparsed: results});
-  //       // const response = utils.parseApiResponse(results);
-  //       console.log("Parsed response to:", response);
-  //       console.log({parsed: response});
-  //       setNotifications(response);
-  //     });
-  // }, []);
+  useEffect(() => {
+    // on page load, fetch all the notifications
+    api
+      .fetchNotifications(
+        WALLET_ADDRESS,
+        PAGINATION_PARAMS.itemsPerPage,
+        PAGINATION_PARAMS.page,
+        BASE_URL
+      )
+      .then((notificationsData) => {
+        const { count, results } = notificationsData || {};
+        console.log(`${count} notifications loaded:`, results);
+        // parse the notifications into the required format
+        const response = utils.parseApiResponse([...DEFAULT_NOTIFICATIONS, ...results]);
+        console.log({unparsed: results});
+        // const response = utils.parseApiResponse(results);
+        console.log("Parsed response to:", response);
+        console.log({parsed: response});
+        setNotifications(response);
+      });
+  }, []);
 
   return (
     <div className="App">

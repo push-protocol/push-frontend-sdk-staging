@@ -9,7 +9,7 @@ import {
   Image,
   LogBox,
   YellowBox,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Video from 'react-native-video';
 import YouTube from 'react-native-youtube';
@@ -20,7 +20,7 @@ import Device from 'react-native-device-detection';
 import IPFSIcon from '../ipfsicon';
 import ParseText from '../parseText';
 
-import GLOBALS from '../utilities/globals';
+import GLOBALS from '../constants/globals';
 import DownloadHelper from '../utilities/mediaHelper';
 const images = [
   {
@@ -52,7 +52,7 @@ const ViewNotificationItem = ({
   let contentBodyStyle = {};
   let containMode = 'contain';
 
-  console.log(Device)
+  console.log(Device);
 
   if (true) {
     // Change the style to better suit tablet
@@ -75,8 +75,8 @@ const ViewNotificationItem = ({
       borderRadius: 10,
       paddingRight: 20,
       margin: 20,
-      marginRight: 10
-    }
+      marginRight: 10,
+    };
 
     contentMsgImgStyle = {
       margin: 20,
@@ -89,16 +89,16 @@ const ViewNotificationItem = ({
       width: '25%',
       aspectRatio: 1,
       margin: 20,
-      marginRight: 10
-    }
+      marginRight: 10,
+    };
 
     contentMsgVidStyle = {
       width: '100%',
-    }
-    
+    };
+
     bgVidStyle = {
       borderRadius: 10,
-    }
+    };
 
     contentBodyStyle = {
       flex: 1,
@@ -218,8 +218,7 @@ const ViewNotificationItem = ({
                 <ParseText
                   title={notificationBody
                     .replaceAll('\\n', '\n')
-                    .replaceAll('/', '')
-                  }
+                    .replaceAll('/', '')}
                   fontSize={13}
                 />
                 {/* The entire content of the main component */}
@@ -241,13 +240,13 @@ const ViewNotificationItem = ({
         {/* header that only pops up on small devices */}
         {/* header that only pops up on small devices */}
         {/* when an image is clicked on make it fulll screen */}
-        <Modal isVisible={isVisible} animationIn="fadeIn"  animationOut="fadeOut">
-            <TouchableWithoutFeedback onPress={()=> setIsVisible(false)}>
-                <Image
-                style={styles.overlayImage}
-                source={{uri: image}}
-                />
-            </TouchableWithoutFeedback>
+        <Modal
+          isVisible={isVisible}
+          animationIn="fadeIn"
+          animationOut="fadeOut">
+          <TouchableWithoutFeedback onPress={() => setIsVisible(false)}>
+            <Image style={styles.overlayImage} source={{uri: image}} />
+          </TouchableWithoutFeedback>
         </Modal>
         {/* when an image is clicked on make it fulll screen */}
       </View>
@@ -396,9 +395,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     borderRadius: 20,
     overflow: 'hidden',
-    width: "100%",
-height: "100%",
-  }
+    width: '100%',
+    height: '100%',
+  },
 });
 
 export default ViewNotificationItem;
