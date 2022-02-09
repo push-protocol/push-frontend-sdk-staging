@@ -3,8 +3,11 @@
   padding: 10px 10vw;
 }
 
-.App__header{
-  
+.App__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
 }
 
 .App-logo {

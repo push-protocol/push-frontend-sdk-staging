@@ -6,11 +6,15 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "ethers": "^5.5.4",
+    "node-sass": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "react-toastify": "^8.1.1",
     "styled-components": "^5.3.1",
-    "@epnsproject/frontend-sdk-staging": "*",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
