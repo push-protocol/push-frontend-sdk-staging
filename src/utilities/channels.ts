@@ -33,6 +33,25 @@ async function getChannelByAddress(
 }
 
 /**
+ * Function to obtain all the addresses subscribed to a channel
+ * @param channelAddress the address of the channel
+ * @param userAddress
+ */
+async function getSubscribers(
+  channelAddress: string,
+  baseApiUrl = config.BASE_URL
+) {
+  const {
+    data: { subscribers },
+  } = await axios.post(`${baseApiUrl}/channels/get_subscribers`, {
+    channel: channelAddress,
+    op: "read",
+  });
+
+  return subscribers;
+}
+
+/**
  * A function used to opt a user into a channel
  * @param signer A signer instance which is capable of signing transactions
  * @param channelAddress The address of the channel which we wish to subscribe to
@@ -46,41 +65,41 @@ async function optIn(
   chainId: number,
   userAddress: string,
   baseApiUrl = config.BASE_URL,
-  verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT,
+  verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT
 ) {
-    try{
-        // get domain information
-        const domainInformation = getDomainInformation(
-          chainId,
-          verifyingContractAddress
-        );
-        // get type information
-        const typeInformation = signingConstants.ACTION_TYPES["subscribe"];
-        // get message
-        const messageInformation = getSubscriptionMessage(
-          channelAddress,
-          userAddress,
-          "Subscribe"
-        );
-        // sign message
-        const signature = await signer._signTypedData(
-          domainInformation,
-          typeInformation,
-          messageInformation
-        );
-        // make request to backend to validate
-        await axios.post(`${baseApiUrl}/channels/subscribe_offchain`, {
-          signature,
-          message: messageInformation,
-          op: "write",
-          chainId,
-          contractAddress: verifyingContractAddress,
-        });
-      
-        return {status: "error", message: "sucesfully opted into channel"};
-    }catch(err){
-        return {status: "error" , message: err.message}
-    }
+  try {
+    // get domain information
+    const domainInformation = getDomainInformation(
+      chainId,
+      verifyingContractAddress
+    );
+    // get type information
+    const typeInformation = signingConstants.ACTION_TYPES["subscribe"];
+    // get message
+    const messageInformation = getSubscriptionMessage(
+      channelAddress,
+      userAddress,
+      "Subscribe"
+    );
+    // sign message
+    const signature = await signer._signTypedData(
+      domainInformation,
+      typeInformation,
+      messageInformation
+    );
+    // make request to backend to validate
+    await axios.post(`${baseApiUrl}/channels/subscribe_offchain`, {
+      signature,
+      message: messageInformation,
+      op: "write",
+      chainId,
+      contractAddress: verifyingContractAddress,
+    });
+
+    return { status: "error", message: "sucesfully opted into channel" };
+  } catch (err) {
+    return { status: "error", message: err.message };
+  }
 }
 
 /**
@@ -97,45 +116,46 @@ async function optOut(
   channelAddress: string,
   userAddress: string,
   baseApiUrl = config.BASE_URL,
-  verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT,
+  verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT
 ) {
-    try{
-        // get domain information
-        const domainInformation = getDomainInformation(
-          chainId,
-          verifyingContractAddress
-        );
-        // get type information
-        const typeInformation = signingConstants.ACTION_TYPES["unsubscribe"];
-        // get message
-        const messageInformation = getSubscriptionMessage(
-          channelAddress,
-          userAddress,
-          "Unsubscribe"
-        );
-        // sign message
-        const signature = await signer._signTypedData(
-          domainInformation,
-          typeInformation,
-          messageInformation
-        );
-        // make request to backend to validate
-        await axios.post(`${baseApiUrl}/channels/unsubscribe_offchain`, {
-          signature,
-          message: messageInformation,
-          op: "write",
-          chainId,
-          contractAddress: verifyingContractAddress,
-        });
-      
-        return {status: "error", message: "sucesfully opted into channel"};
-    }catch(err){
-        return {status: "error" , message: err.message}
-    }
+  try {
+    // get domain information
+    const domainInformation = getDomainInformation(
+      chainId,
+      verifyingContractAddress
+    );
+    // get type information
+    const typeInformation = signingConstants.ACTION_TYPES["unsubscribe"];
+    // get message
+    const messageInformation = getSubscriptionMessage(
+      channelAddress,
+      userAddress,
+      "Unsubscribe"
+    );
+    // sign message
+    const signature = await signer._signTypedData(
+      domainInformation,
+      typeInformation,
+      messageInformation
+    );
+    // make request to backend to validate
+    await axios.post(`${baseApiUrl}/channels/unsubscribe_offchain`, {
+      signature,
+      message: messageInformation,
+      op: "write",
+      chainId,
+      contractAddress: verifyingContractAddress,
+    });
+
+    return { status: "error", message: "sucesfully opted into channel" };
+  } catch (err) {
+    return { status: "error", message: err.message };
+  }
 }
 
 export default {
   getChannelByAddress,
   optIn,
-  optOut
+  optOut,
+  getSubscribers
 };

@@ -937,6 +937,28 @@ function getChannelByAddress(channelAddress, baseApiUrl) {
     });
 }
 /**
+ * Function to obtain all the addresses subscribed to a channel
+ * @param channelAddress the address of the channel
+ * @param userAddress
+ */
+function getSubscribers(channelAddress, baseApiUrl) {
+    if (baseApiUrl === void 0) { baseApiUrl = config.BASE_URL; }
+    return __awaiter(this, void 0, void 0, function () {
+        var subscribers;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, axios__default['default'].post(baseApiUrl + "/channels/get_subscribers", {
+                        channel: channelAddress,
+                        op: "read",
+                    })];
+                case 1:
+                    subscribers = (_a.sent()).data.subscribers;
+                    return [2 /*return*/, subscribers];
+            }
+        });
+    });
+}
+/**
  * A function used to opt a user into a channel
  * @param signer A signer instance which is capable of signing transactions
  * @param channelAddress The address of the channel which we wish to subscribe to
@@ -1025,7 +1047,8 @@ function optOut(signer, chainId, channelAddress, userAddress, baseApiUrl, verify
 var channels = {
     getChannelByAddress: getChannelByAddress,
     optIn: optIn,
-    optOut: optOut
+    optOut: optOut,
+    getSubscribers: getSubscribers
 };
 
 exports.NotificationItem = ViewNotificationItem;

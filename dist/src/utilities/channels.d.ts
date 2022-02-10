@@ -5,6 +5,12 @@
  */
 declare function getChannelByAddress(channelAddress: string, baseApiUrl?: string): Promise<any>;
 /**
+ * Function to obtain all the addresses subscribed to a channel
+ * @param channelAddress the address of the channel
+ * @param userAddress
+ */
+declare function getSubscribers(channelAddress: string, baseApiUrl?: string): Promise<any>;
+/**
  * A function used to opt a user into a channel
  * @param signer A signer instance which is capable of signing transactions
  * @param channelAddress The address of the channel which we wish to subscribe to
@@ -32,5 +38,6 @@ declare const _default: {
     getChannelByAddress: typeof getChannelByAddress;
     optIn: typeof optIn;
     optOut: typeof optOut;
+    getSubscribers: typeof getSubscribers;
 };
 export default _default;
