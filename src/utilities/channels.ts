@@ -49,7 +49,6 @@ async function optIn(
   verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT,
 ) {
     try{
-
         // get domain information
         const domainInformation = getDomainInformation(
           chainId,
@@ -69,18 +68,18 @@ async function optIn(
           typeInformation,
           messageInformation
         );
-        // make request to backend
-        const response = await axios.post(`${baseApiUrl}/channels/subscribe_offchain`, {
+        // make request to backend to validate
+        await axios.post(`${baseApiUrl}/channels/subscribe_offchain`, {
           signature,
-          messageInformation,
+          message: messageInformation,
           op: "write",
           chainId,
           contractAddress: verifyingContractAddress,
         });
       
-        return response.data;
+        return {status: "error", message: "sucesfully opted into channel"};
     }catch(err){
-        return {message: err.message, error: err}
+        return {status: "error" , message: err.message}
     }
 }
 
@@ -92,15 +91,51 @@ async function optIn(
  * @param chainId The chain on which we wish to subscribe on
  * @param verifyingContractAddress (optional) The address of the communicator contract to be used, defaults to EPNS_COMM_CONTRACT
  */
-// function optOut(
-//   signer: any,
-//   chainId: number,
-//   channelAddress: string,
-//   userAddress: string,
-//   verifyingContractAddress: string | undefined
-// ) {}
+async function optOut(
+  signer: any,
+  chainId: number,
+  channelAddress: string,
+  userAddress: string,
+  baseApiUrl = config.BASE_URL,
+  verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT,
+) {
+    try{
+        // get domain information
+        const domainInformation = getDomainInformation(
+          chainId,
+          verifyingContractAddress
+        );
+        // get type information
+        const typeInformation = signingConstants.ACTION_TYPES["unsubscribe"];
+        // get message
+        const messageInformation = getSubscriptionMessage(
+          channelAddress,
+          userAddress,
+          "Unsubscribe"
+        );
+        // sign message
+        const signature = await signer._signTypedData(
+          domainInformation,
+          typeInformation,
+          messageInformation
+        );
+        // make request to backend to validate
+        await axios.post(`${baseApiUrl}/channels/unsubscribe_offchain`, {
+          signature,
+          message: messageInformation,
+          op: "write",
+          chainId,
+          contractAddress: verifyingContractAddress,
+        });
+      
+        return {status: "error", message: "sucesfully opted into channel"};
+    }catch(err){
+        return {status: "error" , message: err.message}
+    }
+}
 
 export default {
   getChannelByAddress,
   optIn,
+  optOut
 };

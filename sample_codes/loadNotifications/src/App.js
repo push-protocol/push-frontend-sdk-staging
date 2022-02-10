@@ -64,7 +64,6 @@ function App() {
     });
   }, []);
 
-  console.log(channel);
 
   return (
     <div className="App">

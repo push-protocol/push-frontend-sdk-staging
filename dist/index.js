@@ -948,7 +948,7 @@ function optIn(signer, channelAddress, chainId, userAddress, baseApiUrl, verifyi
     if (baseApiUrl === void 0) { baseApiUrl = config.BASE_URL; }
     if (verifyingContractAddress === void 0) { verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT; }
     return __awaiter(this, void 0, void 0, function () {
-        var domainInformation, typeInformation, messageInformation, signature, response, err_1;
+        var domainInformation, typeInformation, messageInformation, signature, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -959,19 +959,21 @@ function optIn(signer, channelAddress, chainId, userAddress, baseApiUrl, verifyi
                     return [4 /*yield*/, signer._signTypedData(domainInformation, typeInformation, messageInformation)];
                 case 1:
                     signature = _a.sent();
+                    // make request to backend to validate
                     return [4 /*yield*/, axios__default['default'].post(baseApiUrl + "/channels/subscribe_offchain", {
                             signature: signature,
-                            messageInformation: messageInformation,
+                            message: messageInformation,
                             op: "write",
                             chainId: chainId,
                             contractAddress: verifyingContractAddress,
                         })];
                 case 2:
-                    response = _a.sent();
-                    return [2 /*return*/, response.data];
+                    // make request to backend to validate
+                    _a.sent();
+                    return [2 /*return*/, { status: "error", message: "sucesfully opted into channel" }];
                 case 3:
                     err_1 = _a.sent();
-                    return [2 /*return*/, { message: err_1.message, error: err_1 }];
+                    return [2 /*return*/, { status: "error", message: err_1.message }];
                 case 4: return [2 /*return*/];
             }
         });
@@ -985,16 +987,45 @@ function optIn(signer, channelAddress, chainId, userAddress, baseApiUrl, verifyi
  * @param chainId The chain on which we wish to subscribe on
  * @param verifyingContractAddress (optional) The address of the communicator contract to be used, defaults to EPNS_COMM_CONTRACT
  */
-// function optOut(
-//   signer: any,
-//   chainId: number,
-//   channelAddress: string,
-//   userAddress: string,
-//   verifyingContractAddress: string | undefined
-// ) {}
+function optOut(signer, chainId, channelAddress, userAddress, baseApiUrl, verifyingContractAddress) {
+    if (baseApiUrl === void 0) { baseApiUrl = config.BASE_URL; }
+    if (verifyingContractAddress === void 0) { verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT; }
+    return __awaiter(this, void 0, void 0, function () {
+        var domainInformation, typeInformation, messageInformation, signature, err_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    domainInformation = getDomainInformation(chainId, verifyingContractAddress);
+                    typeInformation = signingConstants.ACTION_TYPES["unsubscribe"];
+                    messageInformation = getSubscriptionMessage(channelAddress, userAddress, "Unsubscribe");
+                    return [4 /*yield*/, signer._signTypedData(domainInformation, typeInformation, messageInformation)];
+                case 1:
+                    signature = _a.sent();
+                    // make request to backend to validate
+                    return [4 /*yield*/, axios__default['default'].post(baseApiUrl + "/channels/unsubscribe_offchain", {
+                            signature: signature,
+                            message: messageInformation,
+                            op: "write",
+                            chainId: chainId,
+                            contractAddress: verifyingContractAddress,
+                        })];
+                case 2:
+                    // make request to backend to validate
+                    _a.sent();
+                    return [2 /*return*/, { status: "error", message: "sucesfully opted into channel" }];
+                case 3:
+                    err_2 = _a.sent();
+                    return [2 /*return*/, { status: "error", message: err_2.message }];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
 var channels = {
     getChannelByAddress: getChannelByAddress,
     optIn: optIn,
+    optOut: optOut
 };
 
 exports.NotificationItem = ViewNotificationItem;
