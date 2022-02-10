@@ -22,10 +22,7 @@ In order to install this SDK on your existing web application or mobile applicat
 
 It can be installed as an npm package via the following command.
 
-`npm install @epnsproject/frontend-sdk-staging`
-
-for react version < 17.0.0
-`npm install @epnsproject/frontend-sdk-staging --legacy-peer-deps`
+`npm install epns-frontend-sdk-staging`
   
   
 ### Installation for SDK Development
@@ -65,7 +62,7 @@ It is done this way in order to seperate the different layers from each other.
 ### Fetching and parsing notifications from the api
 #### A more comprehensive demo can be located at  `src/sample_codes/loadNotifications`.
 ```javascript
-import { api, utils } from "@epnsproject/frontend-sdk-staging";
+import { api, utils } from "epns-frontend-sdk-staging-local";
 
 // define the variables required to make a request
 const walletAddress = "0x1234567890abcdcdefghijklmnopqrstuvwxyz123";
@@ -74,13 +71,13 @@ const itemsPerPage = 20;
 // define the variables required to make a request
 
 //fetch the notifications
-const {count, results} = await api.fetchNotifications(walletAddress, itemsPerPage, pageNumber)
-console.log({results});
+const fetchedNotifications = await api.fetchNotifications(walletAddress, itemsPerPage, pageNumber)
+console.log({fetchedNotifications]);
 //fetch the notifications
 
 
 //parse the notification fetched
-const parsedResponse = utils.parseApiResponse(results);
+const parsedResponse = utils.parseApiResponse(fetchedNotifications);
 console.log(parsedResponse);
 //parse the notification fetched
 
@@ -89,30 +86,25 @@ console.log(parsedResponse);
 ### Rendering the parsed notification on the web
 ```javascript
 
-import { NotificationItem } from  "@epnsproject/frontend-sdk-staging";
+import { NotificationItem } from  "epns-frontend-sdk";
 
 // This is used to render the text present in a notification body as a JSX element
-	{
-		NotificationItem.map(oneNotification => (
-			<NotificationItem
-				notificationTitle={oneNotification.title}
-				notificationBody={oneNotification.message}
-				cta={oneNotification.cta}
-				app={oneNotification.app}
-				icon={oneNotification.icon}
-				image={oneNotification.image}
-				url={oneNotification.url}
-			/>
-		))
-	}
+
+	<NotificationItem
+		notificationTitle={parsedResponse.title}
+		notificationBody={parsedResponse.message}
+		cta={parsedResponse.cta}
+		app={parsedResponse.app}
+		icon={parsedResponse.icon}
+		image={parsedResponse.image}
+	/>
  ```
  
  ![Web app render](https://res.cloudinary.com/xand6r/image/upload/v1632235676/Screenshot_2021-09-21_at_15.44.49_s6vfta.png)
  
  ### Rendering the parsed notification on a react native mobile application.
- ### All parameters are optional
  ```javascript
- import { NotificationItem} from  '@epnsproject/frontend-sdk-staging/dist/native';
+ import { NotificationItem} from  'epns-frontend-sdk-staging/dist/native';
  
 	<NotificationItem
 			notificationTitle={parsedResponse.title}
@@ -121,12 +113,38 @@ import { NotificationItem } from  "@epnsproject/frontend-sdk-staging";
 			app={parsedResponse.app}
 			icon={parsedResponse.icon}
 			image={parsedResponse.image}
-			url={parsedResponse.url}
 	/>
  ```
 
  ![Mobile app render](https://res.cloudinary.com/xand6r/image/upload/v1634473272/Screenshot_2021-10-17_at_13.20.49_ig1j3y.png)
 
+## Channel methods
+```javascript
+import { channels } from  "@epnsproject/frontend-sdk-staging";
+
+//get channel basic info
+const details = await channels.getChannelByAddress(CHANNEL_ADDRESS)
+
+//check if user is subscribed to channel
+const isSubscribed = channels.isUserSubscribed(account, CHANNEL_ADDRESS)
+
+//opt into a channel
+channels.optIn(
+	signer,
+	channelAddress,
+	chainId,
+	userAccount,
+);
+
+
+//opt out of a channel
+channels.optOut(
+	signer,
+	channelAddress,
+	chainId,
+	userAccount,
+);
+```
 
 ## Markdown Reference
 
