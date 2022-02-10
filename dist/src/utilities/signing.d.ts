@@ -20,8 +20,8 @@ export declare function getDomainInformation(chainId: number, verifyingContractA
  * @returns
  */
 export declare function getSubscriptionMessage(channelAddress: string, userAddress: string, action: channelActionType): {
+    [x: string]: string;
     channel: string;
-    subscriber: string;
     action: channelActionType;
 };
 /**

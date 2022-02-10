@@ -51,6 +51,15 @@ async function getSubscribers(
   return subscribers;
 }
 
+async function isUserSubscribed(
+  userAddress: string,
+  channelAddress: string,
+  baseApiUrl = config.BASE_URL
+){
+  const channelSubscribers = (await getSubscribers(channelAddress, baseApiUrl));
+  return channelSubscribers.map((a:any) => a.toLowerCase()).includes(userAddress.toLowerCase())
+}
+
 /**
  * A function used to opt a user into a channel
  * @param signer A signer instance which is capable of signing transactions
@@ -112,8 +121,8 @@ async function optIn(
  */
 async function optOut(
   signer: any,
-  chainId: number,
   channelAddress: string,
+  chainId: number,
   userAddress: string,
   baseApiUrl = config.BASE_URL,
   verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT
@@ -126,18 +135,27 @@ async function optOut(
     );
     // get type information
     const typeInformation = signingConstants.ACTION_TYPES["unsubscribe"];
+    console.log({
+      typeInformation
+    })
     // get message
     const messageInformation = getSubscriptionMessage(
       channelAddress,
       userAddress,
       "Unsubscribe"
     );
+    console.log({
+      messageInformation
+    })
     // sign message
     const signature = await signer._signTypedData(
       domainInformation,
       typeInformation,
       messageInformation
     );
+    console.log({
+      signature
+    })
     // make request to backend to validate
     await axios.post(`${baseApiUrl}/channels/unsubscribe_offchain`, {
       signature,
@@ -157,5 +175,6 @@ export default {
   getChannelByAddress,
   optIn,
   optOut,
-  getSubscribers
+  getSubscribers,
+  isUserSubscribed
 };

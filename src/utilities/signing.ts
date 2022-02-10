@@ -36,7 +36,7 @@ export function getSubscriptionMessage(
 ) {
   return {
     channel: channelAddress,
-    subscriber: userAddress,
+    [action == "Unsubscribe" ? "unsubscriber" : "subscriber"]: userAddress,
     action: action,
   };
 }

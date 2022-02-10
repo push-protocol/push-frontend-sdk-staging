@@ -15,8 +15,8 @@ const PAGINATION_PARAMS = {
   page: 1,
   itemsPerPage: 20,
 };
-const BASE_URL = "https://backend-prod.epns.io/apis";
-const CHANNEL_ADDRESS = "0xe56f1D3EDFFF1f25855aEF744caFE7991c224FFF";
+const BASE_URL = "https://backend-kovan.epns.io/apis";
+const CHANNEL_ADDRESS = "0x94c3016ef3e503774630fC71F59B8Da9f7D470B7";
 
 function App() {
   const { library, active, account, chainId } = useWeb3React();
@@ -24,6 +24,8 @@ function App() {
   // create state components to fetch all the notifications.
   // notification details
   const [notifications, setNotifications] = useState([]);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
   /**
    * Fetch notifications for the user
    */
@@ -58,12 +60,17 @@ function App() {
   const [channel, setChannel] = useState(null);
   // load channel details on start
   useEffect(() => {
+    if (!account) return;
     // on page load, fetch channel details
     channels.getChannelByAddress(CHANNEL_ADDRESS, BASE_URL).then((data) => {
       setChannel(data);
     });
-  }, []);
-
+    // fetch if user is subscribed to channel
+    channels.isUserSubscribed(account, CHANNEL_ADDRESS).then((res) => {
+      console.log(res);
+      setIsSubscribed(res);
+    });
+  }, [account]);
 
   return (
     <div className="App">
@@ -87,17 +94,25 @@ function App() {
                 </div>
                 <div
                   onClick={() => {
-                    channels.optIn(
-                      library.getSigner(account),
-                      channel.addr,
-                      chainId,
-                      account,
-                      BASE_URL
-                    );
+                    isSubscribed
+                      ? channels.optOut(
+                          library.getSigner(account),
+                          channel.addr,
+                          chainId,
+                          account,
+                          BASE_URL
+                        )
+                      : channels.optIn(
+                          library.getSigner(account),
+                          channel.addr,
+                          chainId,
+                          account,
+                          BASE_URL
+                        );
                   }}
                   className="subscribebutton"
                 >
-                  subscribe
+                  {isSubscribed ? "unsubscribe" : "subscribe"}
                 </div>
               </div>
             </div>

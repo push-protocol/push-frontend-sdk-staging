@@ -880,11 +880,13 @@ function getDomainInformation(chainId, verifyingContractAddress) {
  * @returns
  */
 function getSubscriptionMessage(channelAddress, userAddress, action) {
-    return {
-        channel: channelAddress,
-        subscriber: userAddress,
-        action: action,
-    };
+    var _a;
+    return _a = {
+            channel: channelAddress
+        },
+        _a[action == "Unsubscribe" ? "unsubscriber" : "subscriber"] = userAddress,
+        _a.action = action,
+        _a;
 }
 
 /**
@@ -958,6 +960,20 @@ function getSubscribers(channelAddress, baseApiUrl) {
         });
     });
 }
+function isUserSubscribed(userAddress, channelAddress, baseApiUrl) {
+    if (baseApiUrl === void 0) { baseApiUrl = config.BASE_URL; }
+    return __awaiter(this, void 0, void 0, function () {
+        var channelSubscribers;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, getSubscribers(channelAddress, baseApiUrl)];
+                case 1:
+                    channelSubscribers = (_a.sent());
+                    return [2 /*return*/, channelSubscribers.map(function (a) { return a.toLowerCase(); }).includes(userAddress.toLowerCase())];
+            }
+        });
+    });
+}
 /**
  * A function used to opt a user into a channel
  * @param signer A signer instance which is capable of signing transactions
@@ -1009,7 +1025,7 @@ function optIn(signer, channelAddress, chainId, userAddress, baseApiUrl, verifyi
  * @param chainId The chain on which we wish to subscribe on
  * @param verifyingContractAddress (optional) The address of the communicator contract to be used, defaults to EPNS_COMM_CONTRACT
  */
-function optOut(signer, chainId, channelAddress, userAddress, baseApiUrl, verifyingContractAddress) {
+function optOut(signer, channelAddress, chainId, userAddress, baseApiUrl, verifyingContractAddress) {
     if (baseApiUrl === void 0) { baseApiUrl = config.BASE_URL; }
     if (verifyingContractAddress === void 0) { verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT; }
     return __awaiter(this, void 0, void 0, function () {
@@ -1020,10 +1036,19 @@ function optOut(signer, chainId, channelAddress, userAddress, baseApiUrl, verify
                     _a.trys.push([0, 3, , 4]);
                     domainInformation = getDomainInformation(chainId, verifyingContractAddress);
                     typeInformation = signingConstants.ACTION_TYPES["unsubscribe"];
+                    console.log({
+                        typeInformation: typeInformation
+                    });
                     messageInformation = getSubscriptionMessage(channelAddress, userAddress, "Unsubscribe");
+                    console.log({
+                        messageInformation: messageInformation
+                    });
                     return [4 /*yield*/, signer._signTypedData(domainInformation, typeInformation, messageInformation)];
                 case 1:
                     signature = _a.sent();
+                    console.log({
+                        signature: signature
+                    });
                     // make request to backend to validate
                     return [4 /*yield*/, axios__default['default'].post(baseApiUrl + "/channels/unsubscribe_offchain", {
                             signature: signature,
@@ -1048,7 +1073,8 @@ var channels = {
     getChannelByAddress: getChannelByAddress,
     optIn: optIn,
     optOut: optOut,
-    getSubscribers: getSubscribers
+    getSubscribers: getSubscribers,
+    isUserSubscribed: isUserSubscribed
 };
 
 exports.NotificationItem = ViewNotificationItem;
