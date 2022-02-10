@@ -5,6 +5,7 @@ import NotificationItem, { NotificationItemProps } from './components/notificati
 import ParseText from './components/parsetext';
 import utils from '../utilities';
 import api from '../utilities/api';
+import channels from  "../utilities/channels";
 import { ApiNotificationType as apiNotificationType, ParsedResponseType as parsedResponseType } from '../types/notification';
 
 // export the interfaces used
@@ -19,5 +20,6 @@ export {
   NotificationItemProps,
   ParseText,
   utils,
-  api
+  api,
+  channels
 };

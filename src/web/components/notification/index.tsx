@@ -83,7 +83,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
 
   React.useEffect(() => {
     if(!isSpam || !isSubscribedFn) return;
-    console.log({isSubscribedFn})
     isSubscribedFn().then((res:any) => {
       setIsSubscribed(Boolean(res));
     })

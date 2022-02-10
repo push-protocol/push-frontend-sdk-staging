@@ -1,0 +1,67 @@
+.App {
+  text-align: center;
+  padding: 10px 10vw;
+}
+
+.App__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.sample__channel {
+  flex: 1 1 0%;
+  display: flex;
+  flex-wrap: wrap;
+  background: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: 1px solid rgb(237, 237, 237);
+  margin: 15px 0px;
+  -webkit-box-pack: center;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 10px;
+  gap: 30px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    max-width: 100px;
+    min-width: 32px;
+    flex: 1 1 0%;
+    margin: 5px;
+    padding: 10px;
+    border: 2px solid rgb(250, 250, 250);
+    overflow: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    align-self: flex-start;
+  }
+
+  .subscribebutton {
+    border: 0px;
+    outline: 0px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding: 8px 15px;
+    margin: 10px;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+    background: rgb(226, 8, 128);
+    min-width: 80px;
+    cursor: pointer;
+  }
+}

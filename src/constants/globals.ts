@@ -1,3 +1,6 @@
+/**
+ * Global constants to be used for styling and the mobile portion of the sdk
+ */
 export default {
 
     LINKS: {

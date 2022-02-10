@@ -4,6 +4,7 @@
 import { InjectedConnector } from '@web3-react/injected-connector'
 
 const SUPPORTED_CHAIN_IDS = [
+  1, //for mainnet
   4 ,//for ropsten
   42, //for kovan
 ];

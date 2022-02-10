@@ -11,7 +11,12 @@ const API_BASE_URL = config.BASE_URL;
 
 
 /**
- * 
+ * Endpoint to get spam notifications for a particular user
+ * @param {string} userAccount the account of the user in question
+ * @param {number?} page the page we wish to fetch
+ * @param {number?} itemsPerPage the maximum number of items which should be present on the page
+ * @param {string?} baseApiUrl the base URL to be used, optional but could be used to connect to custom backend
+ * @returns 
  */
 const fetchSpamNotifications = async (
     userAccount: string,
@@ -32,13 +37,14 @@ const fetchSpamNotifications = async (
         console.log(`
         ============== There was an error [epns-sdk -> loadNotifications] ============
         `, err);
-    })
+    });
 }
 /**
  * Fetch paginated notifications for a user
  * @param {string} userAccount the account of the user in question
  * @param {number?} page the page we wish to fetch
  * @param {number} itemsPerPage the maximum number of items which should be present on the page
+ * @param {string?} baseApiUrl the base URL to be used, optional but could be used to connect to custom backend
  * @returns 
  */
 const fetchNotifications = async (

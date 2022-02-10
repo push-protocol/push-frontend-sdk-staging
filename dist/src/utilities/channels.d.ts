@@ -1,0 +1,28 @@
+/**
+ * A function to get channel information basics from the backend
+ * @param channelAddress
+ * @param baseApiUrl
+ */
+declare function getChannelByAddress(channelAddress: string, baseApiUrl?: string): Promise<any>;
+/**
+ * A function used to opt a user into a channel
+ * @param signer A signer instance which is capable of signing transactions
+ * @param channelAddress The address of the channel which we wish to subscribe to
+ * @param userAddress The address of the user opting into the channel
+ * @param chainId The chain on which we wish to subscribe on
+ * @param verifyingContractAddress (optional) The address of the communicator contract to be used, defaults to EPNS_COMM_CONTRACT
+ */
+declare function optIn(signer: any, channelAddress: string, chainId: number, userAddress: string, baseApiUrl?: string, verifyingContractAddress?: string): Promise<any>;
+declare const _default: {
+    getChannelByAddress: typeof getChannelByAddress;
+    optIn: typeof optIn;
+};
+/**
+ * A function used to opt a user into a channel
+ * @param signer A signer instance which is capable of signing transactions
+ * @param channelAddress The address of the channel which we wish to subscribe to
+ * @param userAddress The address of the user opting into the channel
+ * @param chainId The chain on which we wish to subscribe on
+ * @param verifyingContractAddress (optional) The address of the communicator contract to be used, defaults to EPNS_COMM_CONTRACT
+ */
+export default _default;

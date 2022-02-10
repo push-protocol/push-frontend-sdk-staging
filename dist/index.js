@@ -693,7 +693,6 @@ var ViewNotificationItem = function (_a) {
     React__namespace.useEffect(function () {
         if (!isSpam || !isSubscribedFn)
             return;
-        console.log({ isSubscribedFn: isSubscribedFn });
         isSubscribedFn().then(function (res) {
             setIsSubscribed(Boolean(res));
         });
@@ -786,15 +785,22 @@ var SpamButton = styled__default['default'].div(templateObject_16 || (templateOb
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16;
 
 var config = {
-    "BASE_URL": "https://backend-kovan.epns.io/apis",
-    "YOUTUBE_API_KEY": "AIzaSyBrzkFPyNmVDFzGY7dKz2HocUO4m-ni-Fc"
+    BASE_URL: "https://backend-kovan.epns.io/apis",
+    YOUTUBE_API_KEY: "AIzaSyBrzkFPyNmVDFzGY7dKz2HocUO4m-ni-Fc",
+    EPNS_CORE_CONTRACT: "0x97D7c5f14B8fe94Ef2b4bA589379f5Ec992197dA",
+    EPNS_COMMUNICATOR_CONTRACT: "0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa",
 };
 
 var DEFAULT_INITIAL_PAGE = 1;
 var DEFAULT_PAGE_SIZE = 10;
 var API_BASE_URL = config.BASE_URL;
 /**
- *
+ * Endpoint to get spam notifications for a particular user
+ * @param {string} userAccount the account of the user in question
+ * @param {number?} page the page we wish to fetch
+ * @param {number?} itemsPerPage the maximum number of items which should be present on the page
+ * @param {string?} baseApiUrl the base URL to be used, optional but could be used to connect to custom backend
+ * @returns
  */
 var fetchSpamNotifications = function (userAccount, itemsPerPage, page, baseApiUrl) {
     if (itemsPerPage === void 0) { itemsPerPage = DEFAULT_PAGE_SIZE; }
@@ -822,6 +828,7 @@ var fetchSpamNotifications = function (userAccount, itemsPerPage, page, baseApiU
  * @param {string} userAccount the account of the user in question
  * @param {number?} page the page we wish to fetch
  * @param {number} itemsPerPage the maximum number of items which should be present on the page
+ * @param {string?} baseApiUrl the base URL to be used, optional but could be used to connect to custom backend
  * @returns
  */
 var fetchNotifications = function (userAccount, itemsPerPage, page, baseApiUrl) {
@@ -850,8 +857,149 @@ var api = {
     fetchSpamNotifications: fetchSpamNotifications
 };
 
+/**
+ * Contains all the utility functions required in order to sign transactions using EIP 712
+ */
+/**
+ * A function used to get the domain information in order to sign messages using EIP 712 standard
+ * @param chainId The id of the current chain, this would be used to get the right contract to use as well
+ * @param verifyingContractAddress the address which we need to use to verify along with the domain information, defaults to communicator address, but can be specified for special purposes
+ */
+function getDomainInformation(chainId, verifyingContractAddress) {
+    return {
+        name: "EPNS COMM V1",
+        chainId: chainId,
+        verifyingContract: verifyingContractAddress || config.EPNS_COMMUNICATOR_CONTRACT,
+    };
+}
+/**
+ * Get the right message to sign as regards to subscribing and unsubscribing to a message, depending on the action
+ * @param channelAddress
+ * @param userAddress
+ * @param action
+ * @returns
+ */
+function getSubscriptionMessage(channelAddress, userAddress, action) {
+    return {
+        channel: channelAddress,
+        subscriber: userAddress,
+        action: action,
+    };
+}
+
+/**
+ * Contains all the constants required in order to sign transactions using EIP 712
+ */
+var signingConstants = {
+    // The several types of actions and their corresponding types
+    //  which we can take, when it comes to signing messages
+    ACTION_TYPES: {
+        // the type to be used for the subscribe action to a channel
+        subscribe: {
+            Subscribe: [
+                { name: "channel", type: "address" },
+                { name: "subscriber", type: "address" },
+                { name: "action", type: "string" },
+            ],
+        },
+        // the type to be used for the unsubscribe action to a channel
+        unsubscribe: {
+            Unsubscribe: [
+                { name: "channel", type: "address" },
+                { name: "unsubscriber", type: "address" },
+                { name: "action", type: "string" },
+            ],
+        },
+    },
+};
+
+/**
+ * A function to get channel information basics from the backend
+ * @param channelAddress
+ * @param baseApiUrl
+ */
+function getChannelByAddress(channelAddress, baseApiUrl) {
+    if (baseApiUrl === void 0) { baseApiUrl = config.BASE_URL; }
+    return __awaiter(this, void 0, void 0, function () {
+        var body;
+        return __generator(this, function (_a) {
+            body = {
+                query: channelAddress,
+                op: "read",
+            };
+            return [2 /*return*/, axios__default['default']
+                    .post(baseApiUrl + "/channels/search", body)
+                    .then(function (response) { var _a, _b; return ((_b = (_a = response.data) === null || _a === void 0 ? void 0 : _a.channels) === null || _b === void 0 ? void 0 : _b[0]) || null; })
+                    .catch(function (err) {
+                    console.log("\n        ============== There was an error [epns-sdk -> loadNotifications] ============\n        ", err);
+                })];
+        });
+    });
+}
+/**
+ * A function used to opt a user into a channel
+ * @param signer A signer instance which is capable of signing transactions
+ * @param channelAddress The address of the channel which we wish to subscribe to
+ * @param userAddress The address of the user opting into the channel
+ * @param chainId The chain on which we wish to subscribe on
+ * @param verifyingContractAddress (optional) The address of the communicator contract to be used, defaults to EPNS_COMM_CONTRACT
+ */
+function optIn(signer, channelAddress, chainId, userAddress, baseApiUrl, verifyingContractAddress) {
+    if (baseApiUrl === void 0) { baseApiUrl = config.BASE_URL; }
+    if (verifyingContractAddress === void 0) { verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT; }
+    return __awaiter(this, void 0, void 0, function () {
+        var domainInformation, typeInformation, messageInformation, signature, response, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    domainInformation = getDomainInformation(chainId, verifyingContractAddress);
+                    typeInformation = signingConstants.ACTION_TYPES["subscribe"];
+                    messageInformation = getSubscriptionMessage(channelAddress, userAddress, "Subscribe");
+                    return [4 /*yield*/, signer._signTypedData(domainInformation, typeInformation, messageInformation)];
+                case 1:
+                    signature = _a.sent();
+                    return [4 /*yield*/, axios__default['default'].post(baseApiUrl + "/channels/subscribe_offchain", {
+                            signature: signature,
+                            messageInformation: messageInformation,
+                            op: "write",
+                            chainId: chainId,
+                            contractAddress: verifyingContractAddress,
+                        })];
+                case 2:
+                    response = _a.sent();
+                    return [2 /*return*/, response.data];
+                case 3:
+                    err_1 = _a.sent();
+                    return [2 /*return*/, { message: err_1.message, error: err_1 }];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+/**
+ * A function used to opt a user into a channel
+ * @param signer A signer instance which is capable of signing transactions
+ * @param channelAddress The address of the channel which we wish to subscribe to
+ * @param userAddress The address of the user opting into the channel
+ * @param chainId The chain on which we wish to subscribe on
+ * @param verifyingContractAddress (optional) The address of the communicator contract to be used, defaults to EPNS_COMM_CONTRACT
+ */
+// function optOut(
+//   signer: any,
+//   chainId: number,
+//   channelAddress: string,
+//   userAddress: string,
+//   verifyingContractAddress: string | undefined
+// ) {}
+var channels = {
+    getChannelByAddress: getChannelByAddress,
+    optIn: optIn,
+};
+
 exports.NotificationItem = ViewNotificationItem;
 exports.ParseText = ParseMarkdownText;
 exports.api = api;
+exports.channels = channels;
 exports.utils = index;
 //# sourceMappingURL=index.js.map

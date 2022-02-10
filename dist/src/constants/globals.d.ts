@@ -64,4 +64,7 @@ declare const _default: {
         LIGHTER_MAROON: string;
     };
 };
+/**
+ * Global constants to be used for styling and the mobile portion of the sdk
+ */
 export default _default;

@@ -229,6 +229,9 @@ var IPFSIcon = function (_a) {
 var StyledImage = styled__default['default'].Image(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    height: 20px;\n    width: 20px;\n    border-radius: 5px;\n"], ["\n    height: 20px;\n    width: 20px;\n    border-radius: 5px;\n"])));
 var templateObject_1;
 
+/**
+ * Global constants to be used for styling and the mobile portion of the sdk
+ */
 var GLOBALS = {
     LINKS: {
         APPBOT_NAME: 'App Bot',
@@ -575,8 +578,10 @@ var MediaHelper = {
 };
 
 var config = {
-    "BASE_URL": "https://backend-kovan.epns.io/apis",
-    "YOUTUBE_API_KEY": "AIzaSyBrzkFPyNmVDFzGY7dKz2HocUO4m-ni-Fc"
+    BASE_URL: "https://backend-kovan.epns.io/apis",
+    YOUTUBE_API_KEY: "AIzaSyBrzkFPyNmVDFzGY7dKz2HocUO4m-ni-Fc",
+    EPNS_CORE_CONTRACT: "0x97D7c5f14B8fe94Ef2b4bA589379f5Ec992197dA",
+    EPNS_COMMUNICATOR_CONTRACT: "0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa",
 };
 
 var ViewNotificationItem = function (_a) {
@@ -843,7 +848,12 @@ var DEFAULT_INITIAL_PAGE = 1;
 var DEFAULT_PAGE_SIZE = 10;
 var API_BASE_URL = config.BASE_URL;
 /**
- *
+ * Endpoint to get spam notifications for a particular user
+ * @param {string} userAccount the account of the user in question
+ * @param {number?} page the page we wish to fetch
+ * @param {number?} itemsPerPage the maximum number of items which should be present on the page
+ * @param {string?} baseApiUrl the base URL to be used, optional but could be used to connect to custom backend
+ * @returns
  */
 var fetchSpamNotifications = function (userAccount, itemsPerPage, page, baseApiUrl) {
     if (itemsPerPage === void 0) { itemsPerPage = DEFAULT_PAGE_SIZE; }
@@ -871,6 +881,7 @@ var fetchSpamNotifications = function (userAccount, itemsPerPage, page, baseApiU
  * @param {string} userAccount the account of the user in question
  * @param {number?} page the page we wish to fetch
  * @param {number} itemsPerPage the maximum number of items which should be present on the page
+ * @param {string?} baseApiUrl the base URL to be used, optional but could be used to connect to custom backend
  * @returns
  */
 var fetchNotifications = function (userAccount, itemsPerPage, page, baseApiUrl) {
