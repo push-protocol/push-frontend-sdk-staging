@@ -37,7 +37,7 @@
   },
   "name": "@epnsproject/frontend-sdk-staging",
   "description": "a frontend SDK Package for epns notifications",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "ansi-regex": "^2.1.1",
