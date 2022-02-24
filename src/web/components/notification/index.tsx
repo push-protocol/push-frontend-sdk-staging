@@ -111,9 +111,9 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
        {
          isPoly?
        
-        <HeaderImg src="https://external-content.duckduckgo.com/ip3/polygon.technology.ico"/>
+        <HeaderImg src="https://backend-kovan.epns.io/assets/polygon.technology.ico"/>
         :
-        <HeaderImg src="https://external-content.duckduckgo.com/ip3/ethereum.org.ico" alt=""/>
+        <HeaderImg src="https://backend-kovan.epns.io/assets/ethereum.org.ico" alt=""/>
        }
         </MobileHeader>
       {/* header that only pops up on small devices */}
