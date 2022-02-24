@@ -9,8 +9,11 @@ import ParseMarkdownText from "../parsetext";
 import MediaHelper from "../../../utilities/mediaHelper";
 import Loader from "../loader/loader";
 import { extractTimeStamp } from "../../../utilities/index";
+import ChainImages from '../../../constants/chain';
 
 // ================= Define types
+type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | undefined;
+
 export type NotificationItemProps = {
   notificationTitle: string | undefined;
   notificationBody: string | undefined;
@@ -21,9 +24,10 @@ export type NotificationItemProps = {
   url: string | undefined;
   isSpam: boolean | undefined;
   subscribeFn: any;
-  isSubscribedFn: any
-  isPoly: boolean | undefined;
+  isSubscribedFn: any,
+  chainName: chainNameType
 };
+
 
 type ContainerDataType = {
   cta?: boolean;
@@ -46,12 +50,18 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   isSpam, //for rendering the spam conterpart of the notification component
   isSubscribedFn, //A function for getting if a user is subscribed to the channel in question
   subscribeFn, //A function for subscribing to the spam channel
-  isPoly=true,
+  chainName
 }) => {
   const { notificationBody: parsedBody, timeStamp } = extractTimeStamp(
     notificationBody || ""
   );
+  const rightIcon = chainName && ChainImages['CHAIN_ICONS'][chainName]; //get the right chain id to render if any
 
+  console.log({
+    chainName,
+    rightIcon,
+    ai: ChainImages['CHAIN_ICONS']
+  })
   const gotToCTA = (e: any) => {
     e.stopPropagation();
     if (!MediaHelper.validURL(cta)) return;
@@ -108,13 +118,17 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           </ImageContainer>
           {app}
         </HeaderButton>
-       {
+        {
+          rightIcon && (
+            <HeaderImg src={rightIcon}/>
+          )
+        }
+       {/* {
          isPoly?
        
-        <HeaderImg src="https://backend-kovan.epns.io/assets/polygon.technology.ico"/>
         :
         <HeaderImg src="https://backend-kovan.epns.io/assets/ethereum.org.ico" alt=""/>
-       }
+       } */}
         </MobileHeader>
       {/* header that only pops up on small devices */}
 

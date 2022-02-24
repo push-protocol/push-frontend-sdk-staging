@@ -43,7 +43,8 @@ export type ApiNotificationType =   {
             "body": string,
             "title": string
         }
-    }
+    },
+    "blockchain": string
 }
 
 // The output response from parsing a notification object
@@ -55,5 +56,6 @@ export type ParsedResponseType = {
     url: string,
     sid: string,
     app: string,
-    image: string
+    image: string,
+    blockchain: string
 }
