@@ -22,6 +22,7 @@ export type NotificationItemProps = {
   isSpam: boolean | undefined;
   subscribeFn: any;
   isSubscribedFn: any
+  isPoly: boolean | undefined;
 };
 
 type ContainerDataType = {
@@ -45,6 +46,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   isSpam, //for rendering the spam conterpart of the notification component
   isSubscribedFn, //A function for getting if a user is subscribed to the channel in question
   subscribeFn, //A function for subscribing to the spam channel
+  isPoly=true,
 }) => {
   const { notificationBody: parsedBody, timeStamp } = extractTimeStamp(
     notificationBody || ""
@@ -106,7 +108,14 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           </ImageContainer>
           {app}
         </HeaderButton>
-      </MobileHeader>
+       {
+         isPoly?
+       
+        <HeaderImg src="https://external-content.duckduckgo.com/ip3/polygon.technology.ico"/>
+        :
+        <HeaderImg src="https://external-content.duckduckgo.com/ip3/ethereum.org.ico" alt=""/>
+       }
+        </MobileHeader>
       {/* header that only pops up on small devices */}
 
       {/* content of the component */}
@@ -233,6 +242,11 @@ const ContentSection = styled.div`
   }
 `;
 
+const HeaderImg=styled.img`
+  width: 30px;
+  height:30px;
+`;
+
 const MobileImage = styled.div`
   @media (min-width: ${SM_BREAKPOINT}) {
     width: 220px;
@@ -311,6 +325,7 @@ const MobileHeader = styled.div`
     display: flex;
     align-items: center;
     position: absolute;
+    justify-content:space-between;  
     top: 0;
     left: 0;
     right: 0;
