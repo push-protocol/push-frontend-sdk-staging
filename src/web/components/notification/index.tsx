@@ -9,8 +9,11 @@ import ParseMarkdownText from "../parsetext";
 import MediaHelper from "../../../utilities/mediaHelper";
 import Loader from "../loader/loader";
 import { extractTimeStamp } from "../../../utilities/index";
+import ChainImages from '../../../constants/chain';
 
 // ================= Define types
+type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | undefined;
+
 export type NotificationItemProps = {
   notificationTitle: string | undefined;
   notificationBody: string | undefined;
@@ -21,8 +24,10 @@ export type NotificationItemProps = {
   url: string | undefined;
   isSpam: boolean | undefined;
   subscribeFn: any;
-  isSubscribedFn: any
+  isSubscribedFn: any,
+  chainName: chainNameType
 };
+
 
 type ContainerDataType = {
   cta?: boolean;
@@ -45,11 +50,18 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   isSpam, //for rendering the spam conterpart of the notification component
   isSubscribedFn, //A function for getting if a user is subscribed to the channel in question
   subscribeFn, //A function for subscribing to the spam channel
+  chainName
 }) => {
   const { notificationBody: parsedBody, timeStamp } = extractTimeStamp(
     notificationBody || ""
   );
+  const rightIcon = chainName && ChainImages['CHAIN_ICONS'][chainName]; //get the right chain id to render if any
 
+  console.log({
+    chainName,
+    rightIcon,
+    ai: ChainImages['CHAIN_ICONS']
+  })
   const gotToCTA = (e: any) => {
     e.stopPropagation();
     if (!MediaHelper.validURL(cta)) return;
@@ -106,7 +118,18 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           </ImageContainer>
           {app}
         </HeaderButton>
-      </MobileHeader>
+        {
+          rightIcon && (
+            <HeaderImg src={rightIcon}/>
+          )
+        }
+       {/* {
+         isPoly?
+       
+        :
+        <HeaderImg src="https://backend-kovan.epns.io/assets/ethereum.org.ico" alt=""/>
+       } */}
+        </MobileHeader>
       {/* header that only pops up on small devices */}
 
       {/* content of the component */}
@@ -233,6 +256,11 @@ const ContentSection = styled.div`
   }
 `;
 
+const HeaderImg=styled.img`
+  width: 30px;
+  height:30px;
+`;
+
 const MobileImage = styled.div`
   @media (min-width: ${SM_BREAKPOINT}) {
     width: 220px;
@@ -311,6 +339,7 @@ const MobileHeader = styled.div`
     display: flex;
     align-items: center;
     position: absolute;
+    justify-content:space-between;  
     top: 0;
     left: 0;
     right: 0;
