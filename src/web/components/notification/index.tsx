@@ -349,7 +349,7 @@ const ChannelTitleLink = styled.a`
 
   @media (max-width: ${MD_BREAKPOINT}) {
     font-weight: 300;
-    color: ${(props) => (props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "#fff")};
+    color: ${(props) => (props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "grey")};
   }
 `;
 
