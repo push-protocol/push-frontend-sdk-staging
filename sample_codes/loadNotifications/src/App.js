@@ -47,10 +47,10 @@ function App() {
           ...results,
           ...DEFAULT_NOTIFICATIONS,
         ]);
-        // console.log({ unparsed: results });
+        console.log({ unparsed: results });
         // const response = utils.parseApiResponse(results);
         // console.log("Parsed response to:", response);
-        // console.log({ parsed: response });
+        console.log({ parsed: response });
         setNotifications(response);
       });
   }, [active]);
@@ -123,7 +123,7 @@ function App() {
           <div>
             <h3>Notifications</h3>
             {notifications.map((oneNotification, i) => {
-              const { cta, title, message, app, icon, image, url } =
+              const { cta, title, message, app, icon, image, url, blockchain } =
                 oneNotification;
 
               // render the notification item
@@ -142,6 +142,7 @@ function App() {
                   subscribeFn={async () => alert("yayy")}
                   isSubscribedFn={async () => false}
                   theme={"dark"}
+                  chainName={blockchain}
                 />
               );
             })}
