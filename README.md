@@ -1,9 +1,3 @@
-
-# Frontend SDK
-
-  
-  
-
 ## About
 
   
