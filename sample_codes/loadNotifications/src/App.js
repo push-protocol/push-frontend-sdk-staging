@@ -1,5 +1,6 @@
 import { DEFAULT_NOTIFICATIONS } from "./data";
 import {
+  OnSubscribeModal,
   NotificationItem,
   utils,
   api,
@@ -58,6 +59,7 @@ function App() {
 
   // channel details
   const [channel, setChannel] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   // load channel details on start
   useEffect(() => {
     if (!account) return;
@@ -74,6 +76,7 @@ function App() {
 
   return (
     <div className="App">
+      {modalOpen && <OnSubscribeModal onClose={() => setModalOpen(false)} />}
       {/* define the header */}
       <h2 className="App__header">
         <span> EPNS Playground </span>
@@ -100,14 +103,15 @@ function App() {
                           channel.addr,
                           chainId,
                           account,
-                          BASE_URL
+                          {baseApiUrl: BASE_URL}
+                          
                         )
                       : channels.optIn(
                           library.getSigner(account),
                           channel.addr,
                           chainId,
                           account,
-                          BASE_URL
+                          {baseApiUrl: BASE_URL, onSuccess: () => setModalOpen(true)}
                         );
                   }}
                   className="subscribebutton"

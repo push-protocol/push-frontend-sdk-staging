@@ -2,6 +2,7 @@
  * Import all of the packages we wish to export
  */
 import NotificationItem, { NotificationItemProps } from './components/notification/index';
+import OnSubscribeModal from './components/subscribemodal';
 import ParseText from './components/parsetext';
 import utils from '../utilities';
 import api from '../utilities/api';
@@ -17,6 +18,7 @@ export interface ParsedResponseType extends parsedResponseType{}
  */
 export {
   NotificationItem,
+  OnSubscribeModal,
   NotificationItemProps,
   ParseText,
   utils,

@@ -73,8 +73,11 @@ async function optIn(
   channelAddress: string,
   chainId: number,
   userAddress: string,
-  baseApiUrl = config.BASE_URL,
-  verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT
+  {
+    baseApiUrl = config.BASE_URL,
+    verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT,
+    onSuccess = () => "success"
+  } = {}
 ) {
   try {
     // get domain information
@@ -104,8 +107,8 @@ async function optIn(
       chainId,
       contractAddress: verifyingContractAddress,
     });
-
-    return { status: "error", message: "sucesfully opted into channel" };
+    onSuccess(); // run the onsucess function
+    return { status: "success", message: "sucesfully opted into channel" };
   } catch (err) {
     return { status: "error", message: err.message };
   }
@@ -124,8 +127,11 @@ async function optOut(
   channelAddress: string,
   chainId: number,
   userAddress: string,
-  baseApiUrl = config.BASE_URL,
-  verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT
+  {
+    baseApiUrl = config.BASE_URL,
+    verifyingContractAddress = config.EPNS_COMMUNICATOR_CONTRACT,
+    onSuccess = () => "success"
+  } = {}
 ) {
   try {
     // get domain information
@@ -164,8 +170,8 @@ async function optOut(
       chainId,
       contractAddress: verifyingContractAddress,
     });
-
-    return { status: "error", message: "sucesfully opted into channel" };
+    onSuccess(); // run the onsucess function
+    return { status: "success", message: "sucesfully opted into channel" };
   } catch (err) {
     return { status: "error", message: err.message };
   }
