@@ -145,6 +145,7 @@ function App() {
                   isSpam={i == notifications.length - 1}
                   subscribeFn={async () => alert("yayy")}
                   isSubscribedFn={async () => false}
+                  theme={"dark"}
                   chainName={blockchain}
                 />
               );
