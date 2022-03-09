@@ -104,7 +104,6 @@ function App() {
                           chainId,
                           account,
                           {baseApiUrl: BASE_URL}
-                          
                         )
                       : channels.optIn(
                           library.getSigner(account),

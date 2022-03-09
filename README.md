@@ -1,4 +1,5 @@
 
+
 ## About
 
   
@@ -114,6 +115,8 @@ import { NotificationItem } from  "epns-frontend-sdk";
  ![Mobile app render](https://res.cloudinary.com/xand6r/image/upload/v1634473272/Screenshot_2021-10-17_at_13.20.49_ig1j3y.png)
 
 ## Channel methods
+
+### In order to implement signing, we take advantage of [EIP-712](https://eips.ethereum.org/EIPS/eip-712), more details on the `signer` parameter can be found [here](https://eips.ethereum.org/EIPS/eip-712), you can also take a look at our working [example](https://github.com/ethereum-push-notification-service/epns-frontend-sdk-staging/blob/main/sample_codes/loadNotifications/src/App.js)
 ```javascript
 import { channels } from  "@epnsproject/frontend-sdk-staging";
 
@@ -134,14 +137,13 @@ channels.optIn(
 	}
 );
 
-
 //opt out of a channel
 channels.optOut(
 	signer,
 	channelAddress,
 	chainId,
 	userAccount,
-		{
+	{
 		onSuccess: () =>  // do something after a successfull unsubscription, like bring up a modal or a notification
 	}
 );
