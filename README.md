@@ -1,3 +1,4 @@
+
 ## About
 
   
@@ -128,6 +129,9 @@ channels.optIn(
 	channelAddress,
 	chainId,
 	userAccount,
+	{
+		onSuccess: () =>  // do something after a successfull subscription, like bring up a modal or a notification
+	}
 );
 
 
@@ -137,6 +141,9 @@ channels.optOut(
 	channelAddress,
 	chainId,
 	userAccount,
+		{
+		onSuccess: () =>  // do something after a successfull unsubscription, like bring up a modal or a notification
+	}
 );
 ```
 

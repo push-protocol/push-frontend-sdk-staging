@@ -17,9 +17,9 @@ const SubscribedModal: React.FC<SubscribedModalProps> = ({ onClose }) => {
   ReactUse.useClickAway(modalRef, onClose);
 
   return (
-    <Overlay>
-      <Modal ref={modalRef}>
-        <Item>
+    <Overlay className="overlay">
+      <Modal className="modal" ref={modalRef}>
+        <Item className="modal__heading">
           <CustomHeaderTwo>
             <CustomSpan style={{ marginRight: "10px" }}>Recieve</CustomSpan>
             <StyledSpan>Notifications</StyledSpan>
@@ -29,7 +29,7 @@ const SubscribedModal: React.FC<SubscribedModalProps> = ({ onClose }) => {
           </H3>
         </Item>
 
-        <Item>
+        <Item className="modal__content">
           {LINKS.map((oneLink) => (
             <ItemLink onClick={() => goto(oneLink.link)}>
               {oneLink.text}
