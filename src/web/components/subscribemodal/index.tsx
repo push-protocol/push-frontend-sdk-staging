@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactUse from "react-use";
 import styled from "styled-components";
-import { LINKS } from "./constants";
+import { LINKS, CLOSE_ICON } from "./constants";
 
 export type SubscribedModalProps = {
   onClose: () => void;
@@ -19,7 +19,7 @@ const SubscribedModal: React.FC<SubscribedModalProps> = ({ onClose }) => {
   return (
     <Overlay className="overlay">
       <Modal className="modal" ref={modalRef}>
-        <img onClick={onClose} src="https://res.cloudinary.com/xand6r/image/upload/v1646984691/cross_1_qrvsaa.png" alt="" />
+        <img onClick={onClose} src={CLOSE_ICON} alt="" />
         <Item className="modal__heading">
           <CustomHeaderTwo>
             <CustomSpan style={{ marginRight: "10px" }}>Recieve</CustomSpan>

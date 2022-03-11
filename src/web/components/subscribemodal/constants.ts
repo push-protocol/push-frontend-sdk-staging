@@ -23,3 +23,5 @@ export const LINKS = [
     img: "https://res.cloudinary.com/xand6r/image/upload/v1646984346/dappcolor_3x_1_imrqnx.png",
   },
 ];
+
+export const CLOSE_ICON = "https://res.cloudinary.com/xand6r/image/upload/v1646984691/cross_1_qrvsaa.png";
