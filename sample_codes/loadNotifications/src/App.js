@@ -59,7 +59,7 @@ function App() {
 
   // channel details
   const [channel, setChannel] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
   // load channel details on start
   useEffect(() => {
     if (!account) return;

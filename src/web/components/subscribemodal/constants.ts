@@ -5,23 +5,23 @@ export const LINKS = [
   {
     text: "EPNS Browser Extension",
     link: "https://chrome.google.com/webstore/detail/epns-protocol-alpha/lbdcbpaldalgiieffakjhiccoeebchmg",
-    img: "https://res.cloudinary.com/xand6r/image/upload/v1646984346/Google_Chrome_icon__February_2022_1_nh1js9.png",
+    img: "https://backend-kovan.epns.io/assets/googlechromeicon.png",
   },
   {
     text: "EPNS App (iOS)",
     link: "https://apps.apple.com/app/ethereum-push-service-epns/id1528614910",
-    img: "https://res.cloudinary.com/xand6r/image/upload/v1646984346/apple_1_f7dquo.png",
+    img: "https://backend-kovan.epns.io/assets/apple.png",
   },
   {
     text: "EPNS App (Android)",
     link: "https://play.google.com/store/apps/details?id=io.epns.epns",
-    img: "https://res.cloudinary.com/xand6r/image/upload/v1646984346/playstorecolor_3x_1_w0su7n.png",
+    img: "https://backend-kovan.epns.io/assets/playstorecolor@3x.png",
   },
   {
     text: "Visit our dApp",
     link: "https://app.epns.io/",
-    img: "https://res.cloudinary.com/xand6r/image/upload/v1646984346/dappcolor_3x_1_imrqnx.png",
+    img: "https://backend-kovan.epns.io/assets/dappcolor@3x.png",
   },
 ];
 
-export const CLOSE_ICON = "https://res.cloudinary.com/xand6r/image/upload/v1646984691/cross_1_qrvsaa.png";
+export const CLOSE_ICON = "https://backend-kovan.epns.io/assets/cross.png";
