@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactUse from "react-use";
 import styled from "styled-components";
-import { LINKS } from './constants';
+import { LINKS } from "./constants";
 
 export type SubscribedModalProps = {
   onClose: () => void;
@@ -19,6 +19,7 @@ const SubscribedModal: React.FC<SubscribedModalProps> = ({ onClose }) => {
   return (
     <Overlay className="overlay">
       <Modal className="modal" ref={modalRef}>
+        <img onClick={onClose} src="https://res.cloudinary.com/xand6r/image/upload/v1646984691/cross_1_qrvsaa.png" alt="" />
         <Item className="modal__heading">
           <CustomHeaderTwo>
             <CustomSpan style={{ marginRight: "10px" }}>Recieve</CustomSpan>
@@ -32,6 +33,7 @@ const SubscribedModal: React.FC<SubscribedModalProps> = ({ onClose }) => {
         <Item className="modal__content">
           {LINKS.map((oneLink) => (
             <ItemLink onClick={() => goto(oneLink.link)}>
+              <img src={oneLink.img} alt="" />
               {oneLink.text}
             </ItemLink>
           ))}
@@ -42,27 +44,35 @@ const SubscribedModal: React.FC<SubscribedModalProps> = ({ onClose }) => {
 };
 
 const ItemLink = styled.div`
-  line-height: 1.7em;
-  font-size: 1.1em;
-  font-weight: 300;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: 300ms;
-  text-decoration: underline 1px rgba(255, 255, 255, 0);
-  width: fit-content;
+  width: 260px;
+  height: 62px;
+  padding-left: 22px;
 
-  &:hover {
-    text-decoration-color: black;
+  background: #fafafa;
+  border: 0.2px solid rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 1.3125em;
+
+  cursor: pointer;
+  transition: 300ms;
+
+  &:hover{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 `;
 const CustomHeaderTwo = styled.h2`
+  margin-top: 0;
+  margin-bottom: 1em;
   color: rgb(0, 0, 0);
   font-weight: 600;
-  font-size: 2em;
+  font-size: 1.5625em;
   letter-spacing: 0.1em;
-  line-height: 1.5em;
   text-transform: uppercase;
-  margin: 20px 0px;
   padding: 0px;
   font-family: inherit;
   text-align: inherit;
@@ -72,6 +82,16 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   text-transform: capitalise;
+
+  &.modal__heading {
+    margin-bottom: 3.3125rem;
+  }
+
+  &.modal__content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-row-gap: 3.3125em;
+  }
 `;
 
 const CustomSpan = styled.span`
@@ -79,7 +99,7 @@ const CustomSpan = styled.span`
   align-self: auto;
   color: rgb(0, 0, 0);
   background: transparent;
-  font-weight: 200;
+  font-weight: 400;
   font-size: inherit;
   text-transform: inherit;
   margin: 0px;
@@ -105,11 +125,10 @@ const H3 = styled.h3`
   text-transform: uppercase;
   margin: -15px 0px 20px 0px;
   padding: 0px;
-  letter-spacing: 0.1em
-    ";
-    font-family: 'Source Sans Pro', Helvetica, sans-serif;
-    text-align: inherit;
-    max-width: initial";
+  letter-spacing: 0.1em;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  text-align: inherit;
+  max-width: initial;
 `;
 
 const Overlay = styled.div`
@@ -128,9 +147,32 @@ const Overlay = styled.div`
 `;
 
 const Modal = styled.div`
-  padding: 20px 30px;
+  padding: 3.875em;
   background: white;
   text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  position: relative;
+
+  &>img{
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    cursor: pointer;
+  }
+
+  @media(max-width: 1000px){
+    width: max(70vw, 350px);
+    padding: 2em;
+    .modal__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px
+    }
+  }
 `;
 
 export default SubscribedModal;
