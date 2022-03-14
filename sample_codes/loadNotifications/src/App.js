@@ -59,7 +59,7 @@ function App() {
 
   // channel details
   const [channel, setChannel] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
   // load channel details on start
   useEffect(() => {
     if (!account) return;
@@ -104,7 +104,6 @@ function App() {
                           chainId,
                           account,
                           {baseApiUrl: BASE_URL}
-                          
                         )
                       : channels.optIn(
                           library.getSigner(account),
@@ -124,7 +123,7 @@ function App() {
           {/* section for channels */}
 
           {/* section for notifications */}
-          <div>
+          {/* <div>
             <h3>Notifications</h3>
             {notifications.map((oneNotification, i) => {
               const { cta, title, message, app, icon, image, url, blockchain } =
@@ -150,7 +149,7 @@ function App() {
                 />
               );
             })}
-          </div>
+          </div> */}
           {/* section for notifications */}
         </>
       ) : (
