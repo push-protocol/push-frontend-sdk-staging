@@ -116,7 +116,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       {/* header that only pops up on small devices */}
       <MobileHeader onClick={goToURL} theme={theme}>
         <HeaderButton>
-          <ImageContainer>
+          <ImageContainer theme={theme}>
             <IPFSIcon icon={icon} />
           </ImageContainer>
           {app}
@@ -296,7 +296,7 @@ const MobileImage = styled.div`
   }
 `;
 const ImageContainer = styled.span`
-  background: rgba(231, 231, 231, 1);
+  background: ${(props) => (props.theme === "light" ? "#ededed" : "#444")};
   height: 24px;
   width: 24px;
   display: inline-block;
@@ -318,7 +318,7 @@ const Container = styled.div<ContainerDataType>`
   border: ${(props) =>
     props.cta
       ? "0.5px solid #35C5F3"
-      : "1px solid rgba(231.0, 231.0, 231.0, 1);"};
+      : (props.theme === "light" ? "1px solid rgba(231.0, 231.0, 231.0, 1);": "1px solid #444")};
   cursor: ${(props) => (props.cta ? "pointer" : "")};
 
   background: ${(props) => (props.theme === "light" ? "#fff" : "#000")};
@@ -350,9 +350,10 @@ const MobileHeader = styled.div`
     right: 0;
     padding: 6px 20px;
     font-size: 14px;
-    border-bottom: 1px solid rgba(231, 231, 231, 1);
-    color: grey;
-    background: ${(props) => (props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#000")};
+    font-weight: 700;
+    border-bottom: ${(props) => (props.theme === "light" ? "1px solid #ededed" : "1px solid #444")};
+    color: #808080;
+    background: ${(props) => (props.theme === "light" ? "#fafafa" : "#222")};
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: left;
@@ -378,7 +379,7 @@ const ChannelTitleLink = styled.a`
 
   @media (max-width: ${MD_BREAKPOINT}) {
     font-weight: 300;
-    color: ${(props) => (props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "grey")};
+    color: ${(props) => (props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "#808080")};
   }
 `;
 
@@ -423,17 +424,18 @@ const Pool = styled.div`
 `;
 
 const PoolShare = styled(ChannelMetaBox)`
-  background: ${(props) => (props.theme === "light" ? "#674c9f" : "#000")};
+  background: ${(props) => (props.theme === "light" ? "#674c9f" : "#414141")};
   @media (max-width: ${MD_BREAKPOINT}) {
     position: absolute;
     bottom: 0;
     right: 0;
     border-radius: 0;
     border-radius: 8px 0;
-    color: grey;
-    background: ${(props) => (props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#000")};
-    border-top: 1px solid rgba(231, 231, 231, 1);
-    border-left: 1px solid rgba(231, 231, 231, 1);
+    color: #808080;
+    font-weight:700;
+    background: ${(props) => (props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#222")};
+    border-top: ${(props) => (props.theme === "light" ? "1px solid #ededed" : "1px solid #444")};
+    border-left: ${(props) => (props.theme === "light" ? "1px solid #ededed" : "1px solid #444")};
     padding: 5px 10px;
   }
 `;
@@ -441,7 +443,8 @@ const PoolShare = styled(ChannelMetaBox)`
 const SpamButton = styled.div`
   background: rgb(226, 8, 128);
   padding: 10px 20px;
-  color: white;
+  color: #fff;
+  font-weight: 500;
   border-radius: 3px;
   cursor: pointer;
   transition: 300ms;
