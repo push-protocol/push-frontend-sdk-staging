@@ -18,7 +18,7 @@ In order to install this SDK on your existing web application or mobile applicat
 
 It can be installed as an npm package via the following command.
 
-`npm install epns-frontend-sdk-staging`
+`npm install @epnsproject/epns-frontend-sdk-staging`
   
   
 ### Installation for SDK Development
@@ -58,7 +58,7 @@ It is done this way in order to seperate the different layers from each other.
 ### Fetching and parsing notifications from the api
 #### A more comprehensive demo can be located at  `src/sample_codes/loadNotifications`.
 ```javascript
-import { api, utils } from "epns-frontend-sdk-staging-local";
+import { api, utils } from "@epnsproject/epns-frontend-sdk-staging";
 
 // define the variables required to make a request
 const walletAddress = "0x1234567890abcdcdefghijklmnopqrstuvwxyz123";
@@ -82,7 +82,7 @@ console.log(parsedResponse);
 ### Rendering the parsed notification on the web
 ```javascript
 
-import { NotificationItem } from  "epns-frontend-sdk";
+import { NotificationItem } from  "@epnsproject/epns-frontend-sdk-staging";
 
 // This is used to render the text present in a notification body as a JSX element
 
@@ -100,7 +100,7 @@ import { NotificationItem } from  "epns-frontend-sdk";
  
  ### Rendering the parsed notification on a react native mobile application.
  ```javascript
- import { NotificationItem} from  'epns-frontend-sdk-staging/dist/native';
+ import { NotificationItem} from  '@epnsproject/epns-frontend-sdk-staging/dist/native';
  
 	<NotificationItem
 			notificationTitle={parsedResponse.title}
@@ -148,6 +148,40 @@ channels.optOut(
 	}
 );
 ```
+
+### Using the `onsubscription` modal
+This is a modal that can be used to come up immediately after a channel has been subscribed to, its main purpose is to notify the subscriber that they have several options of recieving notifications from EPNS
+
+![image](https://res.cloudinary.com/xand6r/image/upload/v1647710351/Screenshot_2022-03-19_at_18.16.48_i40rra.png)
+```Javascript
+import {
+  OnSubscribeModal,
+} from "@epnsproject/frontend-sdk-staging";
+const [modalOpen, setModalOpen] = useState(false);
+
+return (
+    {modalOpen && <OnSubscribeModal onClose={() => setModalOpen(false)} />}
+)
+```
+### Customising the onSubscribe modal
+![image](https://res.cloudinary.com/xand6r/image/upload/v1647710738/Screenshot_2022-03-19_at_18.25.08_tmo2ch.png)
+
+- Editing the entire modal itself can be done via adding styles to the `modal` class
+- Editing the heading section can be done via adding styles to the `modal__heading` class
+- Editing the body/content section can be done via adding styles to the `modal__content` class
+
+##### However if you wish to create your own modal from scratch and just need the assets needed to make a similar modal.
+
+```Javascript
+import {
+  LINKS,
+} from "@epnsproject/frontend-sdk-staging/dist/src/web/components/subscribemodal/constants";
+```
+
+Sample of how the data looks like
+![data](https://res.cloudinary.com/xand6r/image/upload/v1647711029/Screenshot_2022-03-19_at_18.30.13_vdfsea.png)
+Using this data, you can proceed to create your own modals
+
 
 ## Markdown Reference
 
