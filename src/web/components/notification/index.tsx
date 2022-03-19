@@ -12,7 +12,7 @@ import { extractTimeStamp } from "../../../utilities/index";
 import ChainImages from '../../../constants/chain';
 
 // ================= Define types
-type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | undefined;
+type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" |undefined;
 
 export type NotificationItemProps = {
   notificationTitle: string | undefined;
