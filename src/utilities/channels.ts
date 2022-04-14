@@ -13,11 +13,15 @@ import axios from "axios";
  */
 async function getChannelByAddress(
   channelAddress: string,
-  baseApiUrl = config.BASE_URL
+  baseApiUrl = config.BASE_URL,
+  page = 1,
+  pageSize = 10
 ) {
   const body = {
     query: channelAddress,
     op: "read",
+    page,
+    pageSize
   };
   return axios
     .post(`${baseApiUrl}/channels/search`, body)
