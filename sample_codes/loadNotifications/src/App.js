@@ -5,6 +5,7 @@ import {
   utils,
   api,
   channels,
+  EmbedSDK
 } from "@epnsproject/frontend-sdk-staging";
 import { useEffect, useState } from "react";
 import "./App.scss";
@@ -74,6 +75,25 @@ function App() {
     });
   }, [account]);
 
+  useEffect(() => {
+    if (account && active) {
+      EmbedSDK.init({
+        headerText: 'Hello DeFi', // optional
+        targetID: 'sdk-trigger-id', // mandatory
+        appName: 'consumerApp', // mandatory
+        user: account, // mandatory
+        viewOptions: {
+          type: 'sidebar', // optional [default: 'sidebar', 'modal']
+          showUnreadIndicator: true, // optional
+          unreadIndicatorColor: '#cc1919',
+          unreadIndicatorPosition: 'top-right',
+        },
+        theme: 'light',
+      });
+    }
+
+}, [account, active]);
+
   return (
     <div className="App">
       {modalOpen && <OnSubscribeModal onClose={() => setModalOpen(false)} />}
@@ -86,6 +106,12 @@ function App() {
 
       {active ? (
         <>
+          {/* section for Embed SDK */}
+          <div style={{ backgroundColor: '#fff', padding: 20, display: 'flex' }}>
+            <button id="sdk-trigger-id" style={{ cursor: 'pointer' }}>trigger SDK button</button>
+          </div>
+          
+
           {/* section for channels */}
           {channel && (
             <div>

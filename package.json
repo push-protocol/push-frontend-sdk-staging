@@ -22,6 +22,7 @@
     "babel-runtime": "^6.26.0",
     "react": ">16.0.0",
     "react-dom": ">16.0.0",
+    "react-native-youtube": "^2.0.2",
     "rollup": "^2.56.3",
     "rollup-plugin-sass": "^1.2.6",
     "rollup-plugin-typescript2": "^0.30.0",
