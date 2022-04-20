@@ -8,7 +8,7 @@ import utils from '../utilities';
 import api from '../utilities/api';
 import channels from  "../utilities/channels";
 import { ApiNotificationType as apiNotificationType, ParsedResponseType as parsedResponseType } from '../types/notification';
-
+import EmbedSDK from './embedsdk';
 // export the interfaces used
 export interface ApiNotificationType extends apiNotificationType{}
 export interface ParsedResponseType extends parsedResponseType{}
@@ -23,5 +23,6 @@ export {
   ParseText,
   utils,
   api,
-  channels
+  channels,
+  EmbedSDK
 };

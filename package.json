@@ -22,6 +22,7 @@
     "babel-runtime": "^6.26.0",
     "react": ">16.0.0",
     "react-dom": ">16.0.0",
+    "react-native-youtube": "^2.0.2",
     "rollup": "^2.56.3",
     "rollup-plugin-sass": "^1.2.6",
     "rollup-plugin-typescript2": "^0.30.0",
@@ -37,7 +38,7 @@
   },
   "name": "@epnsproject/frontend-sdk-staging",
   "description": "a frontend SDK Package for epns notifications",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "dependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "ansi-regex": "^2.1.1",
