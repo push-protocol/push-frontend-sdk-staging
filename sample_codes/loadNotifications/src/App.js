@@ -89,6 +89,12 @@ function App() {
           unreadIndicatorPosition: 'top-right',
         },
         theme: 'light',
+        onOpen: () => {
+          console.log('-> client dApp onOpen callback');
+        },
+        onClose: () => {
+          console.log('-> client dApp onClose callback');
+        }
       });
     }
 

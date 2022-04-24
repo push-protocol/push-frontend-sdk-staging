@@ -63,6 +63,9 @@ function hideEmbedView() {
 			document.querySelector('body')?.removeChild(existingEmbedElements[i])
 		}
 	}
+
+	/** this is to remove any outer scroll */
+	document.querySelector('body').style.overflow = 'visible';
 }
 
 function showEmbedView() {
@@ -78,6 +81,10 @@ function showEmbedView() {
 	embedViewElement.innerHTML = htmlTemplate(__CONFIG);
 
 	document.querySelector('body').appendChild(embedViewElement);
+	
+	/** this is to remove any outer scroll */
+	document.querySelector('body').style.overflow = 'hidden';
+
 
 	removeUnreadIndicatorElement.call(sdkRef);
 
@@ -137,22 +144,32 @@ function subscribeToIFRAME(evt) {
 		const publishedMsg = JSON.parse(evt.data);
 		
 		if (publishedMsg.channel === Constants.EPNS_SDK_CHANNEL) {
+			const { onOpen, onClose, ...sdkConfig } = __CONFIG;
+
 			console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - Received communication from the IFRAME: `, publishedMsg.topic);
 
 			// When the Embed App is loaded.
 			if (publishedMsg.topic === Constants.EPNS_SDK_CHANNEL_TOPIC_IFRAME_APP_LOADED) {
 				const msgPayload = {
-					msg: __CONFIG,
+					msg: sdkConfig,
 					channel: Constants.EPNS_SDK_CHANNEL,
 					topic: Constants.EPNS_SDK_CHANNEL_TOPIC_SDK_CONFIG_INIT
 				};
 
 				publishToIFRAME.call(sdkRef, msgPayload);
+
+				if (typeof onOpen === 'function') {
+					onOpen();
+				}
 			}
 
 			// When the Embed App close button is clicked.
 			if (publishedMsg.topic === Constants.EPNS_SDK_CHANNEL_TOPIC_IFRAME_APP_CLOSED) {
 				hideEmbedView.call(sdkRef);
+
+				if (typeof onClose === 'function') {
+					onClose();
+				}
 			}
 		}
 	} catch (err) {
