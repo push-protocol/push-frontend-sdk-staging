@@ -2,279 +2,343 @@
 import htmlTemplate from './htmlTemplate'
 import cssTemplate from './cssTemplate'
 import Constants from './constants'
-import { getRootID, getLocalStorage, setLocalStorage, getFirstItemInArray } from './helpers'
+import { getRootID, getFirstItemInArray, SDK_LOCAL_STORAGE } from './helpers'
+
+/**
+ * PRIVATE variables
+ */
+
+/** keep the config flat as possible  */
+const __DEFAULT_CONFIG = {
+	isInitialized: false,
+	targetID: '', // MANDATORY
+	appName: '', // MANDATORY
+	user: '', // MANDATORY
+	headerText: 'Notifications',
+	viewOptions: {
+		type: 'sidebar', // ['sidebar', 'modal']
+		showUnreadIndicator: true,
+		unreadIndicatorColor: '#cc1919',
+		unreadIndicatorPosition: 'top-right',
+		theme: 'light'
+	},
+};
+
+// runtime config
+const __CONFIG = {};
+
+/**
+ * PRIVATE methods
+ */
+function validateConfig(passedConfig) {
+  if (!passedConfig.user) {
+	console.error(`${EPNS_SDK_EMBED_NAMESPACE} - config.user not passed!`);
+	return false;
+  }
+  if (!passedConfig.targetID) {
+	console.error(`${EPNS_SDK_EMBED_NAMESPACE} - config.targetID not passed!`);
+	return false;
+  }
+  if (!passedConfig.appName) {
+	console.error(`${EPNS_SDK_EMBED_NAMESPACE} - config.appName not passed!`);
+	return false;
+  }
+  return true;
+}
+
+function getClonedConfig(passedConfig) {
+	const clonedConfig = {};
+	const viewOptionsConfig = Object.assign({}, __DEFAULT_CONFIG.viewOptions , passedConfig.viewOptions);
+	clonedConfig = Object.assign({}, __DEFAULT_CONFIG, passedConfig);
+	clonedConfig.viewOptions = viewOptionsConfig;	
+	return clonedConfig;
+}
+
+function hideEmbedView() {
+	const rootID = getRootID(__CONFIG);
+	const existingEmbedElements = document.querySelectorAll(`#${rootID}`);
+	// remove any existing instances of the embedElement
+	if (existingEmbedElements.length > 0) {
+		for (let i = 0; i < existingEmbedElements.length; i ++) {
+			document.querySelector('body')?.removeChild(existingEmbedElements[i])
+		}
+	}
+}
+
+function showEmbedView() {
+	const sdkRef = this;
+	const rootID = getRootID(__CONFIG);
+
+	hideEmbedView.call(sdkRef);
+
+	// set up the "embedViewElement"
+	const embedViewElement = document.createElement('div');
+	embedViewElement.id = rootID;
+	embedViewElement.classList.add('epns-sdk-embed-modal', 'epns-sdk-embed-modal-open');
+	embedViewElement.innerHTML = htmlTemplate(__CONFIG);
+
+	document.querySelector('body').appendChild(embedViewElement);
+
+	removeUnreadIndicatorElement.call(sdkRef);
+
+	// When the user clicks anywhere outside of the modal, close it
+	const overlayId = `#${rootID} .epns-sdk-embed-modal-overlay`;
+	const overlayElement = document.querySelector(overlayId);
+
+	overlayElement.onclick = function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		hideEmbedView.call(sdkRef);
+	}
+}
+
+function setUpEventHandlers() {
+	const sdkRef = this;
+	const triggerElement = document.querySelector(`#${__CONFIG.targetID}`);
+
+	if (triggerElement && triggerElement.id === __CONFIG.targetID) {
+		console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - click handler attached to #${__CONFIG.targetID}`);
+
+		triggerElement.addEventListener('click', (clickEvent) => {
+			clickEvent.preventDefault();
+			clickEvent.stopPropagation();
+			showEmbedView.call(sdkRef);
+		});
+	} else {
+		console.error(`${EPNS_SDK_EMBED_NAMESPACE} - No trigger element ${__CONFIG.targetID} found!`)
+	}
+}
+
+function removeEventHandlers() {
+	const sdkRef = this;
+	const triggerElement = document.querySelector(`#${__CONFIG.targetID}`);
+
+	if (triggerElement && triggerElement.id === __CONFIG.targetID) {
+		triggerElement.replaceWith(triggerElement.cloneNode(true));
+	}
+};
+
+function publishToIFRAME(msgPayload) {
+	const iframeElement = document.querySelector(`iframe#${Constants.EPNS_SDK_IFRAME_ID}`);
+	
+	try {
+		iframeElement.contentWindow.postMessage(JSON.stringify(msgPayload), '*');
+	} catch (err) {
+		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - APP to IFRAME publish error'`, err);
+	}
+}
+
+function subscribeToIFRAME(evt) {
+	const sdkRef = this;
+
+	try {
+		if (typeof evt.data !== 'string') return null;
+
+		const publishedMsg = JSON.parse(evt.data);
+		
+		if (publishedMsg.channel === Constants.EPNS_SDK_CHANNEL) {
+			console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - Received communication from the IFRAME: `, publishedMsg.topic);
+
+			// When the Embed App is loaded.
+			if (publishedMsg.topic === Constants.EPNS_SDK_CHANNEL_TOPIC_IFRAME_APP_LOADED) {
+				const msgPayload = {
+					msg: __CONFIG,
+					channel: Constants.EPNS_SDK_CHANNEL,
+					topic: Constants.EPNS_SDK_CHANNEL_TOPIC_SDK_CONFIG_INIT
+				};
+
+				publishToIFRAME.call(sdkRef, msgPayload);
+			}
+
+			// When the Embed App close button is clicked.
+			if (publishedMsg.topic === Constants.EPNS_SDK_CHANNEL_TOPIC_IFRAME_APP_CLOSED) {
+				hideEmbedView.call(sdkRef);
+			}
+		}
+	} catch (err) {
+		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - IFRAME TO APP msg receiving error`, err)
+	}
+}
+
+function setUpWidget() {
+	const sdkRef = this;
+	
+	// Add event handler to the trigger button 
+	if (document.readyState === 'complete') {
+		setUpEventHandlers.call(sdkRef);
+	} else {
+		window.addEventListener('load', () => {
+			setUpEventHandlers.call(sdkRef);
+		})
+	}
+	
+	// attach IFRAME subscription
+	window.addEventListener('message', subscribeToIFRAME.bind(sdkRef), false);
+}
+
+function insertCSS() {
+	const sdkRef = this;
+	const rootID = getRootID(__CONFIG)
+	const styleTagId = `${Constants.EPNS_SDK_STYLE_TAG_ID_PREFIX}${rootID}`
+
+	let CSSElement = document.querySelector(
+		`style#${styleTagId}`
+	)
+	if (!CSSElement) {
+		const styleEl = document.createElement('style')
+		styleEl.id = `${styleTagId}`
+		CSSElement = styleEl
+	}
+
+	CSSElement.innerHTML = cssTemplate(__CONFIG)
+	document.querySelector('head').appendChild(CSSElement)
+}
+
+function handleUnreadNotifications() {
+	const sdkRef = this;
+
+	// Unread notifications
+	if (__CONFIG.viewOptions.showUnreadIndicator) {
+		refreshUnreadCount.call(sdkRef);
+	} else {
+		removeUnreadIndicatorElement.call(sdkRef);
+	}
+}
+
+async function refreshUnreadCount() {
+	const sdkRef = this;
+
+	let count = 0;
+	const rootID = getRootID(__CONFIG);
+	const LS_KEY = `${Constants.EPNS_SDK_LOCAL_STORAGE_PREFIX}${rootID}_LAST_NOTIFICATIONS`;
+
+	let lastNotifications = await SDK_LOCAL_STORAGE.getLocalStorage(LS_KEY);		
+	let latestNotifications = await getUnreadNotifications.call(sdkRef);
+
+	latestNotifications = latestNotifications.map((notif) => notif.payload_id);
+
+	const lastNotification = getFirstItemInArray(lastNotifications);
+
+	if (lastNotification) {
+		const indexOfID = latestNotifications.indexOf(lastNotification);
+		if (indexOfID !== -1) { // present
+			let latestNotificationsUnread = latestNotifications.slice(0, indexOfID);
+			count = latestNotificationsUnread.length;
+		}
+	} else {
+		count = latestNotifications.length;
+	}
+
+	SDK_LOCAL_STORAGE.setLocalStorage(LS_KEY, latestNotifications);
+
+	if (count > 0) {
+		addUnreadIndicatorElement.call(sdkRef, count > 9 ? '9+' : count);
+	} else {
+		removeUnreadIndicatorElement.call(sdkRef);
+	}
+}
+
+async function getUnreadNotifications() {
+	const sdkRef = this;
+
+	// call the API here
+	try {
+		const response = await fetch(Constants.EPNS_SDK_EMBED_API_URL, {
+			method: "POST",
+			body: JSON.stringify({
+				"user": __CONFIG.user,
+				"page": 1,
+				"pageSize": 10,
+				"op": "read"
+			}),
+			headers: {
+				"Content-type": "application/json; charset=UTF-8"
+			}
+		});
+
+		if (response.ok) {
+			const json = await response.json();
+			return json.results || [];
+		  } else {
+			return [];
+		  }
+
+	} catch (error) {
+		console.error(`${EPNS_SDK_EMBED_NAMESPACE} - API Error ${Constants.EPNS_SDK_EMBED_API_URL}`, error);
+		return [];
+	}
+}
+
+function addUnreadIndicatorElement(count) {
+	const sdkRef = this;
+
+	removeUnreadIndicatorElement.call(sdkRef);
+	const throbber = document.createElement('div')
+
+	throbber.classList.add(
+	  'epns-sdk-unread-indicator',
+	  `epns-sdk-appname-${__CONFIG.appName}`,
+	  __CONFIG.viewOptions.unreadIndicatorPosition
+	)
+
+	throbber.innerText = count;
+
+	if (document.querySelector(`#${__CONFIG.targetID}`)) {
+	  document.querySelector(`#${__CONFIG.targetID}`).appendChild(throbber)
+	}
+}
+
+function removeUnreadIndicatorElement() {
+	if (
+	  document.querySelector(`#${__CONFIG.targetID}`) &&
+	  document
+		.querySelector(`#${__CONFIG.targetID}`)
+		.querySelector(
+		  `.epns-sdk-unread-indicator.epns-sdk-appname-${__CONFIG.appName}`
+		)
+	) {
+	  document
+		.querySelector(`#${__CONFIG.targetID}`)
+		.removeChild(
+		  document
+			.querySelector(`#${__CONFIG.targetID}`)
+			.querySelector(
+			  `.epns-sdk-unread-indicator.epns-sdk-appname-${__CONFIG.appName}`
+			)
+		)
+	}
+}
 
 
 const EmbedSDK = {
-	/**
-	 * DEFAULT config options, to be overriden by the client dApp
-	 */
-	config: {
-		isInitialized: false,
-		isFrameVisible: false,
-		targetID: 'epns-sdk-trigger-id',
-		appName: 'appName',
-		viewOptions: {
-			headerText: 'Notifications',
-			type: 'sidebar',
-			showUnreadIndicator: false,
-			unreadIndicatorColor: '#cc1919',
-			unreadIndicatorPosition: 'top-right',
-			theme: 'light'
-		},
-		user: '0xD8634C39BBFd4033c0d3289C4515275102423681' // "0xD8634C39BBFd4033c0d3289C4515275102423681";
-	},
-	/**
-     * Call this function when your APP intializes
-     */
-	init(options: any) {
-		if (!this.config.isInitialized) {
-			this.config = options;
-			this.config.isInitialized = true;
-			this.setUpWidget();
-			this.insertCSS();
-			this.handleUnreadNotifications();
-			console.info('[EPNS-SDK] CONFIG set', this.config);
-		}
-	},
-	setUpWidget() {
+	init(options) {
 		const sdkRef = this;
-		/**
-		 * Add stuff needed after the page has loaded
-		 */
-		if (document.readyState === 'complete') {
-            sdkRef.setUpEventHandlers();
-		} else {
-			window.addEventListener('load', () => {
-				sdkRef.setUpEventHandlers();
-			})
-		}
-		/**
-		 * MESSAGE pub/sub
-		 */
-		window.addEventListener('message',
-			(evt) => {
-				try {
-					if (typeof evt.data === 'string') {
-						const publishedMessage = JSON.parse(evt.data)
-						if (publishedMessage && publishedMessage.msgCode === Constants.EPNS_SDK_IFRAME_TO_PARENT_MSG) {
-							/**
-							* Add different cases for sub here
-							*/
-							console.info('Received communication from the IFRAME: ', publishedMessage);
 
-							if (publishedMessage.msgType === 'IFRAME_APP_LOADED') {
-								sdkRef.publishMessageToIFRAME({
-									msg: sdkRef.config,
-									msgCode: 'EPNS_SDK_PARENT_TO_IFRAME_MSG',
-									msgType: 'SDK_CONFIG_INIT'
-								});
-							}
-
-							if (publishedMessage.msgType === 'IFRAME_APP_CLOSE') {
-								sdkRef.hideEmbedView();
-							}
-						}
-					}
-				} catch (err) {
-					console.error('something went wrong parsing IFRAME message to the APP.', err)
-				}
-			},
-			false
-		);
-	},
-	setUpEventHandlers() {
-		const sdkRef = this;
-		const triggerElement = document.querySelector(`#${sdkRef.config.targetID}`);
-
-		if (triggerElement && triggerElement.id === sdkRef.config.targetID) {
-			console.info(`[EPNS-SDK - click handler attached to the #${sdkRef.config.targetID} ]`);
-			triggerElement.addEventListener('click', (clickEvent) => {
-				clickEvent.preventDefault()
-				clickEvent.stopPropagation()
-				sdkRef.showEmbedView()
-			})
-		} else {
-			console.error(`Did not find the trigger element ${sdkRef.config.targetID}`)
-		}
-	},
-	hideEmbedView() {
-		const rootID = getRootID(this.config)
-		const embedViewElement = document.querySelector(`#${rootID}`)
-
-		if (embedViewElement) {
-			document.querySelector('body')?.removeChild(embedViewElement)
-		}
-	},
-	showEmbedView() {
-		const sdkRef = this
-		const rootID = getRootID(sdkRef.config)
-		const embedViewElement = document.createElement('div')
-
-		// set up the Element props
-		embedViewElement.id = rootID;
-		embedViewElement.classList.add('epns-sdk-embed-modal', 'epns-sdk-embed-modal-open');
-		embedViewElement.innerHTML = htmlTemplate(sdkRef.config);
-
-		document.querySelector('body').appendChild(embedViewElement);
-
-		sdkRef.removeUnreadIndicatorElement();
-
-		// When the user clicks anywhere outside of the modal, close it
-		const overlayId = `#${rootID} .epns-sdk-embed-modal-overlay`;
-		const overlayElement = document.querySelector(overlayId);
-
-		overlayElement.onclick = function(event) {
-			event.preventDefault();
-			event.stopPropagation();
-			sdkRef.hideEmbedView();
-		}
-	},
-	publishMessageToIFRAME({ msg, msgType, msgCode }) {
-		// pass the sdkConfig to the IFRAME
-		const iframeElement = document.querySelector(`iframe#${Constants.EPNS_SDK_IFRAME_ID}`);
-		try {
-			iframeElement.contentWindow.postMessage(
-				JSON.stringify({ msgCode, msgType, msg })
-				,'*'
-			);
-		} catch (err) {
-			console.error('[EPNS-SDK] - issue publishing message to IFRAME')
-		}
-	},
-	insertCSS() {
-		const rootID = getRootID(this.config)
-		const styleTagId = `${Constants.EPNS_SDK_STYLE_TAG_ID_PREFIX}${rootID}`
-
-		let CSSElement = document.querySelector(
-			`style#${styleTagId}`
-		)
-		if (!CSSElement) {
-			const styleEl = document.createElement('style')
-			styleEl.id = `${styleTagId}`
-			CSSElement = styleEl
-		}
-
-		CSSElement.innerHTML = cssTemplate(this.config)
-        
-		document.querySelector('head').appendChild(CSSElement)
-	},
-	handleUnreadNotifications() {
-		const sdkRef = this;
-	
-		// Unread notifications
-		if (sdkRef.config.viewOptions.showUnreadIndicator) {
-			sdkRef.refreshUnreadCount();
-		} else {
-			sdkRef.removeUnreadIndicatorElement();
-		}
-	},
-	async refreshUnreadCount() {
-		const sdkRef = this;
-		let count = 0;
-		const rootID = getRootID(this.config);
-		const LS_KEY = `${Constants.EPNS_SDK_LOCAL_STORAGE_PREFIX}${rootID}_LAST_NOTIFICATIONS`;
-
-		let lastNotifications = await getLocalStorage(LS_KEY);		
-		let latestNotifications = await sdkRef.getUnreadNotifications();
-
-		latestNotifications = latestNotifications.map((notif) => notif.payload_id);
-
-		console.log({ lastNotifications, latestNotifications })
-
-		const lastNotification = getFirstItemInArray(lastNotifications);
-
-		if (lastNotification) {
-			const indexOfID = latestNotifications.indexOf(lastNotification);
-			if (indexOfID !== -1) { // present
-				let latestNotificationsUnread = latestNotifications.slice(0, indexOfID);
-				count = latestNotificationsUnread.length;
+		if (!__CONFIG.isInitialized) {
+			if (!validateConfig(options)) {
+				return false;
 			}
-		} else {
-			count = latestNotifications.length;
-		}
 
-		setLocalStorage(LS_KEY, latestNotifications);
+			__CONFIG = getClonedConfig(options);
+			__CONFIG.isInitialized = true;
 
-		if (count > 0) {
-			sdkRef.addUnreadIndicatorElement(count > 9 ? '9+' : count);
-		} else {
-			sdkRef.removeUnreadIndicatorElement();
+			setUpWidget.call(sdkRef);
+			insertCSS.call(sdkRef);
+			handleUnreadNotifications.call(sdkRef);
+			console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - CONFIG set`, __CONFIG);
 		}
 	},
-	async getUnreadNotifications() {
+	cleanup() {
 		const sdkRef = this;
-		const user = sdkRef.config.user;
-
-		// call the API here
-		try {
-			const response = await fetch(Constants.EPNS_SDK_EMBED_API_URL, {
-				// Adding method type
-				method: "POST",
-				// Adding body or contents to send
-				body: JSON.stringify({
-					"user": user,
-					"page": 1,
-					"pageSize": 10,
-					"op": "read"
-				}),
-				// Adding headers to the request
-				headers: {
-					"Content-type": "application/json; charset=UTF-8"
-				}
-			});
-
-			if (response.ok) {
-				const json = await response.json();
-				return json.results || [];
-			  } else {
-				return [];
-			  }
-
-		} catch (error) {
-			console.error(`[EPNS_SDK_EMBED] - error while calling ${Constants.EPNS_SDK_EMBED_API_URL}`);
-			return [];
+		if (__CONFIG.isInitialized) {
+			hideEmbedView.call(sdkRef);
+			removeEventHandlers.call(sdkRef);
+			window.removeEventListener('message', subscribeToIFRAME.bind(sdkRef), false);
 		}
-	},
-	addUnreadIndicatorElement(count) {
-		this.removeUnreadIndicatorElement();
-		const throbber = document.createElement('div')
+		__CONFIG = {};
 
-		throbber.classList.add(
-		  'epns-sdk-unread-indicator',
-		  `epns-sdk-appname-${this.config.appName}`,
-		  this.config.viewOptions.unreadIndicatorPosition
-		)
-
-		throbber.innerText = count;
-
-		if (document.querySelector(`#${this.config.targetID}`)) {
-		  document.querySelector(`#${this.config.targetID}`).appendChild(throbber)
-		}
-	},
-	removeUnreadIndicatorElement() {
-		if (
-		  document.querySelector(`#${this.config.targetID}`) &&
-		  document
-			.querySelector(`#${this.config.targetID}`)
-			.querySelector(
-			  `.epns-sdk-unread-indicator.epns-sdk-appname-${this.config.appName}`
-			)
-		) {
-		  document
-			.querySelector(`#${this.config.targetID}`)
-			.removeChild(
-			  document
-				.querySelector(`#${this.config.targetID}`)
-				.querySelector(
-				  `.epns-sdk-unread-indicator.epns-sdk-appname-${this.config.appName}`
-				)
-			)
-		}
-	},
-	cleanUp() {
-
+		console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - cleanup called`);
 	}
-}
+};
 
 export default EmbedSDK

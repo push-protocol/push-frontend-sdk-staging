@@ -15,7 +15,7 @@ export default function (config) {
 
         #${rootID}.epns-sdk-embed-modal.epns-sdk-embed-modal-open {
           display: block;
-          position: absolute;
+          position: fixed;
           left: 0;
           top: 0;
           right: 0;
