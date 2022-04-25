@@ -1,7 +1,6 @@
 export default {
 	EPNS_SDK_EMBED_NAMESPACE: '[EPNS_SDK_EMBED]',
-	// EPNS_SDK_EMBED_APP_URL: 'https://ethereum-push-notification-service.github.io/embed-dapp',
-	EPNS_SDK_EMBED_APP_URL: 'http://localhost:8080/embed-dapp',
+	EPNS_SDK_EMBED_APP_URL: 'https://ethereum-push-notification-service.github.io/embed-dapp',
 	EPNS_SDK_EMBED_API_URL: 'https://backend-kovan.epns.io/apis/feeds/get_feeds',
 	EPNS_SDK_EMBED_VIEW_ROOT: 'EPNS_SDK_EMBED_VIEW_ROOT',
 	EPNS_SDK_STYLE_TAG_ID_PREFIX: 'EPNS_SDK_STYLE_TAG_ID_',
