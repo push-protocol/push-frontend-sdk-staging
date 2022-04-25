@@ -126,7 +126,7 @@ function removeEventHandlers() {
 };
 
 function publishToIFRAME(msgPayload) {
-	const iframeElement = document.querySelector(`iframe#${Constants.EPNS_SDK_IFRAME_ID}`);
+	const iframeElement = document.querySelector(`iframe#${Constants.EPNS_SDK_EMBED_IFRAME_ID}`);
 	
 	try {
 		iframeElement.contentWindow.postMessage(JSON.stringify(msgPayload), '*');
@@ -143,17 +143,17 @@ function subscribeToIFRAME(evt) {
 
 		const publishedMsg = JSON.parse(evt.data);
 		
-		if (publishedMsg.channel === Constants.EPNS_SDK_CHANNEL) {
+		if (publishedMsg.channel === Constants.EPNS_SDK_EMBED_CHANNEL) {
 			const { onOpen, onClose, ...sdkConfig } = __CONFIG;
 
-			console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - Received communication from the IFRAME: `, publishedMsg.topic);
+			console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - Received communication from the IFRAME: `, publishedMsg);
 
 			// When the Embed App is loaded.
-			if (publishedMsg.topic === Constants.EPNS_SDK_CHANNEL_TOPIC_IFRAME_APP_LOADED) {
+			if (publishedMsg.topic === Constants.EPNS_SDK_EMBED_CHANNEL_TOPIC_IFRAME_APP_LOADED) {
 				const msgPayload = {
 					msg: sdkConfig,
-					channel: Constants.EPNS_SDK_CHANNEL,
-					topic: Constants.EPNS_SDK_CHANNEL_TOPIC_SDK_CONFIG_INIT
+					channel: Constants.EPNS_SDK_EMBED_CHANNEL,
+					topic: Constants.EPNS_SDK_EMBED_CHANNEL_TOPIC_SDK_CONFIG_INIT
 				};
 
 				publishToIFRAME.call(sdkRef, msgPayload);
@@ -164,7 +164,7 @@ function subscribeToIFRAME(evt) {
 			}
 
 			// When the Embed App close button is clicked.
-			if (publishedMsg.topic === Constants.EPNS_SDK_CHANNEL_TOPIC_IFRAME_APP_CLOSED) {
+			if (publishedMsg.topic === Constants.EPNS_SDK_EMBED_CHANNEL_TOPIC_IFRAME_APP_CLOSED) {
 				hideEmbedView.call(sdkRef);
 
 				if (typeof onClose === 'function') {
@@ -195,12 +195,13 @@ function setUpWidget() {
 
 function insertCSS() {
 	const sdkRef = this;
-	const rootID = getRootID(__CONFIG)
-	const styleTagId = `${Constants.EPNS_SDK_STYLE_TAG_ID_PREFIX}${rootID}`
+	const rootID = getRootID(__CONFIG);
+	const styleTagId = `${Constants.EPNS_SDK_EMBED_STYLE_TAG_ID_PREFIX}${rootID}`;
 
 	let CSSElement = document.querySelector(
 		`style#${styleTagId}`
-	)
+	);
+
 	if (!CSSElement) {
 		const styleEl = document.createElement('style')
 		styleEl.id = `${styleTagId}`
@@ -227,7 +228,7 @@ async function refreshUnreadCount() {
 
 	let count = 0;
 	const rootID = getRootID(__CONFIG);
-	const LS_KEY = `${Constants.EPNS_SDK_LOCAL_STORAGE_PREFIX}${rootID}_LAST_NOTIFICATIONS`;
+	const LS_KEY = `${Constants.EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${rootID}_LAST_NOTIFICATIONS`;
 
 	let lastNotifications = await SDK_LOCAL_STORAGE.getLocalStorage(LS_KEY);		
 	let latestNotifications = await getUnreadNotifications.call(sdkRef);

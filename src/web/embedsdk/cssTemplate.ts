@@ -20,7 +20,7 @@ export default function (config) {
           top: 0;
           right: 0;
           bottom: 0;
-          z-index: ${Constants.EPNS_SDK_CSS.ZINDEX_MAX - 2};
+          z-index: ${Constants.EPNS_SDK_EMBED_CSS_ZINDEX_MAX - 2};
         }
 
         #${rootID} .epns-sdk-embed-modal-overlay {
@@ -30,17 +30,17 @@ export default function (config) {
           left: 0;
           bottom: 0;
           background-color: #000000bf;
-          z-index: ${Constants.EPNS_SDK_CSS.ZINDEX_MAX - 2};
+          z-index: ${Constants.EPNS_SDK_EMBED_CSS_ZINDEX_MAX - 2};
         }
 
         #${rootID} .epns-sdk-embed-modal-content {
           position: relative;
           width: 100%;
           height: 100%;
-          z-index: ${Constants.EPNS_SDK_CSS.ZINDEX_MAX};
+          z-index: ${Constants.EPNS_SDK_EMBED_CSS_ZINDEX_MAX};
         }
 
-        #${rootID} .epns-sdk-embed-modal-content iframe#${Constants.EPNS_SDK_IFRAME_ID} {
+        #${rootID} .epns-sdk-embed-modal-content iframe#${Constants.EPNS_SDK_EMBED_IFRAME_ID} {
           ${viewType === 'sidebar' ? 'width: 450px;' : 'width: 100%;'}
           height: 100%;
           border-radius: 8px;
