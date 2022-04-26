@@ -228,7 +228,7 @@ async function refreshUnreadCount() {
 
 	let count = 0;
 	const rootID = getRootID(__CONFIG);
-	const LS_KEY = `${Constants.EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${rootID}_LAST_NOTIFICATIONS`;
+	const LS_KEY = 'LAST_NOTIFICATIONS';
 
 	let lastNotifications = await SDK_LOCAL_STORAGE.getLocalStorage(LS_KEY);		
 	let latestNotifications = await getUnreadNotifications.call(sdkRef);

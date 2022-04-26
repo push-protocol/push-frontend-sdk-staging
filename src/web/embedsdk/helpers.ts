@@ -14,7 +14,8 @@ export function getRootID(config) {
 
 export const SDK_LOCAL_STORAGE = {
 	async getLocalStorage(key) {
-		const lsValue = window.localStorage.getItem(key);
+		const lsKey = `${EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${key}`;
+		const lsValue = window.localStorage.getItem(lsKey);
 		try {
 		  return JSON.parse(lsValue);
 		} catch (err) {
@@ -23,7 +24,8 @@ export const SDK_LOCAL_STORAGE = {
 		}
 	  },
 	  setLocalStorage(key, value) {
-		window.localStorage.setItem(key, JSON.stringify(value));
+		const lsKey = `${EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${key}`;
+		window.localStorage.setItem(lsKey, JSON.stringify(value));
 	  }
 };
 
