@@ -78,7 +78,7 @@ function App() {
   useEffect(() => {
     if (account && active) {
       EmbedSDK.init({
-        headerText: 'Hello DeFi', // optional
+        headerText: 'Test App Header', // optional
         targetID: 'sdk-trigger-id', // mandatory
         appName: 'consumerApp', // mandatory
         user: account, // mandatory
@@ -89,8 +89,18 @@ function App() {
           unreadIndicatorPosition: 'top-right',
         },
         theme: 'light',
+        onOpen: () => {
+          console.log('-> client dApp onOpen callback');
+        },
+        onClose: () => {
+          console.log('-> client dApp onClose callback');
+        }
       });
     }
+
+    return () => {
+      EmbedSDK.cleanup()
+    };
 
 }, [account, active]);
 

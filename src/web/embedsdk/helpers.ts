@@ -12,19 +12,22 @@ export function getRootID(config) {
 	return `${Constants.EPNS_SDK_EMBED_VIEW_ROOT}_DEFAULT_APPNAME`
 }
 
-export async function getLocalStorage(key) {
-  const lsValue = window.localStorage.getItem(key);
-  try {
-	return JSON.parse(lsValue);
-  } catch (err) {
-	console.warn('[EPNS-SDK] - local storage read issue');
-	return '';
-  }
-}
-
-export function setLocalStorage(key, value) {
-  window.localStorage.setItem(key, JSON.stringify(value));
-}
+export const SDK_LOCAL_STORAGE = {
+	async getLocalStorage(key) {
+		const lsKey = `${EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${key}`;
+		const lsValue = window.localStorage.getItem(lsKey);
+		try {
+		  return JSON.parse(lsValue);
+		} catch (err) {
+		  console.warn(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - Local Storage READ issue`);
+		  return '';
+		}
+	  },
+	  setLocalStorage(key, value) {
+		const lsKey = `${EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${key}`;
+		window.localStorage.setItem(lsKey, JSON.stringify(value));
+	  }
+};
 
 export function getFirstItemInArray(arr) {
 	if (Array.isArray(arr)) {
