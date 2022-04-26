@@ -140,6 +140,9 @@ function subscribeToIFRAME(evt) {
 
 	try {
 		if (typeof evt.data !== 'string') return null;
+		
+		const isSDKChannel = !!evt.data.match(Constants.EPNS_SDK_EMBED_CHANNEL);
+		if (!isSDKChannel) return null;
 
 		const publishedMsg = JSON.parse(evt.data);
 		
