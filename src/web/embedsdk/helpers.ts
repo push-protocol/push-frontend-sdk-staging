@@ -24,7 +24,7 @@ export const SDK_LOCAL_STORAGE = {
 		}
 	  },
 	  setLocalStorage(key, value) {
-		const lsKey = `${EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${key}`;
+		const lsKey = `${Constants.EPNS_SDK_EMBED_LOCAL_STORAGE_PREFIX}${key}`;
 		window.localStorage.setItem(lsKey, JSON.stringify(value));
 	  }
 };
