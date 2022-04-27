@@ -84,7 +84,10 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
    * A function which wraps around the function to subscribe a user to a channel 
    * @returns 
    */
-  const onSubscribe = async () => {
+  const onSubscribe = async (clickEvent: React.SyntheticEvent<HTMLElement>) => {
+    clickEvent.preventDefault();
+    clickEvent.stopPropagation();
+  
     if (!subscribeFn) return;
     try {
       setSubscribeLoading(true);
