@@ -265,15 +265,15 @@ After the wallet connect happens in your app flow trigger the below code snippet
 **Init Config Options**
 
 | option | type | mandatory | remarks |
-| ------ | ------ | ------ | ------ |
-| targetID | string | yes | can be any string but has to match the ID given to the trigger button in the HTML/JSX |
-| appName | string | yes | your app name e.g. - 'appName'  |
-| user | string | yes | public wallet address e.g. - '0x1434A7882cDD877B458Df5b83c993e9571c65813' |
-| viewOptions.type | string | no | default 'sidebar', can give 'modal'  |
-| viewOptions.showUnreadIndicator | boolean | no | will show the unread indicator  |
-| viewOptions.unreadIndicatorColor | string | no | color for the unread indicator e.g. - '#cc1919'  |
-| viewOptions.unreadIndicatorPosition | string | no | default is 'top-right', other possible options - 'top-left', 'bottom-left', 'bottom-right'  |
-| headerText | string | no | any header text  |
-| theme | string | no | default is 'light', can give 'dark'  |
-| onOpen | function | no | callback you want to trigger when the modal/sidebar opens  |
-| onClose | function | no | callback you want to trigger when the modal/sidebar closes  |
+| --- | --- | --- | --- |
+| `targetID` | `string` | yes | can be any string but has to match the ID given to the trigger button in the HTML/JSX |
+| `appName` | `string` | yes | your app name e.g. - 'appName'  |
+| `user` | `string` | yes | public wallet address e.g. - '0x1434A7882cDD877B458Df5b83c993e9571c65813' |
+| `viewOptions.type` | `string` | no | default 'sidebar', can give 'modal'  |
+| `viewOptions.showUnreadIndicator` | `boolean` | no | will show the unread indicator  |
+| `viewOptions.unreadIndicatorColor` | `string` | no | color for the unread indicator e.g. - '#cc1919'  |
+| `viewOptions.unreadIndicatorPosition` | `string` | no | default is 'top-right', other possible options - 'top-left', 'bottom-left', 'bottom-right'  |
+| `headerText` | `string` | no | any header text  |
+| `theme` | `string` | no | default is 'light', can give 'dark'  |
+| `onOpen` | `function` | no | callback you want to trigger when the modal/sidebar opens  |
+| `onClose` | `function` | no | callback you want to trigger when the modal/sidebar closes  |
