@@ -18,7 +18,7 @@ In order to install this SDK on your existing web application or mobile applicat
 
 It can be installed as an npm package via the following command.
 
-`npm install @epnsproject/epns-frontend-sdk-staging`
+`npm install @epnsproject/frontend-sdk-staging`
   
   
 ### Installation for SDK Development
@@ -58,7 +58,7 @@ It is done this way in order to seperate the different layers from each other.
 ### Fetching and parsing notifications from the api
 #### A more comprehensive demo can be located at  `src/sample_codes/loadNotifications`.
 ```javascript
-import { api, utils } from "@epnsproject/epns-frontend-sdk-staging";
+import { api, utils } from "@epnsproject/frontend-sdk-staging";
 
 // define the variables required to make a request
 const walletAddress = "0x1234567890abcdcdefghijklmnopqrstuvwxyz123";
@@ -82,7 +82,7 @@ console.log(parsedResponse);
 ### Rendering the parsed notification on the web
 ```javascript
 
-import { NotificationItem } from  "@epnsproject/epns-frontend-sdk-staging";
+import { NotificationItem } from  "@epnsproject/frontend-sdk-staging";
 
 // This is used to render the text present in a notification body as a JSX element
 
@@ -100,7 +100,7 @@ import { NotificationItem } from  "@epnsproject/epns-frontend-sdk-staging";
  
  ### Rendering the parsed notification on a react native mobile application.
  ```javascript
- import { NotificationItem} from  '@epnsproject/epns-frontend-sdk-staging/dist/native';
+ import { NotificationItem} from  '@epnsproject/frontend-sdk-staging/dist/native';
  
 	<NotificationItem
 			notificationTitle={parsedResponse.title}
