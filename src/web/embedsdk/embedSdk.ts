@@ -32,15 +32,15 @@ const __CONFIG = {};
  */
 function validateConfig(passedConfig) {
   if (!passedConfig.user) {
-	console.error(`${EPNS_SDK_EMBED_NAMESPACE} - config.user not passed!`);
+	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.user not passed!`);
 	return false;
   }
   if (!passedConfig.targetID) {
-	console.error(`${EPNS_SDK_EMBED_NAMESPACE} - config.targetID not passed!`);
+	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.targetID not passed!`);
 	return false;
   }
   if (!passedConfig.appName) {
-	console.error(`${EPNS_SDK_EMBED_NAMESPACE} - config.appName not passed!`);
+	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.appName not passed!`);
 	return false;
   }
   return true;
@@ -112,7 +112,7 @@ function setUpEventHandlers() {
 			showEmbedView.call(sdkRef);
 		});
 	} else {
-		console.error(`${EPNS_SDK_EMBED_NAMESPACE} - No trigger element ${__CONFIG.targetID} found!`)
+		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - No trigger element ${__CONFIG.targetID} found!`)
 	}
 }
 
@@ -285,7 +285,7 @@ async function getUnreadNotifications() {
 		  }
 
 	} catch (error) {
-		console.error(`${EPNS_SDK_EMBED_NAMESPACE} - API Error ${Constants.EPNS_SDK_EMBED_API_URL}`, error);
+		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - API Error ${Constants.EPNS_SDK_EMBED_API_URL}`, error);
 		return [];
 	}
 }
