@@ -74,7 +74,6 @@
     "find-cache-dir": "^3.3.1",
     "find-up": "^4.1.0",
     "fs-extra": "^8.1.0",
-    "fsevents": "^2.3.2",
     "function-bind": "^1.1.1",
     "glob-parent": "^5.1.2",
     "globals": "^9.18.0",
@@ -144,6 +143,9 @@
     "trim-right": "^1.0.1",
     "tslib": "^2.1.0",
     "universalify": "^0.1.2"
+  },
+  "optionalDependencies":{
+    "fsevents": "^2.3.2"
   },
   "repository": {
     "type": "git",
