@@ -76,6 +76,10 @@ const CustomHeaderTwo = styled.h2`
   padding: 0px;
   font-family: inherit;
   text-align: inherit;
+
+  @media(max-width: 1000px){
+    font-size: 1.2625em;
+  }
 `;
 
 const Item = styled.div`
@@ -91,6 +95,7 @@ const Item = styled.div`
     display: grid;
     grid-template-columns: 50% 50%;
     grid-row-gap: 3.3125em;
+
   }
 `;
 
@@ -167,10 +172,10 @@ const Modal = styled.div`
     width: max(70vw, 350px);
     padding: 2em;
     .modal__content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 20px !important;
     }
   }
 `;
