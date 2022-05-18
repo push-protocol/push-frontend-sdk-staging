@@ -95,7 +95,6 @@ const Item = styled.div`
     display: grid;
     grid-template-columns: 50% 50%;
     grid-row-gap: 3.3125em;
-
   }
 `;
 
@@ -175,7 +174,7 @@ const Modal = styled.div`
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 20px !important;
+      gap: 10px !important;
     }
   }
 `;
