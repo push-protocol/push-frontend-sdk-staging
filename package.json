@@ -144,7 +144,7 @@
     "tslib": "^2.1.0",
     "universalify": "^0.1.2"
   },
-  "optionalDependencies":{
+  "optionalDependencies": {
     "fsevents": "^2.3.2"
   },
   "repository": {

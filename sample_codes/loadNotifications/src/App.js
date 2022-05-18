@@ -20,6 +20,18 @@ const PAGINATION_PARAMS = {
 const BASE_URL = "https://backend-kovan.epns.io/apis";
 const CHANNEL_ADDRESS = "0x94c3016ef3e503774630fC71F59B8Da9f7D470B7";
 
+// utility function to fake promises
+const fakePromise = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('foo');
+    }, 3000);
+  });
+}
+
+
+
+
 function App() {
   const { library, active, account, chainId } = useWeb3React();
 
@@ -27,6 +39,12 @@ function App() {
   // notification details
   const [notifications, setNotifications] = useState([]);
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const onDecrypt = async (i) => {
+    await fakePromise();
+    // return the decrypted { title, body }
+    return { title: 'Secret title revelead', body: `Secret body revealed for ${i}` };
+  };
 
   /**
    * Fetch notifications for the user
@@ -176,6 +194,8 @@ function App() {
                   icon={icon}
                   image={image}
                   url={url}
+                  isSecret={Math.random() < 0.3}
+                  decryptFn={() => onDecrypt(i)}
                   // optional parameters for rendering spambox
                   isSpam={i == notifications.length - 1}
                   subscribeFn={async () => alert("yayy")}

@@ -67,22 +67,25 @@ export function parseApiResponse(
           sid = "",
           app = "",
           aimg = "",
+          secret = ""
         },
-        notification: { body = "", title = "" },
+        notification,
       },
       blockchain,
     } = apiNotification;
 
     return {
       cta,
-      title: asub || title,
-      message: bigMessage || body,
+      title: asub || notification.title || '',
+      message: bigMessage || notification.body || '',
       icon,
       url,
       sid,
       app,
       image: aimg,
       blockchain,
+      notification,
+      secret
     };
   });
 }
