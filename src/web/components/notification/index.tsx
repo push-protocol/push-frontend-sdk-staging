@@ -10,6 +10,8 @@ import MediaHelper from "../../../utilities/mediaHelper";
 import Loader from "../loader/loader";
 import { extractTimeStamp } from "../../../utilities/index";
 import ChainImages from '../../../constants/chain';
+import ActionButton from './styled/ActionButton';
+import DecryptButton from './DecryptButton';
 
 // ================= Define types
 type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" |undefined;
@@ -24,9 +26,11 @@ export type NotificationItemProps = {
   url: string | undefined;
   isSpam: boolean | undefined;
   subscribeFn: any;
-  isSubscribedFn: any,
-  theme: string | undefined
-  chainName: chainNameType
+  isSubscribedFn: any;
+  theme: string | undefined;
+  chainName: chainNameType;
+  isSecret: boolean;
+  decryptFn: () => Promise<{ title: string, body: string }>;
 };
 
 
@@ -52,18 +56,24 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   isSubscribedFn, //A function for getting if a user is subscribed to the channel in question
   subscribeFn, //A function for subscribing to the spam channel
   theme, //for specifying light and dark theme
-  chainName
+  chainName,
+  isSecret,
+  decryptFn
 }) => {
   const { notificationBody: parsedBody, timeStamp } = extractTimeStamp(
     notificationBody || ""
   );
   const rightIcon = chainName && ChainImages['CHAIN_ICONS'][chainName]; //get the right chain id to render if any
 
-  console.log({
-    chainName,
-    rightIcon,
-    ai: ChainImages['CHAIN_ICONS']
-  })
+  const [notifTitle, setNotifTitle] = React.useState(notificationTitle);
+  const [notifBody, setNotifBody] = React.useState(parsedBody);
+  const [isSecretReveled, setIsSecretRevealed] = React.useState(false);
+
+  // console.log({
+  //   chainName,
+  //   rightIcon,
+  //   ai: ChainImages['CHAIN_ICONS']
+  // })
   const gotToCTA = (e: any) => {
     e.stopPropagation();
     if (!MediaHelper.validURL(cta)) return;
@@ -98,6 +108,18 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     }
   };
 
+  const onDecrypt = async () => {
+    try {
+      const decryptedPayload = await decryptFn();
+      // to check if always both title, body are present
+      if (decryptedPayload) {
+        setNotifTitle(decryptedPayload?.title);
+        setNotifBody(decryptedPayload?.body);
+        setIsSecretRevealed(true);
+      }  
+    } catch (e) {} finally {}
+  };
+
   React.useEffect(() => {
     if(!isSpam || !isSubscribedFn) return;
     isSubscribedFn().then((res:any) => {
@@ -105,7 +127,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     })
 
   },[isSubscribedFn, isSpam]);
-
+  
   if(isSubscribed && isSpam) return <></>;
 
   // render
@@ -175,23 +197,30 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         {/* section for text content */}
         <ChannelDetailsWrapper>
           <ChannelTitle>
-            <ChannelTitleLink theme={theme}>{notificationTitle}</ChannelTitleLink>
+            <ChannelTitleLink theme={theme}>{notifTitle}</ChannelTitleLink>
           </ChannelTitle>
           <ChannelDesc>
             <ChannelDescLabel theme={theme}>
-              <ParseMarkdownText text={parsedBody} />
+              <ParseMarkdownText text={notifBody} />
             </ChannelDescLabel>
           </ChannelDesc>
         </ChannelDetailsWrapper>
         {/* section for text content */}
 
-        {/* include a channel opt into */}
-        {isSpam && (
-          <SpamButton onClick={onSubscribe}>
-            {subscribeLoading ? <Loader /> : "opt-in"}
-          </SpamButton>
-        )}
-        {/* include a channel opt into */}
+
+        <ButtonGroup>
+          {/* include a channel opt into */}
+          {isSpam && (
+            <ActionButton onClick={onSubscribe}>
+              {subscribeLoading ? <Loader /> : "opt-in"}
+            </ActionButton>
+          )}
+          {/* include a channel opt into */}
+
+          {isSecret ? (
+            <DecryptButton decryptFn={onDecrypt} isSecretReveled={isSecretReveled} />
+          ): null}
+        </ButtonGroup>
       </ContentSection>
       {/* content of the component */}
 
@@ -261,6 +290,7 @@ const ContentSection = styled.div`
     display: flex;
     flex-direction: row;
     gap: 20px;
+    justify-content: space-between;
   }
 `;
 
@@ -443,18 +473,10 @@ const PoolShare = styled(ChannelMetaBox)`
   }
 `;
 
-const SpamButton = styled.div`
-  background: rgb(226, 8, 128);
-  padding: 10px 20px;
-  color: #fff;
-  font-weight: 500;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: 300ms;
-  margin-left: auto;
-  &:hover {
-    opacity: 0.9;
-  }
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 20px;
 `;
+
 // Export Default
 export default ViewNotificationItem;

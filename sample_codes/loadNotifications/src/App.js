@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import "./App.scss";
 import ConnectButton from "./components/connect";
 import { useWeb3React } from "@web3-react/core";
+import { fakePromise, addSecretNotifications } from './utils'
 
 const WALLET_ADDRESS = "0x57c1D4dbFBc9F8cB77709493cc43eaA3CD505432";
 const PAGINATION_PARAMS = {
@@ -20,6 +21,7 @@ const PAGINATION_PARAMS = {
 const BASE_URL = "https://backend-kovan.epns.io/apis";
 const CHANNEL_ADDRESS = "0x94c3016ef3e503774630fC71F59B8Da9f7D470B7";
 
+
 function App() {
   const { library, active, account, chainId } = useWeb3React();
 
@@ -27,6 +29,15 @@ function App() {
   // notification details
   const [notifications, setNotifications] = useState([]);
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const testSpamCondition = (iNotif) =>  iNotif === notifications.length - 1
+
+  const onDecrypt = async (i) => {
+    // do the actual decrypt thing here and return the result of that promise
+    await fakePromise();
+    // return the decrypted { title, body }
+    return { title: 'Secret title REVEALED!', body: `Secret body REVEALED! for ${i}` };
+  };
 
   /**
    * Fetch notifications for the user
@@ -42,10 +53,10 @@ function App() {
         BASE_URL
       )
       .then((notificationsData) => {
-        const { count, results } = notificationsData || {};
+        const { results } = notificationsData || {};
         // console.log(`${count} notifications loaded:`, results);
         // parse the notifications into the required format
-        const response = utils.parseApiResponse([
+        let response = utils.parseApiResponse([
           ...results,
           ...DEFAULT_NOTIFICATIONS,
         ]);
@@ -53,9 +64,11 @@ function App() {
         // const response = utils.parseApiResponse(results);
         // console.log("Parsed response to:", response);
         console.log({ parsed: response });
+
+        response = addSecretNotifications(response); // remove this line to remove test secret notifs
         setNotifications(response);
       });
-  }, [active]);
+  }, [active, account]);
   // notification details
 
   // channel details
@@ -128,7 +141,7 @@ function App() {
               <h3>Channel</h3>
               <div className="sample__channel">
                 <div>
-                  <img src={channel.icon} className="channel__image" />
+                  <img src={channel.icon} className="channel__image" alt="channel" />
                   <h2>{channel.name}</h2>
                 </div>
                 <div
@@ -162,22 +175,24 @@ function App() {
           <div>
             <h3>Notifications</h3>
             {notifications.map((oneNotification, i) => {
-              const { cta, title, message, app, icon, image, url, blockchain } =
+              const { cta, title, message, app, icon, image, url, blockchain, secret, notification } =
                 oneNotification;
-
+                
               // render the notification item
               return (
                 <NotificationItem
                   key={i}
-                  notificationTitle={title}
-                  notificationBody={message}
+                  notificationTitle={!!secret ? notification.title : title}
+                  notificationBody={!!secret ? notification.body : message}
                   cta={cta}
                   app={app}
                   icon={icon}
                   image={image}
                   url={url}
+                  isSecret={!!secret && !testSpamCondition(i)} // since we are adding random secret notifs in this test app
+                  decryptFn={() => onDecrypt(i)}
                   // optional parameters for rendering spambox
-                  isSpam={i == notifications.length - 1}
+                  isSpam={testSpamCondition(i)}
                   subscribeFn={async () => alert("yayy")}
                   isSubscribedFn={async () => false}
                   theme={"dark"}
