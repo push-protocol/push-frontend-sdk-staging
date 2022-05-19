@@ -1,6 +1,6 @@
 import * as React from "react";
 import Loader from "../loader/loader";
-import ActionButton from './ActionButton';
+import ActionButton from './styled/ActionButton';
 
 export type DecryptButtonProps = {
   decryptFn: () => Promise<any>;

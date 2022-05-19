@@ -4,7 +4,8 @@ export type ButtonProps = {
   disabled?: boolean 
 };
 
-const ActionButton = styled.div<ButtonProps>`
+const ActionButton = styled.button<ButtonProps>`
+  all: unset;
   background: rgb(226, 8, 128);
   padding: 10px 20px;
   color: #fff;
