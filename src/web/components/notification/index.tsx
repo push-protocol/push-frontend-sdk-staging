@@ -76,6 +76,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   // })
   const gotToCTA = (e: any) => {
     e.stopPropagation();
+    if (isSecret && !isSecretReveled) return;
     if (!MediaHelper.validURL(cta)) return;
     window.open(cta, "_blank");
   };
@@ -163,7 +164,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       {/* content of the component */}
       <ContentSection>
         {/* section for media content */}
-        {image &&
+        {image && (isSecret ? isSecretReveled : true) &&
           // if its an image then render this
           (!MediaHelper.isMediaSupportedVideo(image) ? (
             <MobileImage
