@@ -1,14 +1,16 @@
 import styled from "styled-components";
 
 export type ButtonProps = {
-  disabled?: boolean 
+  disabled?: boolean,
+  bgColor?: string,
+  color?: string
 };
 
 const ActionButton = styled.button<ButtonProps>`
   all: unset;
-  background: rgb(226, 8, 128);
+  background: ${(props) => props.bgColor || 'rgb(226, 8, 128)'};
+  color: ${(props) => props.color || '#fff'};
   padding: 10px 20px;
-  color: #fff;
   font-weight: 500;
   border-radius: 3px;
   cursor: ${(props) => props.disabled ? 'default' : 'pointer'};

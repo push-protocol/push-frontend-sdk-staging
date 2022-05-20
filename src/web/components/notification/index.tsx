@@ -12,6 +12,7 @@ import { extractTimeStamp } from "../../../utilities/index";
 import ChainImages from '../../../constants/chain';
 import ActionButton from './styled/ActionButton';
 import DecryptButton from './DecryptButton';
+import useDecrypt from './use-decrypt';
 
 // ================= Define types
 type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" |undefined;
@@ -30,7 +31,7 @@ export type NotificationItemProps = {
   theme: string | undefined;
   chainName: chainNameType;
   isSecret: boolean;
-  decryptFn: () => Promise<{ title: string, body: string }>;
+  decryptFn: () => Promise<{ title: string, body: string, cta: string, image: string }>;
 };
 
 
@@ -65,9 +66,21 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   );
   const rightIcon = chainName && ChainImages['CHAIN_ICONS'][chainName]; //get the right chain id to render if any
 
-  const [notifTitle, setNotifTitle] = React.useState(notificationTitle);
-  const [notifBody, setNotifBody] = React.useState(parsedBody);
-  const [isSecretReveled, setIsSecretRevealed] = React.useState(false);
+  const {
+    notifTitle, notifBody, notifCta, notifImage,
+    setDecryptedValues,
+    isSecretReveled, setIsSecretRevealed
+  } = useDecrypt(isSecret, {
+    notificationTitle,
+    parsedBody,
+    cta,
+    image
+  });
+
+  // store the image to be displayed in this state variable
+  const [imageOverlay, setImageOverlay] = React.useState("");
+  const [subscribeLoading, setSubscribeLoading] = React.useState(false);
+  const [isSubscribed, setIsSubscribed] = React.useState(true); //use this to confirm if this is s
 
   // console.log({
   //   chainName,
@@ -76,20 +89,14 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   // })
   const gotToCTA = (e: any) => {
     e.stopPropagation();
-    if (isSecret && !isSecretReveled) return;
-    if (!MediaHelper.validURL(cta)) return;
-    window.open(cta, "_blank");
+    if (!MediaHelper.validURL(notifCta)) return;
+    window.open(notifCta, "_blank");
   };
 
   const goToURL = (e: any) => {
     e.stopPropagation();
     window.open(url, "_blank");
   };
-
-  // store the image to be displayed in this state variable
-  const [imageOverlay, setImageOverlay] = React.useState("");
-  const [subscribeLoading, setSubscribeLoading] = React.useState(false);
-  const [isSubscribed, setIsSubscribed] = React.useState(true); //use this to confirm if this is s
 
   /**
    * A function which wraps around the function to subscribe a user to a channel 
@@ -114,8 +121,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       const decryptedPayload = await decryptFn();
       // to check if always both title, body are present
       if (decryptedPayload) {
-        setNotifTitle(decryptedPayload?.title);
-        setNotifBody(decryptedPayload?.body);
+        setDecryptedValues(decryptedPayload);
         setIsSecretRevealed(true);
       }  
     } catch (e) {} finally {}
@@ -135,7 +141,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   return (
     <Container
       timestamp={timeStamp}
-      cta={MediaHelper.validURL(cta)}
+      cta={MediaHelper.validURL(notifCta)}
       onClick={gotToCTA}
       theme={theme}
     >
@@ -164,31 +170,31 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       {/* content of the component */}
       <ContentSection>
         {/* section for media content */}
-        {image && (isSecret ? isSecretReveled : true) &&
+        {notifImage &&
           // if its an image then render this
-          (!MediaHelper.isMediaSupportedVideo(image) ? (
+          (!MediaHelper.isMediaSupportedVideo(notifImage) ? (
             <MobileImage
               style={{ cursor: "pointer" }}
-              onClick={() => setImageOverlay(image || "")}
+              onClick={() => setImageOverlay(notifImage || "")}
             >
-              <img src={image} alt="" />
+              <img src={notifImage} alt="" />
             </MobileImage>
           ) : // if its a youtube url, RENDER THIS
-          MediaHelper.isMediaYoutube(image) ? (
+          MediaHelper.isMediaYoutube(notifImage) ? (
             <MobileImage>
               <iframe
                 id="ytplayer"
                 width="640"
                 allow="fullscreen;"
                 height="360"
-                src={MediaHelper.isMediaExternalEmbed(image)}
+                src={MediaHelper.isMediaExternalEmbed(notifImage)}
               ></iframe>
             </MobileImage>
           ) : (
             // if its aN MP4 url, RENDER THIS
             <MobileImage>
               <video width="360" height="100%" controls>
-                <source src={image} type="video/mp4" />
+                <source src={notifImage} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </MobileImage>

@@ -34,10 +34,8 @@ const DecryptButton: React.FC<DecryptButtonProps> = ({
       };
 
     return (
-        <ActionButton disabled={isSecretReveled}
-            onClick={onClickHandler}
-        >
-             {isLoading ? <Loader /> : btnText}
+        <ActionButton disabled={isSecretReveled} onClick={onClickHandler} bgColor="#674C9F">
+          {isLoading ? <Loader /> : btnText}
         </ActionButton>
     );
 };
