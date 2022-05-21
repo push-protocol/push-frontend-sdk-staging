@@ -11,8 +11,7 @@ import Loader from "../loader/loader";
 import { extractTimeStamp } from "../../../utilities/index";
 import ChainImages from '../../../constants/chain';
 import ActionButton from './styled/ActionButton';
-import DecryptButton from './DecryptButton';
-import useDecrypt from './use-decrypt';
+import { useDecrypt, DecryptButton } from './decrypt';
 
 // ================= Define types
 type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" |undefined;
@@ -69,13 +68,8 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   const {
     notifTitle, notifBody, notifCta, notifImage,
     setDecryptedValues,
-    isSecretReveled, setIsSecretRevealed
-  } = useDecrypt(isSecret, {
-    notificationTitle,
-    parsedBody,
-    cta,
-    image
-  });
+    isSecretRevealed,
+  } = useDecrypt(isSecret, { notificationTitle, parsedBody, cta, image });
 
   // store the image to be displayed in this state variable
   const [imageOverlay, setImageOverlay] = React.useState("");
@@ -122,7 +116,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       // to check if always both title, body are present
       if (decryptedPayload) {
         setDecryptedValues(decryptedPayload);
-        setIsSecretRevealed(true);
       }  
     } catch (e) {} finally {}
   };
@@ -225,7 +218,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           {/* include a channel opt into */}
 
           {isSecret ? (
-            <DecryptButton decryptFn={onDecrypt} isSecretReveled={isSecretReveled} />
+            <DecryptButton decryptFn={onDecrypt} isSecretRevealed={isSecretRevealed} />
           ): null}
         </ButtonGroup>
       </ContentSection>
