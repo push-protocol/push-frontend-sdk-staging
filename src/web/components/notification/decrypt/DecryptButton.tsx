@@ -1,10 +1,10 @@
 import * as React from "react";
-import Loader from "../loader/loader";
-import ActionButton from './styled/ActionButton';
+import Loader from "../../loader/loader";
+import ActionButton from '.././styled/ActionButton';
 
 export type DecryptButtonProps = {
   decryptFn: () => Promise<any>;
-  isSecretReveled: boolean
+  isSecretRevealed: boolean
 };
 
 const buttonText = {
@@ -14,16 +14,16 @@ const buttonText = {
 
 const DecryptButton: React.FC<DecryptButtonProps> = ({
   decryptFn,
-  isSecretReveled
+  isSecretRevealed
 }) => {
     const [isLoading, setIsLaoding] = React.useState(false);
-    const btnText = isSecretReveled ? buttonText.revealed : buttonText.notRevealed;
+    const btnText = isSecretRevealed ? buttonText.revealed : buttonText.notRevealed;
 
     const onClickHandler = async (clickEvent: React.SyntheticEvent<HTMLElement>) => {
         clickEvent.preventDefault();
         clickEvent.stopPropagation();
     
-        if (!decryptFn || isSecretReveled) return;
+        if (!decryptFn || isSecretRevealed) return;
 
         try {
             setIsLaoding(true);
@@ -34,10 +34,8 @@ const DecryptButton: React.FC<DecryptButtonProps> = ({
       };
 
     return (
-        <ActionButton disabled={isSecretReveled}
-            onClick={onClickHandler}
-        >
-             {isLoading ? <Loader /> : btnText}
+        <ActionButton disabled={isSecretRevealed} onClick={onClickHandler} bgColor="#674C9F">
+          {isLoading ? <Loader /> : btnText}
         </ActionButton>
     );
 };

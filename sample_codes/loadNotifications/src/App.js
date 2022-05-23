@@ -36,7 +36,12 @@ function App() {
     // do the actual decrypt thing here and return the result of that promise
     await fakePromise();
     // return the decrypted { title, body }
-    return { title: 'Secret title REVEALED!', body: `Secret body REVEALED! for ${i}` };
+    return {
+      title: 'Secret title REVEALED!',
+      body: `Secret body REVEALED! for ${i}`,
+      image: 'https://www.youtube.com/watch?v=1SjjWtYkCUM',
+      cta: 'https://docs.epns.io/hub/'
+    };
   };
 
   /**
