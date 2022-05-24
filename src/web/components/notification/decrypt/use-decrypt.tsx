@@ -20,7 +20,7 @@ function useDecrypt(isSecret: boolean, initialValues : {
       notifBody: initialValues.parsedBody || '',
       notifCta: initialValues.cta || '',
       notifImage: initialValues.image || '',
-      isSecretRevealed: false // avoids extra render
+      isSecretRevealed: false
     });
 
     const hideSecretAttributes = isSecret ? (
