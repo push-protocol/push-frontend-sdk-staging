@@ -14,7 +14,7 @@ import ActionButton from './styled/ActionButton';
 import { useDecrypt, DecryptButton } from './decrypt';
 
 // ================= Define types
-type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" |undefined;
+type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" | "THE_GRAPH" | undefined;
 
 export type NotificationItemProps = {
   notificationTitle: string | undefined;
@@ -76,11 +76,13 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   const [subscribeLoading, setSubscribeLoading] = React.useState(false);
   const [isSubscribed, setIsSubscribed] = React.useState(true); //use this to confirm if this is s
 
-  // console.log({
-  //   chainName,
-  //   rightIcon,
-  //   ai: ChainImages['CHAIN_ICONS']
-  // })
+  console.log({
+    chainName,
+    rightIcon,
+    ai: ChainImages['CHAIN_ICONS']
+  })
+
+
   const gotToCTA = (e: any) => {
     e.stopPropagation();
     if (!MediaHelper.validURL(notifCta)) return;
