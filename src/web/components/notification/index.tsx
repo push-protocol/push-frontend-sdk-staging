@@ -76,11 +76,11 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   const [subscribeLoading, setSubscribeLoading] = React.useState(false);
   const [isSubscribed, setIsSubscribed] = React.useState(true); //use this to confirm if this is s
 
-  console.log({
-    chainName,
-    rightIcon,
-    ai: ChainImages['CHAIN_ICONS']
-  })
+  // console.log({
+  //   chainName,
+  //   rightIcon,
+  //   ai: ChainImages['CHAIN_ICONS']
+  // })
 
 
   const gotToCTA = (e: any) => {
