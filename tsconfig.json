@@ -18,6 +18,6 @@
       "noUnusedLocals": true,
       "noUnusedParameters": false
     },
-    "include": ["src", "sample_codes"],
+    "include": ["src", "sample_codes", "custom.d.ts"],
     "exclude": ["node_modules", "dist", "example", "rollup.config.js"]
   }

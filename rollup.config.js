@@ -4,6 +4,8 @@ import typescript from "rollup-plugin-typescript2";
 import json from "@rollup/plugin-json";
 
 import pkg from "./package.json";
+import svgr from '@svgr/rollup';
+import image from 'rollup-plugin-image';
 
 export default [
   // output for the web version
@@ -20,7 +22,7 @@ export default [
     ],
     preferBuiltins: false,
     globals: { "styled-components": "styled" },
-    plugins: [resolve(), commonjs(), typescript(), json()],
+    plugins: [resolve(), commonjs(), typescript(), json(), svgr(), image()],
     external: [
       "react",
       "react-dom",
@@ -46,7 +48,7 @@ export default [
     ],
     preferBuiltins: false,
     globals: { "styled-components": "styled" },
-    plugins: [resolve(), commonjs(), typescript(), json()],
+    plugins: [resolve(), commonjs(), typescript(), json(), svgr(), image()],
     external: [
       "react",
       "styled-components/native",

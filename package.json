@@ -40,7 +40,7 @@
   "description": "a frontend SDK Package for epns notifications",
   "version": "1.8.2",
   "dependencies": {
-    "@rollup/plugin-commonjs": "^20.0.0",
+    "@svgr/rollup": "^6.2.1",
     "ansi-regex": "^2.1.1",
     "ansi-styles": "^2.2.1",
     "anymatch": "^3.1.2",
@@ -126,6 +126,7 @@
     "resolve": "^1.20.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-image": "^1.0.2",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
