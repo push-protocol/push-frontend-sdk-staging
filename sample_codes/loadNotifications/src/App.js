@@ -200,7 +200,7 @@ function App() {
                   isSpam={testSpamCondition(i)}
                   subscribeFn={async () => alert("yayy")}
                   isSubscribedFn={async () => false}
-                  theme={"dark"}
+                  theme={"light"}
                   chainName={blockchain}
                 />
               );

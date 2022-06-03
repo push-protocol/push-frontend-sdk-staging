@@ -9,22 +9,13 @@ import ParseMarkdownText from "../parsetext";
 import MediaHelper from "../../../utilities/mediaHelper";
 import Loader from "../loader/loader";
 import { extractTimeStamp } from "../../../utilities/index";
-import ChainImages from '../../../constants/chain';
+import ChainDetails from "./chain";
 
 import ActionButton from "./styled/ActionButton";
 import { useDecrypt, DecryptButton } from "./decrypt";
-import EthereumSVG from "./iconassets/ethereum.svg";
-import PolygonSVG from "./iconassets/polygon.svg";
-import GraphSVG from "./iconassets/thegraph.svg";
 
 // ================= Define types
-type chainNameType =
-  | "ETH_TEST_KOVAN"
-  | "POLYGON_TEST_MUMBAI"
-  | "ETH_MAINNET"
-  | "POLYGON_MAINNET"
-  | "THE_GRAPH"
-  | undefined;
+type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" | "THE_GRAPH" | undefined;
 
 export type NotificationItemProps = {
   notificationTitle: string | undefined;
@@ -40,12 +31,7 @@ export type NotificationItemProps = {
   theme: string | undefined;
   chainName: chainNameType;
   isSecret: boolean;
-  decryptFn: () => Promise<{
-    title: string;
-    body: string;
-    cta: string;
-    image: string;
-  }>;
+  decryptFn: () => Promise<{ title: string, body: string, cta: string, image: string }>
 };
 
 type ContainerDataType = {
@@ -79,10 +65,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   );
 
   const {
-    notifTitle,
-    notifBody,
-    notifCta,
-    notifImage,
+    notifTitle, notifBody, notifCta, notifImage,
     setDecryptedValues,
     isSecretRevealed,
   } = useDecrypt(isSecret, { notificationTitle, parsedBody, cta, image });
@@ -146,25 +129,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     });
   }, [isSubscribedFn, isSpam]);
 
-  const networkComponent = () => {
-    return chainName
-      ? {
-          name: chainName.toLowerCase().includes("eth")
-            ? "ETHEREUM"
-            : chainName.toLowerCase().includes("polygon")
-            ? "POLYGON"
-            : "THE GRAPH",
-          icon: chainName.toLowerCase().includes("eth") ? (
-            <EthereumSVG />
-          ) : chainName.toLowerCase().includes("polygon") ? (
-            <PolygonSVG />
-          ) : (
-            <GraphSVG />
-          ),
-        }
-      : null;
-  };
-
   if (isSubscribed && isSpam) return <></>;
 
   // render
@@ -183,16 +147,14 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           </ImageContainer>
           {app}
         </HeaderButton>
-        {!isSecret ? (
-          chainName ? (
-            <BlockchainContainer>
-              <NetworkDetails>
-                <DelieveredViaText>DELIVERED VIA</DelieveredViaText>
-                <NetworkName>{networkComponent()?.name}</NetworkName>
-              </NetworkDetails>
-              <HeaderImg>{networkComponent()?.icon}</HeaderImg>
-            </BlockchainContainer>
-          ) : null
+        {chainName ? (
+          <BlockchainContainer>
+            <NetworkDetails>
+              <DelieveredViaText>DELIVERED VIA</DelieveredViaText>
+              <NetworkName>{ChainDetails[chainName].label}</NetworkName>
+            </NetworkDetails>
+            <HeaderImg>{ChainDetails[chainName].icon}</HeaderImg>
+          </BlockchainContainer>
         ) : null}
         {/* {
          isPoly?
@@ -260,11 +222,8 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           {/* include a channel opt into */}
 
           {isSecret ? (
-            <DecryptButton
-              decryptFn={onDecrypt}
-              isSecretRevealed={isSecretRevealed}
-            />
-          ) : null}
+            <DecryptButton decryptFn={onDecrypt} isSecretRevealed={isSecretRevealed} />
+            ): null}
         </ButtonGroup>
       </ContentSection>
       {/* content of the component */}
@@ -274,12 +233,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         <>
           <Pool>
             <PoolContainer>
-              {isSecret ? (
-                <SecretIcon
-                  src={ChainImages.CHAIN_ICONS.SECRET_GRADIENT}
-                  alt=''
-                />
-              ) : null}
+              {isSecret ? <SecretIcon /> : null}
               <PoolShare theme={theme}>
                 {timeStamp
                   ? moment
@@ -363,12 +317,10 @@ const NetworkDetails = styled.div`
 const DelieveredViaText = styled.div`
   font-size: 1rem;
   opacity: 20%;
-  font-family: "Source Sans Pro", Arial, sans-serif;
 `;
 const NetworkName = styled.div`
   font-size: 0.875rem;
   opacity: 40%;
-  font-family: "Source Sans Pro", Arial, sans-serif;
 `;
 
 const HeaderImg = styled.div`
@@ -400,7 +352,7 @@ const MobileImage = styled.div`
     video {
       border: 0;
       max-width: calc(100% + 42px) !important;
-      margin-left: -20px;
+      margin-left: -21px;
       // margin-right: -40px;
       margin-top: -12px;
       margin-bottom: 5px;
@@ -544,9 +496,16 @@ const PoolContainer = styled.div`
   right: 0;
 `;
 
-const SecretIcon = styled.img`
-  width: 24px;
-  height: 24px;
+const SecretIcon = styled.div`
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #e20880 12.5%,
+    #674c9f 49.89%,
+    #35c5f3 87.5%
+  );
 `;
 
 const PoolShare = styled(ChannelMetaBox)`
