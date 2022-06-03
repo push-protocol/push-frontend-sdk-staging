@@ -324,6 +324,12 @@ const HeaderImg = styled.div`
     width: 32px;
     height: 32px;
   }
+  @media (max-width: ${SM_BREAKPOINT}) {
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
 `;
 
 const MobileImage = styled.div`
@@ -362,6 +368,10 @@ const ImageContainer = styled.span`
   display: inline-block;
   margin-right: 10px;
   border-radius: 5px;
+  @media (max-width: ${SM_BREAKPOINT}) {
+    width: 28px;
+    height: 28px;
+  }
 `;
 
 const ChannelDetailsWrapper = styled.div`
@@ -415,6 +425,11 @@ const MobileHeader = styled.div`
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: left;
+  }
+  @media (max-width: ${SM_BREAKPOINT}) {
+    svg {
+      padding: 15px;
+    }
   }
 `;
 
