@@ -229,23 +229,19 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       {/* content of the component */}
 
       {/* meta data of the component */}
-      <ChannelMeta hidden={!timeStamp}>
-        <>
-          <Pool>
-            <PoolContainer>
-              {isSecret ? <SecretIcon /> : null}
-              <PoolShare theme={theme}>
-                {timeStamp
-                  ? moment
-                      .utc(parseInt(timeStamp) * 1000)
-                      .local()
-                      .format("DD MMM YYYY | hh:mm A")
-                  : "N/A"}
-              </PoolShare>
-            </PoolContainer>
-          </Pool>
-        </>
-      </ChannelMeta>
+        <PoolContainer>
+          {isSecret ? <SecretIcon /> : null}
+          <ChannelMeta hidden={!timeStamp}>
+            <PoolShare theme={theme}>
+              {timeStamp
+                ? moment
+                    .utc(parseInt(timeStamp) * 1000)
+                    .local()
+                    .format("DD MMM YYYY | hh:mm A")
+                : "N/A"}
+            </PoolShare>
+          </ChannelMeta>
+        </PoolContainer>
       {/* meta data of the component */}
 
       {/* add image overlay for full screen images */}
@@ -478,13 +474,6 @@ const ChannelMetaBox = styled.label`
   border-radius: 10px;
   font-size: 12px;
   align-self: flex-end;
-`;
-
-const Pool = styled.div`
-  margin: 0px 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 `;
 
 const PoolContainer = styled.div`
