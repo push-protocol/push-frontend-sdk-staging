@@ -229,8 +229,9 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       {/* content of the component */}
 
       {/* meta data of the component */}
-        <PoolContainer>
-          {isSecret ? <SecretIcon /> : null}
+        {isSecret || timeStamp ? <PoolContainer>
+          {isSecret ? <SecretIconContainer><SecretIcon /></SecretIconContainer>: null}
+          {console.log(!timeStamp)}
           <ChannelMeta hidden={!timeStamp}>
             <PoolShare theme={theme}>
               {timeStamp
@@ -241,7 +242,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
                 : "N/A"}
             </PoolShare>
           </ChannelMeta>
-        </PoolContainer>
+        </PoolContainer> : null}
       {/* meta data of the component */}
 
       {/* add image overlay for full screen images */}
@@ -478,11 +479,12 @@ const ChannelMetaBox = styled.label`
 
 const PoolContainer = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  align-items: end;
+  justify-content: flex-end;
+`;
+
+const SecretIconContainer = styled.div`
+  padding: 0 15px 15px 0;
 `;
 
 const SecretIcon = styled.div`
@@ -495,22 +497,19 @@ const SecretIcon = styled.div`
     #674c9f 49.89%,
     #35c5f3 87.5%
   );
-`;
+`
 
 const PoolShare = styled(ChannelMetaBox)`
   background: ${(props) => (props.theme === "light" ? "#674c9f" : "#414141")};
   @media (max-width: ${MD_BREAKPOINT}) {
-    border-radius: 0;
-    border-radius: 8px 0;
+    border-radius: 8px 0px 8px 0px;
     color: #808080;
     font-weight: 700;
     background: ${(props) =>
       props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#222"};
-    border-top: ${(props) =>
+    border: ${(props) =>
       props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
-    border-left: ${(props) =>
-      props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
-    padding: 5px 10px;
+    padding: 15px;
   }
 `;
 
