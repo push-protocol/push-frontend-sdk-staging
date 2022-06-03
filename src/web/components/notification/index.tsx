@@ -147,7 +147,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           </ImageContainer>
           {app}
         </HeaderButton>
-        {chainName ? (
+        {chainName && ChainDetails[chainName] ? (
           <BlockchainContainer>
             <NetworkDetails>
               <DelieveredViaText>DELIVERED VIA</DelieveredViaText>
@@ -372,6 +372,10 @@ const ImageContainer = styled.span`
     width: 28px;
     height: 28px;
   }
+  @media (max-width: ${SM_BREAKPOINT}) {
+    width: 28px;
+    height: 28px;
+  }
 `;
 
 const ChannelDetailsWrapper = styled.div`
@@ -427,9 +431,7 @@ const MobileHeader = styled.div`
     text-align: left;
   }
   @media (max-width: ${SM_BREAKPOINT}) {
-    svg {
-      padding: 15px;
-    }
+    padding: 12px;
   }
 `;
 
@@ -499,6 +501,9 @@ const PoolContainer = styled.div`
 
 const SecretIconContainer = styled.div`
   padding: 0 15px 15px 0;
+  @media (max-width: ${SM_BREAKPOINT}) {
+    padding: 0 12px 12px 0;
+  }
 `;
 
 const SecretIcon = styled.div`
@@ -524,6 +529,9 @@ const PoolShare = styled(ChannelMetaBox)`
     border: ${(props) =>
       props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
     padding: 15px;
+    @media (max-width: ${SM_BREAKPOINT}) {
+      padding: 12px;
+    }
   }
 `;
 
