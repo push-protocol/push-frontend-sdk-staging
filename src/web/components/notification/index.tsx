@@ -231,7 +231,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       {/* meta data of the component */}
         {isSecret || timeStamp ? <PoolContainer>
           {isSecret ? <SecretIconContainer><SecretIcon /></SecretIconContainer>: null}
-          {console.log(!timeStamp)}
           <ChannelMeta hidden={!timeStamp}>
             <PoolShare theme={theme}>
               {timeStamp
