@@ -9,9 +9,10 @@ import ParseMarkdownText from "../parsetext";
 import MediaHelper from "../../../utilities/mediaHelper";
 import Loader from "../loader/loader";
 import { extractTimeStamp } from "../../../utilities/index";
-import ChainImages from '../../../constants/chain';
-import ActionButton from './styled/ActionButton';
-import { useDecrypt, DecryptButton } from './decrypt';
+import ChainDetails from "./chain";
+
+import ActionButton from "./styled/ActionButton";
+import { useDecrypt, DecryptButton } from "./decrypt";
 
 // ================= Define types
 type chainNameType = "ETH_TEST_KOVAN" | "POLYGON_TEST_MUMBAI" | "ETH_MAINNET" | "POLYGON_MAINNET" | "THE_GRAPH" | undefined;
@@ -30,9 +31,8 @@ export type NotificationItemProps = {
   theme: string | undefined;
   chainName: chainNameType;
   isSecret: boolean;
-  decryptFn: () => Promise<{ title: string, body: string, cta: string, image: string }>;
+  decryptFn: () => Promise<{ title: string, body: string, cta: string, image: string }>
 };
-
 
 type ContainerDataType = {
   cta?: boolean;
@@ -58,12 +58,11 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   theme, //for specifying light and dark theme
   chainName,
   isSecret,
-  decryptFn
+  decryptFn,
 }) => {
   const { notificationBody: parsedBody, timeStamp } = extractTimeStamp(
     notificationBody || ""
   );
-  const rightIcon = chainName && ChainImages['CHAIN_ICONS'][chainName]; //get the right chain id to render if any
 
   const {
     notifTitle, notifBody, notifCta, notifImage,
@@ -82,7 +81,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   //   ai: ChainImages['CHAIN_ICONS']
   // })
 
-
   const gotToCTA = (e: any) => {
     e.stopPropagation();
     if (!MediaHelper.validURL(notifCta)) return;
@@ -95,13 +93,13 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   };
 
   /**
-   * A function which wraps around the function to subscribe a user to a channel 
-   * @returns 
+   * A function which wraps around the function to subscribe a user to a channel
+   * @returns
    */
   const onSubscribe = async (clickEvent: React.SyntheticEvent<HTMLElement>) => {
     clickEvent.preventDefault();
     clickEvent.stopPropagation();
-  
+
     if (!subscribeFn) return;
     try {
       setSubscribeLoading(true);
@@ -118,19 +116,20 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
       // to check if always both title, body are present
       if (decryptedPayload) {
         setDecryptedValues(decryptedPayload);
-      }  
-    } catch (e) {} finally {}
+      }
+    } catch (e) {
+    } finally {
+    }
   };
 
   React.useEffect(() => {
-    if(!isSpam || !isSubscribedFn) return;
-    isSubscribedFn().then((res:any) => {
+    if (!isSpam || !isSubscribedFn) return;
+    isSubscribedFn().then((res: any) => {
       setIsSubscribed(Boolean(res));
-    })
+    });
+  }, [isSubscribedFn, isSpam]);
 
-  },[isSubscribedFn, isSpam]);
-  
-  if(isSubscribed && isSpam) return <></>;
+  if (isSubscribed && isSpam) return <></>;
 
   // render
   return (
@@ -148,18 +147,22 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           </ImageContainer>
           {app}
         </HeaderButton>
-        {
-          rightIcon && (
-            <HeaderImg src={rightIcon}/>
-          )
-        }
-       {/* {
+        {chainName && ChainDetails[chainName] ? (
+          <BlockchainContainer>
+            <NetworkDetails>
+              <DelieveredViaText>DELIVERED VIA</DelieveredViaText>
+              <NetworkName>{ChainDetails[chainName].label}</NetworkName>
+            </NetworkDetails>
+            <HeaderImg>{ChainDetails[chainName].icon}</HeaderImg>
+          </BlockchainContainer>
+        ) : null}
+        {/* {
          isPoly?
        
         :
         <HeaderImg src="https://backend-kovan.epns.io/assets/ethereum.org.ico" alt=""/>
        } */}
-        </MobileHeader>
+      </MobileHeader>
       {/* header that only pops up on small devices */}
 
       {/* content of the component */}
@@ -209,7 +212,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         </ChannelDetailsWrapper>
         {/* section for text content */}
 
-
         <ButtonGroup>
           {/* include a channel opt into */}
           {isSpam && (
@@ -221,16 +223,16 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
 
           {isSecret ? (
             <DecryptButton decryptFn={onDecrypt} isSecretRevealed={isSecretRevealed} />
-          ): null}
+            ): null}
         </ButtonGroup>
       </ContentSection>
       {/* content of the component */}
 
       {/* meta data of the component */}
-      <ChannelMeta hidden={!timeStamp}>
-        <>
-          <Pool>
-            <PoolShare theme = {theme}>
+        {isSecret || timeStamp ? <PoolContainer>
+          {isSecret ? <SecretIconContainer><SecretIcon /></SecretIconContainer>: null}
+          <ChannelMeta hidden={!timeStamp}>
+            <PoolShare theme={theme}>
               {timeStamp
                 ? moment
                     .utc(parseInt(timeStamp) * 1000)
@@ -238,9 +240,8 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
                     .format("DD MMM YYYY | hh:mm A")
                 : "N/A"}
             </PoolShare>
-          </Pool>
-        </>
-      </ChannelMeta>
+          </ChannelMeta>
+        </PoolContainer> : null}
       {/* meta data of the component */}
 
       {/* add image overlay for full screen images */}
@@ -264,7 +265,7 @@ ViewNotificationItem.propTypes = {
   isSpam: PropTypes.bool,
   subscribeFn: PropTypes.func,
   isSubscribedFn: PropTypes.func,
-  theme: PropTypes.string
+  theme: PropTypes.string,
 };
 
 ViewNotificationItem.defaultProps = {
@@ -286,8 +287,9 @@ const SM_BREAKPOINT = "900px";
 
 const ContentSection = styled.div`
   display: block;
+  padding: 20px;
+  
   @media (min-width: ${SM_BREAKPOINT}) {
-    margin-top: 5px;
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -296,9 +298,38 @@ const ContentSection = styled.div`
   }
 `;
 
-const HeaderImg=styled.img`
-  width: 30px;
-  height:30px;
+const BlockchainContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+`;
+const NetworkDetails = styled.div`
+  text-align: right;
+  @media (max-width: ${SM_BREAKPOINT}) {
+    display: none;
+  }
+`;
+const DelieveredViaText = styled.div`
+  font-size: 1rem;
+  opacity: 20%;
+`;
+const NetworkName = styled.div`
+  font-size: 0.875rem;
+  opacity: 40%;
+`;
+
+const HeaderImg = styled.div`
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+  @media (max-width: ${SM_BREAKPOINT}) {
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
 `;
 
 const MobileImage = styled.div`
@@ -322,8 +353,8 @@ const MobileImage = styled.div`
     iframe,
     video {
       border: 0;
-      width: calc(100% + 42px) !important;
-      margin-left: -20px;
+      max-width: calc(100% + 42px) !important;
+      margin-left: -21px;
       // margin-right: -40px;
       margin-top: -12px;
       margin-bottom: 5px;
@@ -332,11 +363,19 @@ const MobileImage = styled.div`
 `;
 const ImageContainer = styled.span`
   background: ${(props) => (props.theme === "light" ? "#ededed" : "#444")};
-  height: 24px;
-  width: 24px;
+  height: 32px;
+  width: 32px;
   display: inline-block;
   margin-right: 10px;
   border-radius: 5px;
+  @media (max-width: ${SM_BREAKPOINT}) {
+    width: 28px;
+    height: 28px;
+  }
+  @media (max-width: ${SM_BREAKPOINT}) {
+    width: 28px;
+    height: 28px;
+  }
 `;
 
 const ChannelDetailsWrapper = styled.div`
@@ -345,7 +384,6 @@ const ChannelDetailsWrapper = styled.div`
 
 const Container = styled.div<ContainerDataType>`
   position: relative;
-  overflow: hidden;
   font-family: "Source Sans Pro", Arial, sans-serif;
   flex: 1;
   display: flex;
@@ -353,7 +391,9 @@ const Container = styled.div<ContainerDataType>`
   border: ${(props) =>
     props.cta
       ? "0.5px solid #35C5F3"
-      : (props.theme === "light" ? "1px solid rgba(231.0, 231.0, 231.0, 1);": "1px solid #444")};
+      : props.theme === "light"
+      ? "1px solid rgba(231.0, 231.0, 231.0, 1);"
+      : "1px solid #444"};
   cursor: ${(props) => (props.cta ? "pointer" : "")};
 
   background: ${(props) => (props.theme === "light" ? "#fff" : "#000")};
@@ -361,37 +401,37 @@ const Container = styled.div<ContainerDataType>`
 
   margin: 15px 0px;
   justify-content: center;
-  padding: 20px;
 
   justify-content: space-between;
 
   @media (max-width: ${MD_BREAKPOINT}) {
     flex-direction: column;
-    padding-top: 48px;
-    padding-bottom: ${(props) => (props.timestamp ? "40px" : "22px")};
   }
 `;
 
 const MobileHeader = styled.div`
   display: none;
+  @media (min-width: ${SM_BREAKPOINT}) {
+    font-size: 1rem;
+  }
   @media (max-width: ${MD_BREAKPOINT}) {
     cursor: pointer;
     display: flex;
     align-items: center;
-    position: absolute;
-    justify-content:space-between;  
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 6px 20px;
+    justify-content: space-between;
+    padding: 15px;
     font-size: 14px;
     font-weight: 700;
-    border-bottom: ${(props) => (props.theme === "light" ? "1px solid #ededed" : "1px solid #444")};
+    border-bottom: ${(props) =>
+      props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
     color: #808080;
     background: ${(props) => (props.theme === "light" ? "#fafafa" : "#222")};
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: left;
+  }
+  @media (max-width: ${SM_BREAKPOINT}) {
+    padding: 12px;
   }
 `;
 
@@ -399,6 +439,7 @@ const HeaderButton = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 1rem;
 `;
 
 const ChannelTitle = styled.div`
@@ -414,7 +455,8 @@ const ChannelTitleLink = styled.a`
 
   @media (max-width: ${MD_BREAKPOINT}) {
     font-weight: 300;
-    color: ${(props) => (props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "#808080")};
+    color: ${(props) =>
+      props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "#808080"};
   }
 `;
 
@@ -451,27 +493,45 @@ const ChannelMetaBox = styled.label`
   align-self: flex-end;
 `;
 
-const Pool = styled.div`
-  margin: 0px 10px;
+const PoolContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  align-items: end;
+  justify-content: flex-end;
 `;
+
+const SecretIconContainer = styled.div`
+  padding: 0 15px 15px 0;
+  @media (max-width: ${SM_BREAKPOINT}) {
+    padding: 0 12px 12px 0;
+  }
+`;
+
+const SecretIcon = styled.div`
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #e20880 12.5%,
+    #674c9f 49.89%,
+    #35c5f3 87.5%
+  );
+`
 
 const PoolShare = styled(ChannelMetaBox)`
   background: ${(props) => (props.theme === "light" ? "#674c9f" : "#414141")};
   @media (max-width: ${MD_BREAKPOINT}) {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    border-radius: 0;
-    border-radius: 8px 0;
+    border-radius: 8px 0px 8px 0px;
     color: #808080;
-    font-weight:700;
-    background: ${(props) => (props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#222")};
-    border-top: ${(props) => (props.theme === "light" ? "1px solid #ededed" : "1px solid #444")};
-    border-left: ${(props) => (props.theme === "light" ? "1px solid #ededed" : "1px solid #444")};
-    padding: 5px 10px;
+    font-weight: 700;
+    background: ${(props) =>
+      props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#222"};
+    border: ${(props) =>
+      props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
+    padding: 15px;
+    @media (max-width: ${SM_BREAKPOINT}) {
+      padding: 12px;
+    }
   }
 `;
 
