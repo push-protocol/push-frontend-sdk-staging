@@ -287,14 +287,14 @@ const SM_BREAKPOINT = "900px";
 
 const ContentSection = styled.div`
   display: block;
-  padding: 20px 20px 30px;
+  padding: 20px;
+  
   @media (min-width: ${SM_BREAKPOINT}) {
     align-items: center;
     display: flex;
     flex-direction: row;
     gap: 20px;
     justify-content: space-between;
-    padding: 20px;
   }
 `;
 
