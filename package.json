@@ -26,8 +26,7 @@
     "rollup": "^2.56.3",
     "rollup-plugin-sass": "^1.2.6",
     "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.4.2",
-    "@svgr/rollup": "^6.2.1"
+    "typescript": "^4.4.2"
   },
   "peerDependencies": {
     "react": ">16.0.0",
@@ -143,7 +142,8 @@
     "to-regex-range": "^5.0.1",
     "trim-right": "^1.0.1",
     "tslib": "^2.1.0",
-    "universalify": "^0.1.2"
+    "universalify": "^0.1.2",
+    "@svgr/rollup": "^6.2.1"
   },
   "optionalDependencies": {
     "fsevents": "^2.3.2"
