@@ -287,7 +287,7 @@ const SM_BREAKPOINT = "900px";
 
 const ContentSection = styled.div`
   display: block;
-  padding: 16px;
+  padding: 20px;
   
   @media (min-width: ${SM_BREAKPOINT}) {
     align-items: center;
@@ -311,18 +311,18 @@ const NetworkDetails = styled.div`
   }
 `;
 const DelieveredViaText = styled.div`
-  font-size: 0.875rem;
+  font-size: 1rem;
   opacity: 20%;
 `;
 const NetworkName = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   opacity: 40%;
 `;
 
 const HeaderImg = styled.div`
   svg {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     image {
       width: 100%;
       height: 100%;
@@ -330,8 +330,8 @@ const HeaderImg = styled.div`
   }
   @media (max-width: ${SM_BREAKPOINT}) {
     svg {
-      width: 18px;
-      height: 18px;
+      width: 28px;
+      height: 28px;
     }
   }
 `;
@@ -423,7 +423,7 @@ const MobileHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 16px;
+    padding: 15px;
     font-size: 14px;
     font-weight: 700;
     border-bottom: ${(props) =>
@@ -435,7 +435,7 @@ const MobileHeader = styled.div`
     text-align: left;
   }
   @media (max-width: ${SM_BREAKPOINT}) {
-    padding: 6px 12px;
+    padding: 12px;
   }
 `;
 
@@ -504,9 +504,9 @@ const PoolContainer = styled.div`
 `;
 
 const SecretIconContainer = styled.div`
-  padding: 0 16px 8px 0;
+  padding: 0 15px 15px 0;
   @media (max-width: ${SM_BREAKPOINT}) {
-    padding: 0 12px 6px 0;
+    padding: 0 12px 12px 0;
   }
 `;
 
@@ -532,9 +532,9 @@ const PoolShare = styled(ChannelMetaBox)`
       props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#222"};
     border: ${(props) =>
       props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
-    padding: 8px 16px;
+    padding: 15px;
     @media (max-width: ${SM_BREAKPOINT}) {
-      padding: 6px 12px;
+      padding: 12px;
     }
   }
 `;
