@@ -331,7 +331,11 @@ const HeaderImg = styled.div`
   @media (max-width: ${SM_BREAKPOINT}) {
     svg {
       width: 28px;
-      height: 28px;
+      height: 28px;;
+      image {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 `;
