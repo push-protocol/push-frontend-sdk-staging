@@ -323,11 +323,19 @@ const HeaderImg = styled.div`
   svg {
     width: 32px;
     height: 32px;
+    image {
+      width: 100%;
+      height: 100%;
+    }
   }
   @media (max-width: ${SM_BREAKPOINT}) {
     svg {
       width: 28px;
-      height: 28px;
+      height: 28px;;
+      image {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 `;
