@@ -8,6 +8,7 @@ import {
   EmbedSDK
 } from "@epnsproject/frontend-sdk-staging";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 import "./App.scss";
 import ConnectButton from "./components/connect";
 import { useWeb3React } from "@web3-react/core";
@@ -21,9 +22,13 @@ const PAGINATION_PARAMS = {
 const BASE_URL = "https://backend-kovan.epns.io/apis";
 const CHANNEL_ADDRESS = "0x94c3016ef3e503774630fC71F59B8Da9f7D470B7";
 
+const StyledApp = styled.div`
+  background: ${(props) => (props.theme === "light" ? "#fff" : "#000")};
+`;
 
 function App() {
   const { library, active, account, chainId } = useWeb3React();
+  const theme = "light";
 
   // create state components to fetch all the notifications.
   // notification details
@@ -123,7 +128,7 @@ function App() {
 }, [account, active]);
 
   return (
-    <div className="App">
+    <StyledApp theme={theme} className="App">
       {modalOpen && <OnSubscribeModal onClose={() => setModalOpen(false)} />}
       {/* define the header */}
       <h2 className="App__header">
@@ -182,7 +187,9 @@ function App() {
             {notifications.map((oneNotification, i) => {
               const { cta, title, message, app, icon, image, url, blockchain, secret, notification } =
                 oneNotification;
-                
+              
+                // testing code for changing icons randomly, remove later
+              let chainList = ['ETH_MAINNET', 'POLYGON_MAINNET', 'THE_GRAPH'] 
               // render the notification item
               return (
                 <NotificationItem
@@ -198,10 +205,12 @@ function App() {
                   decryptFn={() => onDecrypt(i)}
                   // optional parameters for rendering spambox
                   isSpam={testSpamCondition(i)}
-                  subscribeFn={async () => alert("yayy")}
+                  subscribeFn={async () => console.log("yayy")}
                   isSubscribedFn={async () => false}
-                  theme={"light"}
-                  chainName={blockchain}
+                  theme={theme}
+                  chainName={
+                    chainList[Math.floor(Math.random() * chainList.length)] // testing code for changing icons randomly, remove later
+                  }
                 />
               );
             })}
@@ -211,7 +220,7 @@ function App() {
       ) : (
         <p>Please connect to your wallet to proceed</p>
       )}
-    </div>
+    </StyledApp>
   );
 }
 
