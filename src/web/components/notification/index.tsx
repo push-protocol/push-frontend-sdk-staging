@@ -148,7 +148,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     >
       {/* header that only pops up on small devices */}
       <MobileHeader onClick={goToURL} theme={theme}>
-        <HeaderButton>
+        <HeaderButton theme={theme}>
           <ImageContainer theme={theme}>
             <IPFSIcon icon={icon} />
           </ImageContainer>
@@ -156,7 +156,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         </HeaderButton>
         {chainName && chainDetails[chainName] ? (
           <BlockchainContainer>
-            <NetworkDetails>
+            <NetworkDetails theme={theme}>
               <DelieveredViaText>DELIVERED VIA</DelieveredViaText>
               <NetworkName>{chainDetails[chainName].label}</NetworkName>
             </NetworkDetails>
@@ -302,7 +302,7 @@ const SM_BREAKPOINT = "900px";
 
 const GUTTER_SPACE = {
   LARGE: '8px',
-  SMALL: '6px'
+  SMALL: '8px'
 };
 
 const ContentSection = styled.div`
@@ -322,15 +322,21 @@ const BlockchainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${GUTTER_SPACE.LARGE};
+  font-weight: 700;
+  // gap: ${GUTTER_SPACE.LARGE};
 `;
 const NetworkDetails = styled.div`
   text-align: right;
+  padding-right: 8px;
+  color: ${(props) => props.theme === "light" ? "#000000" : "#FFFFFF"};
+  @media (max-width: ${SM_BREAKPOINT}) {
+    display: none;
+  }
 `;
 const DelieveredViaText = styled.div`
-  font-size: 14px;
-  line-height: 14px;
-  opacity: 20%;
+  font-size: 10px;
+  line-height: 10px;
+  opacity: 30%;
 
   @media (max-width: ${SM_BREAKPOINT}) {
     font-size: 10px;
@@ -340,7 +346,7 @@ const DelieveredViaText = styled.div`
 const NetworkName = styled.div`
   font-size: 10px;
   line-height: 10px;
-  opacity: 40%;
+  opacity: 50%;
 
   @media (max-width: ${SM_BREAKPOINT}) {
     font-size: 8px;
@@ -349,8 +355,8 @@ const NetworkName = styled.div`
 `;
 
 const ChainIconSVG = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
 
   // border-left: 0.1px solid white;
 
@@ -399,13 +405,14 @@ const ImageContainer = styled.span`
   display: inline-block;
   margin-right: 10px;
   border-radius: 5px;
-  
+  overflow: hidden;
+  background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
   width: 24px;
   height: 24px;
 
   @media (max-width: ${SM_BREAKPOINT}) {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -451,10 +458,7 @@ const MobileHeader = styled.div`
     justify-content: space-between;
     padding: ${GUTTER_SPACE.LARGE};
     font-size: 14px;
-    font-weight: 700;
-    border-bottom: ${(props) =>
-      props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
-    color: #808080;
+    border-bottom: ${(props) => props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
     background: ${(props) => (props.theme === "light" ? "#fafafa" : "#222")};
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -470,11 +474,13 @@ const HeaderButton = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: ${(props) => (props.theme === "light" ? "#000000" : "#FFFFFF")};
 
-  @media (max-width: ${SM_BREAKPOINT}) {
-    font-size: 14px;
-  }
+  // @media (max-width: ${SM_BREAKPOINT}) {
+  //   font-size: 14px;
+  // }
 `;
 
 const ChannelTitle = styled.div`
@@ -488,19 +494,19 @@ const ChannelTitle = styled.div`
 
 const ChannelTitleLink = styled.a`
   text-decoration: none;
-  color: #e20880;
+  color: #000;
   font-size: 18px;
   font-weight: 600;
 
   @media (max-width: ${MD_BREAKPOINT}) {
     font-weight: 300;
     color: ${(props) =>
-      props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "#808080"};
+      props.theme === "light" ? "#000000" : "#FFFFFF"};
   }
 
-  @media (max-width: ${SM_BREAKPOINT}) {
-    font-size: 16px;
-  }
+  // @media (max-width: ${SM_BREAKPOINT}) {
+  //   font-size: 16px;
+  // }
 `;
 
 const ChannelDesc = styled.div`
@@ -512,9 +518,9 @@ const ChannelDesc = styled.div`
   font-weight: 400;
   flex-direction: column;
 
-  @media (max-width: ${SM_BREAKPOINT}) {
-    font-size: 12px;
-  }
+  // @media (max-width: ${SM_BREAKPOINT}) {
+  //   font-size: 12px;
+  // }
 `;
 
 const ChannelDescLabel = styled.label`
@@ -547,15 +553,9 @@ const ChannelMetaInfoRight = styled(ChannelMetaSection)`
 const TimestampLabel = styled.label`
   color: #808080;
 
-  background: ${(props) =>
-    props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#222"};
-
   border-radius: 0;
   border-top-left-radius: 6px;
   border-bottom-right-radius: 10px;
-
-  border: ${(props) =>
-    props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
 
   border-right: 0;
   border-bottom: 0;
@@ -563,10 +563,14 @@ const TimestampLabel = styled.label`
   margin-bottom: -1px;
   margin-right: -1px;
 
-  font-weight: 700;
+  font-weight: 600;
   font-size: 10px;
 
-  padding: 6px;
+  padding: 6px 10px 6px 0px;
+
+  // @media (max-width: ${SM_BREAKPOINT}) {
+  //   font-size: 10px;
+  // }
 `;
 
 const SecretIconContainer = styled.div`

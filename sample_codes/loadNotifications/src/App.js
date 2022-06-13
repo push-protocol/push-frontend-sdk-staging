@@ -28,7 +28,7 @@ const StyledApp = styled.div`
 
 function App() {
   const { library, active, account, chainId } = useWeb3React();
-  const theme = "light";
+  const theme = "dark";
 
   // create state components to fetch all the notifications.
   // notification details
@@ -189,7 +189,7 @@ function App() {
                 oneNotification;
               
                 // testing code for changing icons randomly, remove later
-              let chainList = ['ETH_MAINNET', 'POLYGON_MAINNET', 'THE_GRAPH'] 
+              let chainList = ['ETH_MAINNET', 'ETH_TEST_KOVAN', 'POLYGON_TEST_MUMBAI', 'POLYGON_MAINNET', 'THE_GRAPH'] 
               // render the notification item
               return (
                 <NotificationItem
