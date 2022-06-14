@@ -9,7 +9,7 @@ import ParseMarkdownText from "../parsetext";
 import MediaHelper from "../../../utilities/mediaHelper";
 import Loader from "../loader/loader";
 import { extractTimeStamp } from "../../../utilities/index";
-import ChainDetails from "./chain";
+import chainDetails from "./chain";
 
 import ActionButton from "./styled/ActionButton";
 import { useDecrypt, DecryptButton } from "./decrypt";
@@ -43,6 +43,8 @@ type MetaDataType = {
   hidden?: Boolean;
 };
 
+type MetaInfoType = MetaDataType & {hasLeft: boolean}
+
 // ================= Define base component
 const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   notificationTitle,
@@ -60,9 +62,11 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   isSecret,
   decryptFn,
 }) => {
-  const { notificationBody: parsedBody, timeStamp } = extractTimeStamp(
+  let { notificationBody: parsedBody, timeStamp } = extractTimeStamp(
     notificationBody || ""
   );
+
+  timeStamp = '1654947872711';
 
   const {
     notifTitle, notifBody, notifCta, notifImage,
@@ -74,6 +78,8 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
   const [imageOverlay, setImageOverlay] = React.useState("");
   const [subscribeLoading, setSubscribeLoading] = React.useState(false);
   const [isSubscribed, setIsSubscribed] = React.useState(true); //use this to confirm if this is s
+
+  const showMetaInfo = isSecret || timeStamp;
 
   // console.log({
   //   chainName,
@@ -89,6 +95,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
 
   const goToURL = (e: any) => {
     e.stopPropagation();
+    if (!MediaHelper.validURL(url)) return;
     window.open(url, "_blank");
   };
 
@@ -141,27 +148,21 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     >
       {/* header that only pops up on small devices */}
       <MobileHeader onClick={goToURL} theme={theme}>
-        <HeaderButton>
+        <HeaderButton theme={theme}>
           <ImageContainer theme={theme}>
             <IPFSIcon icon={icon} />
           </ImageContainer>
           {app}
         </HeaderButton>
-        {chainName && ChainDetails[chainName] ? (
+        {chainName && chainDetails[chainName] ? (
           <BlockchainContainer>
-            <NetworkDetails>
+            <NetworkDetails theme={theme}>
               <DelieveredViaText>DELIVERED VIA</DelieveredViaText>
-              <NetworkName>{ChainDetails[chainName].label}</NetworkName>
+              <NetworkName>{chainDetails[chainName].label}</NetworkName>
             </NetworkDetails>
-            <HeaderImg>{ChainDetails[chainName].icon}</HeaderImg>
+            <ChainIconSVG>{chainDetails[chainName].icon}</ChainIconSVG>
           </BlockchainContainer>
         ) : null}
-        {/* {
-         isPoly?
-       
-        :
-        <HeaderImg src="https://backend-kovan.epns.io/assets/ethereum.org.ico" alt=""/>
-       } */}
       </MobileHeader>
       {/* header that only pops up on small devices */}
 
@@ -173,13 +174,14 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           (!MediaHelper.isMediaSupportedVideo(notifImage) ? (
             <MobileImage
               style={{ cursor: "pointer" }}
+              theme={theme}
               onClick={() => setImageOverlay(notifImage || "")}
             >
               <img src={notifImage} alt="" />
             </MobileImage>
           ) : // if its a youtube url, RENDER THIS
           MediaHelper.isMediaYoutube(notifImage) ? (
-            <MobileImage>
+            <MobileImage theme={theme}>
               <iframe
                 id="ytplayer"
                 width="640"
@@ -190,7 +192,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
             </MobileImage>
           ) : (
             // if its aN MP4 url, RENDER THIS
-            <MobileImage>
+            <MobileImage theme={theme}>
               <video width="360" height="100%" controls>
                 <source src={notifImage} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -212,37 +214,47 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         </ChannelDetailsWrapper>
         {/* section for text content */}
 
-        <ButtonGroup>
-          {/* include a channel opt into */}
-          {isSpam && (
-            <ActionButton onClick={onSubscribe}>
-              {subscribeLoading ? <Loader /> : "opt-in"}
-            </ActionButton>
-          )}
-          {/* include a channel opt into */}
+        <ButtonGroupContainer>
+          <ButtonGroup>
+            {/* include a channel opt into */}
+            {isSpam && (
+              <ActionButton onClick={onSubscribe}>
+                {subscribeLoading ? <Loader /> : "opt-in"}
+              </ActionButton>
+            )}
+            {/* include a channel opt into */}
 
-          {isSecret ? (
-            <DecryptButton decryptFn={onDecrypt} isSecretRevealed={isSecretRevealed} />
+            {isSecret ? (
+              <DecryptButton decryptFn={onDecrypt} isSecretRevealed={isSecretRevealed} />
             ): null}
-        </ButtonGroup>
+          </ButtonGroup>
+        </ButtonGroupContainer>
       </ContentSection>
       {/* content of the component */}
 
-      {/* meta data of the component */}
-        {isSecret || timeStamp ? <PoolContainer>
-          {isSecret ? <SecretIconContainer><SecretIcon /></SecretIconContainer>: null}
-          <ChannelMeta hidden={!timeStamp}>
-            <PoolShare theme={theme}>
-              {timeStamp
-                ? moment
-                    .utc(parseInt(timeStamp) * 1000)
-                    .local()
-                    .format("DD MMM YYYY | hh:mm A")
-                : "N/A"}
-            </PoolShare>
-          </ChannelMeta>
-        </PoolContainer> : null}
-      {/* meta data of the component */}
+      {/* Meta Data section */}
+      <ChannelMetaInfo hidden={!showMetaInfo} hasLeft={false}>
+        {/* For left aligned items use ChannelMetaInfoLeft as parent */}
+        <ChannelMetaInfoLeft hidden></ChannelMetaInfoLeft>
+
+        {/* For right aligned items use ChannelMetaInfoRight */}
+        <ChannelMetaInfoRight hidden={!showMetaInfo}>
+          {isSecret ? (
+            <SecretIconContainer>
+              <SecretIcon></SecretIcon>
+            </SecretIconContainer>
+          ): null}
+          
+          {timeStamp ? (
+            <TimestampLabel theme={theme}>
+              {moment.utc(parseInt(timeStamp) * 1000).local().format("DD MMM YYYY | hh:mm A")}
+            </TimestampLabel>
+          ) : null}
+        </ChannelMetaInfoRight>
+      </ChannelMetaInfo>
+
+
+
 
       {/* add image overlay for full screen images */}
       <ImageOverlayComponent
@@ -285,16 +297,24 @@ ViewNotificationItem.defaultProps = {
 const MD_BREAKPOINT = "50050px"; //set an arbitrarily large number because we no longer use this breakpoint
 const SM_BREAKPOINT = "900px";
 
+const GUTTER_SPACE = {
+  LARGE: '8px',
+  SMALL: '8px'
+};
+
 const ContentSection = styled.div`
-  display: block;
-  padding: 20px;
+  display: flex;
+  padding: 12px;
   
   @media (min-width: ${SM_BREAKPOINT}) {
-    align-items: center;
-    display: flex;
+    align-items: flex-start;
     flex-direction: row;
     gap: 20px;
     justify-content: space-between;
+  }
+
+  @media (max-width: ${SM_BREAKPOINT}) {
+    flex-direction: column;
   }
 `;
 
@@ -302,48 +322,63 @@ const BlockchainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  font-weight: 700;
 `;
 const NetworkDetails = styled.div`
   text-align: right;
+  padding-right: 8px;
+  color: ${(props) => props.theme === "light" ? "#000000" : "#FFFFFF"};
   @media (max-width: ${SM_BREAKPOINT}) {
     display: none;
   }
 `;
 const DelieveredViaText = styled.div`
-  font-size: 1rem;
-  opacity: 20%;
+  font-size: 10px;
+  line-height: 10px;
+  opacity: 30%;
+
+  @media (max-width: ${SM_BREAKPOINT}) {
+    font-size: 10px;
+    line-height: 10px;
+  }
 `;
 const NetworkName = styled.div`
-  font-size: 0.875rem;
-  opacity: 40%;
+  font-size: 10px;
+  line-height: 10px;
+  opacity: 50%;
+
+  @media (max-width: ${SM_BREAKPOINT}) {
+    font-size: 8px;
+    line-height: 8px;
+  }
 `;
 
-const HeaderImg = styled.div`
-  svg {
-    width: 32px;
-    height: 32px;
-    image {
-      width: 100%;
-      height: 100%;
-    }
+const ChainIconSVG = styled.div`
+  width: 18px;
+  height: 18px;
+
+  // border-left: 0.1px solid white;
+
+  svg, svg image {
+    width: 100%;
+    height: 100%;
   }
+
   @media (max-width: ${SM_BREAKPOINT}) {
-    svg {
-      width: 28px;
-      height: 28px;;
-      image {
-        width: 100%;
-        height: 100%;
-      }
-    }
+    width: 18px;
+    height: 18px;
   }
 `;
 
 const MobileImage = styled.div`
   @media (min-width: ${SM_BREAKPOINT}) {
+    border: 1px solid ${props => props.theme === 'light' ? '#ededed' : '#444'};
+    border-radius: 10px;
+    
+    min-width: 220px;
     width: 220px;
     height: 200px;
+    
     img,
     iframe,
     video {
@@ -361,44 +396,44 @@ const MobileImage = styled.div`
     iframe,
     video {
       border: 0;
-      max-width: calc(100% + 42px) !important;
-      margin-left: -21px;
-      // margin-right: -40px;
+      max-width: calc(100% + 24px);
+      margin-left: -24px;
+      margin-right: -24px;
       margin-top: -12px;
-      margin-bottom: 5px;
+      margin-bottom: 12px;
     }
   }
 `;
 const ImageContainer = styled.span`
   background: ${(props) => (props.theme === "light" ? "#ededed" : "#444")};
-  height: 32px;
-  width: 32px;
   display: inline-block;
   margin-right: 10px;
   border-radius: 5px;
+  width: 24px;
+  height: 24px;
+
   @media (max-width: ${SM_BREAKPOINT}) {
-    width: 28px;
-    height: 28px;
-  }
-  @media (max-width: ${SM_BREAKPOINT}) {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
 `;
 
 const ChannelDetailsWrapper = styled.div`
-  //   align-self: center;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 4;
 `;
 
 const Container = styled.div<ContainerDataType>`
   position: relative;
+  overflow: hidden;
   font-family: "Source Sans Pro", Arial, sans-serif;
   flex: 1;
   display: flex;
   flex-wrap: wrap;
   border: ${(props) =>
     props.cta
-      ? "0.5px solid #35C5F3"
+      ? "0.7px solid #35C5F3"
       : props.theme === "light"
       ? "1px solid rgba(231.0, 231.0, 231.0, 1);"
       : "1px solid #444"};
@@ -419,27 +454,23 @@ const Container = styled.div<ContainerDataType>`
 
 const MobileHeader = styled.div`
   display: none;
-  @media (min-width: ${SM_BREAKPOINT}) {
-    font-size: 1rem;
-  }
+
   @media (max-width: ${MD_BREAKPOINT}) {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px;
+    padding: ${GUTTER_SPACE.LARGE};
     font-size: 14px;
-    font-weight: 700;
-    border-bottom: ${(props) =>
-      props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
-    color: #808080;
+    border-bottom: ${(props) => props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
     background: ${(props) => (props.theme === "light" ? "#fafafa" : "#222")};
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: left;
   }
   @media (max-width: ${SM_BREAKPOINT}) {
-    padding: 12px;
+    padding: ${GUTTER_SPACE.SMALL};
+    font-size: 14px;
   }
 `;
 
@@ -447,24 +478,30 @@ const HeaderButton = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1rem;
+  font-size: 14px;
+  font-weight: 400;
+  color: ${(props) => (props.theme === "light" ? "#000000" : "#FFFFFF")};
 `;
 
 const ChannelTitle = styled.div`
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+
+  @media (max-width: ${SM_BREAKPOINT}) {
+    margin-bottom: 6px;
+  }
 `;
 
 const ChannelTitleLink = styled.a`
   text-decoration: none;
-  color: #e20880;
+  color: #000;
   font-size: 18px;
   font-weight: 600;
 
   @media (max-width: ${MD_BREAKPOINT}) {
     font-weight: 300;
     color: ${(props) =>
-      props.theme === "light" ? "rgba(0, 0, 0, 0.5)" : "#808080"};
+      props.theme === "light" ? "#000000" : "#FFFFFF"};
   }
 `;
 
@@ -482,41 +519,56 @@ const ChannelDescLabel = styled.label`
   color: ${(props) => (props.theme === "light" ? "#000" : "#fff")};
   flex: 1;
   margin: 0px;
-  // font-weight: 600;
   text-align: left;
 `;
 
-const ChannelMeta = styled.div<MetaDataType>`
+
+const ChannelMetaInfo = styled.div<MetaInfoType>`
   display: ${(props) => (props.hidden ? "none" : "flex")};
   flex-direction: row;
-  font-size: 13px;
+  justify-content: ${(props) => (props.hasLeft ? "space-between" : "end")};
 `;
 
-const ChannelMetaBox = styled.label`
-  color: #fff;
-  // font-weight: 600;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  align-self: flex-end;
+const ChannelMetaSection = styled.div<MetaDataType>`
+  display: ${(props) => (props.hidden ? "none" : "flex")};
+  align-items: center;
 `;
 
-const PoolContainer = styled.div`
-  display: flex;
-  align-items: end;
-  justify-content: flex-end;
+const ChannelMetaInfoLeft = styled(ChannelMetaSection)`
+  justify-content: start;
+`;
+
+const ChannelMetaInfoRight = styled(ChannelMetaSection)`
+  justify-content: end;
+`;
+
+const TimestampLabel = styled.label`
+  color: #808080;
+
+  border-radius: 0;
+  border-top-left-radius: 6px;
+  border-bottom-right-radius: 10px;
+
+  border-right: 0;
+  border-bottom: 0;
+
+  margin-bottom: -1px;
+  margin-right: -1px;
+
+  font-weight: 600;
+  font-size: 10px;
+
+  padding: 6px 10px 6px 0px;
 `;
 
 const SecretIconContainer = styled.div`
-  padding: 0 15px 15px 0;
-  @media (max-width: ${SM_BREAKPOINT}) {
-    padding: 0 12px 12px 0;
-  }
+  margin: 6px;
 `;
 
-const SecretIcon = styled.div`
-  width: 16px;
-  height: 16px;
+const SecretIcon = styled.div`  
+  width: 12px;
+  height: 12px;
+  
   border-radius: 50%;
   background: linear-gradient(
     135deg,
@@ -526,21 +578,10 @@ const SecretIcon = styled.div`
   );
 `
 
-const PoolShare = styled(ChannelMetaBox)`
-  background: ${(props) => (props.theme === "light" ? "#674c9f" : "#414141")};
-  @media (max-width: ${MD_BREAKPOINT}) {
-    border-radius: 8px 0px 8px 0px;
-    color: #808080;
-    font-weight: 700;
-    background: ${(props) =>
-      props.theme === "light" ? "rgba(250, 250, 250, 1)" : "#222"};
-    border: ${(props) =>
-      props.theme === "light" ? "1px solid #ededed" : "1px solid #444"};
-    padding: 15px;
-    @media (max-width: ${SM_BREAKPOINT}) {
-      padding: 12px;
-    }
-  }
+const ButtonGroupContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 const ButtonGroup = styled.div`
