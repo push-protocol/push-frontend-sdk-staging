@@ -163,12 +163,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
             <ChainIconSVG>{chainDetails[chainName].icon}</ChainIconSVG>
           </BlockchainContainer>
         ) : null}
-        {/* {
-         isPoly?
-       
-        :
-        <ChainIconSVG src="https://backend-kovan.epns.io/assets/ethereum.org.ico" alt=""/>
-       } */}
       </MobileHeader>
       {/* header that only pops up on small devices */}
 
@@ -180,13 +174,14 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
           (!MediaHelper.isMediaSupportedVideo(notifImage) ? (
             <MobileImage
               style={{ cursor: "pointer" }}
+              theme={theme}
               onClick={() => setImageOverlay(notifImage || "")}
             >
               <img src={notifImage} alt="" />
             </MobileImage>
           ) : // if its a youtube url, RENDER THIS
           MediaHelper.isMediaYoutube(notifImage) ? (
-            <MobileImage>
+            <MobileImage theme={theme}>
               <iframe
                 id="ytplayer"
                 width="640"
@@ -197,7 +192,7 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
             </MobileImage>
           ) : (
             // if its aN MP4 url, RENDER THIS
-            <MobileImage>
+            <MobileImage theme={theme}>
               <video width="360" height="100%" controls>
                 <source src={notifImage} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -219,19 +214,21 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
         </ChannelDetailsWrapper>
         {/* section for text content */}
 
-        <ButtonGroup>
-          {/* include a channel opt into */}
-          {isSpam && (
-            <ActionButton onClick={onSubscribe}>
-              {subscribeLoading ? <Loader /> : "opt-in"}
-            </ActionButton>
-          )}
-          {/* include a channel opt into */}
+        <ButtonGroupContainer>
+          <ButtonGroup>
+            {/* include a channel opt into */}
+            {isSpam && (
+              <ActionButton onClick={onSubscribe}>
+                {subscribeLoading ? <Loader /> : "opt-in"}
+              </ActionButton>
+            )}
+            {/* include a channel opt into */}
 
-          {isSecret ? (
-            <DecryptButton decryptFn={onDecrypt} isSecretRevealed={isSecretRevealed} />
+            {isSecret ? (
+              <DecryptButton decryptFn={onDecrypt} isSecretRevealed={isSecretRevealed} />
             ): null}
-        </ButtonGroup>
+          </ButtonGroup>
+        </ButtonGroupContainer>
       </ContentSection>
       {/* content of the component */}
 
@@ -306,15 +303,18 @@ const GUTTER_SPACE = {
 };
 
 const ContentSection = styled.div`
-  display: block;
+  display: flex;
   padding: 12px;
   
   @media (min-width: ${SM_BREAKPOINT}) {
-    align-items: center;
-    display: flex;
+    align-items: flex-start;
     flex-direction: row;
     gap: 20px;
     justify-content: space-between;
+  }
+
+  @media (max-width: ${SM_BREAKPOINT}) {
+    flex-direction: column;
   }
 `;
 
@@ -323,7 +323,6 @@ const BlockchainContainer = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  // gap: ${GUTTER_SPACE.LARGE};
 `;
 const NetworkDetails = styled.div`
   text-align: right;
@@ -373,8 +372,13 @@ const ChainIconSVG = styled.div`
 
 const MobileImage = styled.div`
   @media (min-width: ${SM_BREAKPOINT}) {
+    border: 1px solid ${props => props.theme === 'light' ? '#ededed' : '#444'};
+    border-radius: 10px;
+    
+    min-width: 220px;
     width: 220px;
     height: 200px;
+    
     img,
     iframe,
     video {
@@ -405,8 +409,6 @@ const ImageContainer = styled.span`
   display: inline-block;
   margin-right: 10px;
   border-radius: 5px;
-  overflow: hidden;
-  background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
   width: 24px;
   height: 24px;
 
@@ -417,7 +419,9 @@ const ImageContainer = styled.span`
 `;
 
 const ChannelDetailsWrapper = styled.div`
-  //   align-self: center;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 4;
 `;
 
 const Container = styled.div<ContainerDataType>`
@@ -477,10 +481,6 @@ const HeaderButton = styled.div`
   font-size: 14px;
   font-weight: 400;
   color: ${(props) => (props.theme === "light" ? "#000000" : "#FFFFFF")};
-
-  // @media (max-width: ${SM_BREAKPOINT}) {
-  //   font-size: 14px;
-  // }
 `;
 
 const ChannelTitle = styled.div`
@@ -503,10 +503,6 @@ const ChannelTitleLink = styled.a`
     color: ${(props) =>
       props.theme === "light" ? "#000000" : "#FFFFFF"};
   }
-
-  // @media (max-width: ${SM_BREAKPOINT}) {
-  //   font-size: 16px;
-  // }
 `;
 
 const ChannelDesc = styled.div`
@@ -517,10 +513,6 @@ const ChannelDesc = styled.div`
   color: rgba(0, 0, 0, 0.75);
   font-weight: 400;
   flex-direction: column;
-
-  // @media (max-width: ${SM_BREAKPOINT}) {
-  //   font-size: 12px;
-  // }
 `;
 
 const ChannelDescLabel = styled.label`
@@ -567,10 +559,6 @@ const TimestampLabel = styled.label`
   font-size: 10px;
 
   padding: 6px 10px 6px 0px;
-
-  // @media (max-width: ${SM_BREAKPOINT}) {
-  //   font-size: 10px;
-  // }
 `;
 
 const SecretIconContainer = styled.div`
@@ -589,6 +577,12 @@ const SecretIcon = styled.div`
     #35c5f3 87.5%
   );
 `
+
+const ButtonGroupContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
 
 const ButtonGroup = styled.div`
   display: flex;

@@ -188,9 +188,12 @@ function App() {
               const { cta, title, message, app, icon, image, url, blockchain, secret, notification } =
                 oneNotification;
               
-                // testing code for changing icons randomly, remove later
-              let chainList = ['ETH_MAINNET', 'ETH_TEST_KOVAN', 'POLYGON_TEST_MUMBAI', 'POLYGON_MAINNET', 'THE_GRAPH'] 
+              // testing code for changing icons randomly, remove later
+              // let chainList = ['ETH_MAINNET', 'ETH_TEST_KOVAN', 'POLYGON_TEST_MUMBAI', 'POLYGON_MAINNET', 'THE_GRAPH']
+              // let chainName = chainList[Math.floor(Math.random() * chainList.length)] 
+
               // render the notification item
+
               return (
                 <NotificationItem
                   key={i}
@@ -208,10 +211,7 @@ function App() {
                   subscribeFn={async () => console.log("yayy")}
                   isSubscribedFn={async () => false}
                   theme={theme}
-                  chainName={
-                    chainList[Math.floor(Math.random() * chainList.length)] // testing code for changing icons randomly, remove later
-                  }
-                />
+                  chainName={blockchain}/>
               );
             })}
           </div>
