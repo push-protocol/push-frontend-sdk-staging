@@ -66,8 +66,6 @@ const ViewNotificationItem: React.FC<NotificationItemProps> = ({
     notificationBody || ""
   );
 
-  timeStamp = '1654947872711';
-
   const {
     notifTitle, notifBody, notifCta, notifImage,
     setDecryptedValues,
