@@ -4,7 +4,7 @@
 
   
 
-This module is used to parse notifications from [EPNS](http://www.epns.io/). It Provides an abstraction layer
+This module is used to parse notifications from [PUSH](http://www.epns.io/). It Provides an abstraction layer
   
 
 It is written in typescript and requires node v10.0.0 or higher.
